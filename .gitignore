@@ -1,0 +1,31 @@
+.env
+**/.env
+.idea
+.vscode
+**/.vscode
+vendor
+**/vendor
+.DS_Store
+**/.DS_Store
+node_modules
+**/node_modules
+.history
+**/.history
+
+##homestead
+/Homestead.yaml
+.vagrant
+**/.vagrant
+Vagrantfile
+aliases
+
+## folder for testing the setup
+/test
+
+## No need cpresources
+/public/cpresources
+
+/after.sh
+composer.lock
+/composer.json
+yarn.lock

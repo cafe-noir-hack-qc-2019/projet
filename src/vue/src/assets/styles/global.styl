@@ -1,0 +1,71 @@
+/**
+ *	#Global
+ *  > generic style, like a reset ++
+ *
+ *	@author	KFFEIN	<dev@kffein.com>
+ */
+ 
+html
+  height 100%
+  font-size $kff-fz-base
+
+body
+  height 100%
+  font-size 100%
+  background $c-white
+  color $c-black
+  overflow hidden
+
+/*
+  // If you want to scroll inside a page
+  // add this to your container [data-scrollable]
+  html,
+  body
+    overflow hidden
+ */
+
+
+// Smoother font
+*
+  -webkit-font-smoothing antialiased
+  -moz-osx-font-smoothing grayscale
+
+a
+  color inherit
+  text-decoration none
+
+img
+  display inline-block
+  max-width 100%
+  outline none
+
+svg
+  display block
+  size 100%
+
+/**
+ * @todo document all this: should have layout styl? with examples?
+ */
+.app
+  f-style('default')
+  flexbox(column)
+  height 100vh
+  overflow-x hidden
+  overflow-y scroll
+  -webkit-overflow-scrolling touch
+
+  &.-no-scroll
+    overflow hidden
+
+  > .page
+    width 100%
+    flex-grow 1
+    // vertical-padding()
+    background $c-gallery
+
+.btn
+  button()
+
+.icon
+  display inline-block
+

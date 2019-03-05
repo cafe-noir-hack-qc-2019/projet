@@ -1,0 +1,10 @@
+{
+  "generator-koddein": {
+    "promptValues": {
+      "projectName": "Cafe Noir",
+      "backStack": "I don't need a back, thanks.",
+      "frontStack": "VueJS",
+      "folderName": "cafe-noir"
+    }
+  }
+}

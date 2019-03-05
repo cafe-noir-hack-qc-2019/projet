@@ -1,0 +1,45 @@
+/**
+ *	#HELPERS
+ *  > some quick helper class
+ *
+ *	@author	KFFEIN	<dev@kffein.com>
+ */
+
+
+/** center this block with max-width to be in safe-zone */
+._container
+  container()
+
+/* show this only if desktop */
+._desktop
+  +not-desktop()
+    display none !important // @stylint ignore
+
+/* show this only if not desktop (so tablet and mobile) */
+._not-desktop
+  +desktop()
+    display none !important // @stylint ignore
+
+/* show this only if mobile */
+._mobile
+  +above(rupture.mobile-cutoff)
+    display none !important // @stylint ignore
+
+/* add smooth scroll */
+._scrollable
+.[data-scrollable]
+  overflow auto
+  -webkit-overflow-scrolling touch
+  &[data-scroll-enabled='false']
+    overflow hidden
+
+._nl2br
+  white-space pre-wrap
+
+/* is this really useful ? */
+// for $name, $color in $colors
+//   ._bg-{$name} 
+//     background-color $color
+
+//   ._color-{$name}
+//     color $color

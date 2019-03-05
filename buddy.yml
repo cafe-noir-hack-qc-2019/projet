@@ -1,0 +1,737 @@
+
+- pipeline: "DEPLOY DEV"
+  trigger_mode: "ON_EVERY_PUSH"
+  ref_name: "develop"
+  ref_type: "BRANCH"
+  target_site_url: "http://Cafe Noirdev.kffein.work"
+  trigger_condition: "ALWAYS"
+  actions:
+  - action: "Clone Repo"
+    type: "SFTP"
+    input_type: "SCM_REPOSITORY"
+    local_path: "/"
+    remote_path: "${WORKING_DIR}/deploy-cache"
+    login: "$SSH_USER"
+    host: "$IP_SERVER"
+    port: "22"
+    env_key: "secure!KPsmQHjyp5UhyHBO2R93Bg=="
+    authentication_mode: "ENV_KEY"
+    variables: []
+  - action: "Create release"
+    type: "SSH_COMMAND"
+    working_directory: "${WORKING_DIR}"
+    login: "$SSH_USER"
+    host: "$IP_SERVER"
+    port: "22"
+    env_key: "secure!KPsmQHjyp5UhyHBO2R93Bg=="
+    authentication_mode: "ENV_KEY"
+    commands:
+    - "# Standard Atomic Release process"
+    - "if [ -d \"releases/$BUDDY_EXECUTION_REVISION\" ] && [ \"$BUDDY_EXECUTION_REFRESH\" = \"true\" ];"
+    - "then"
+    - " echo \"Removing: releases/$BUDDY_EXECUTION_REVISION\""
+    - " rm -rf releases/$BUDDY_EXECUTION_REVISION;"
+    - "fi"
+    - "if [ ! -d \"releases/$BUDDY_EXECUTION_REVISION\" ];"
+    - "then"
+    - " echo \"Creating: releases/$BUDDY_EXECUTION_REVISION\""
+    - " cp -dR deploy-cache releases/$BUDDY_EXECUTION_REVISION;"
+    - "fi"
+    run_as_script: true
+    shell: "BASH"
+    trigger_condition: "ALWAYS"
+    variables: []
+  - action: "Composer install"
+    type: "SSH_COMMAND"
+    login: "$SSH_USER"
+    host: "$IP_SERVER"
+    port: "22"
+    env_key: "secure!KPsmQHjyp5UhyHBO2R93Bg=="
+    authentication_mode: "ENV_KEY"
+    commands:
+    - "RELEASE_DIR=\"releases/$BUDDY_EXECUTION_REVISION\""
+    - "mkdir -p $WORKING_DIR/${RELEASE_DIR}/src/craftCMS/web/assets"
+    - "declare -A symlink"
+    - "# key is symlink to be made : value is folder to be linked at"
+    - "symlink[\"public/upload\"]=\"storage/upload/\""
+    - "symlink[\"src/craftCMS/storage\"]=\"storage/craft_storage/\""
+    - "symlink[\"src/craftCMS/.env\"]=\".env\""
+    - "symlink[\".env\"]=\".env\""
+    - "# Generate symlink"
+    - "for i in \"${!symlink[@]}\""
+    - "do"
+    - "  rm -rf $WORKING_DIR/${RELEASE_DIR}/$i"
+    - "  ln -sf $WORKING_DIR/${symlink[$i]} $WORKING_DIR/${RELEASE_DIR}/$i"
+    - "done"
+    - "cd $WORKING_DIR/${RELEASE_DIR}/src/craftCMS"
+    - "composer install"
+    - "composer dump-autoload"
+    - "chmod +x craft"
+    run_as_script: true
+    shell: "BASH"
+    trigger_condition: "ALWAYS"
+    variables: []
+  - action: "Clear cache"
+    type: "SSH_COMMAND"
+    login: "$SSH_USER"
+    host: "$IP_SERVER"
+    port: "22"
+    env_key: "secure!KPsmQHjyp5UhyHBO2R93Bg=="
+    authentication_mode: "ENV_KEY"
+    commands:
+    - "RELEASE_DIR=\"releases/$BUDDY_EXECUTION_REVISION\""
+    - "cd $WORKING_DIR/${RELEASE_DIR}/src/craftCMS"
+    - "./craft clear-caches/all"
+    run_as_script: true
+    shell: "BASH"
+    trigger_condition: "ALWAYS"
+    variables: []
+  - action: "Optimized Images"
+    type: "SSH_COMMAND"
+    login: "$SSH_USER"
+    host: "$IP_SERVER"
+    port: "22"
+    env_key: "secure!KPsmQHjyp5UhyHBO2R93Bg=="
+    authentication_mode: "ENV_KEY"
+    commands:
+    - "RELEASE_DIR=\"releases/$BUDDY_EXECUTION_REVISION\""
+    - "cd $WORKING_DIR/${RELEASE_DIR}/src/craftCMS"
+    - "./craft image-optimize/optimize/create"
+    - "./craft image-optimize/optimize/clear"
+    run_as_script: true
+    shell: "BASH"
+    trigger_condition: "ALWAYS"
+    variables: []
+  - action: "Finalize"
+    type: "SSH_COMMAND"
+    login: "$SSH_USER"
+    host: "$IP_SERVER"
+    port: "22"
+    env_key: "secure!KPsmQHjyp5UhyHBO2R93Bg=="
+    authentication_mode: "ENV_KEY"
+    commands:
+    - "RELEASE_DIR=\"releases/$BUDDY_EXECUTION_REVISION\""
+    - "# Final step : Switch current revision to our release (No downtime)"
+    - "echo \"Linking current to revision: $BUDDY_EXECUTION_REVISION\""
+    - "rm -rf $WORKING_DIR/current"
+    - "ln -s $WORKING_DIR/${RELEASE_DIR} $WORKING_DIR/current"
+    - "echo \"Removing old releases\""
+    - "cd $WORKING_DIR/releases && ls -t | tail -n +${RELEASE_RETENTION} | xargs rm -rf"
+    - "# Restart PHP service based on version"
+    - "sudo service php${PHP_VERSION}-fpm restart"
+    run_as_script: true
+    shell: "BASH"
+    trigger_condition: "ALWAYS"
+    variables: []
+  - action: "Send notification to kffein__srvr channel"
+    type: "SLACK"
+    disabled: true
+    content: "[#$BUDDY_EXECUTION_ID] $BUDDY_PIPELINE_NAME execution by <$BUDDY_INVOKER_URL|$BUDDY_EXECUTION_REVISION_COMMITTER_EMAIL > |\r\nDeployed at <$BUDDY_PIPELINE_TARGET_SITE_URL |$BUDDY_PIPELINE_TARGET_SITE_URL>"
+    channel: "CANLAQ9PH"
+    channel_name: "kffein__srvr"
+    attachments:
+    - "{\"fallback\":\"$BUDDY_PIPELINE_NAME execution #$BUDDY_EXECUTION_ID\",\"color\":\"good\",\"fields\":[{\"title\":\"Successful execution\",\"value\":\"<$BUDDY_EXECUTION_URL|Execution #$BUDDY_EXECUTION_ID $BUDDY_EXECUTION_COMMENT>\",\"short\":true},{\"title\":\"Pipeline\",\"value\":\"<$BUDDY_PIPELINE_URL|$BUDDY_PIPELINE_NAME>\",\"short\":true},{\"title\":\"Branch\",\"value\":\"$BUDDY_EXECUTION_BRANCH\",\"short\":true},{\"title\":\"Project\",\"value\":\"<$BUDDY_PROJECT_URL|$BUDDY_PROJECT_NAME>\",\"short\":true}]}"
+    trigger_condition: "ALWAYS"
+    variables: []
+    integration_id: 41296
+  variables:
+  - key: "IP_SERVER"
+    value: ""
+    id: 111483
+    settable: false
+    description: "Ex. 127.0.0.1"
+    ssh_key: false
+  - key: "RELEASE_RETENTION"
+    value: ""
+    id: 111485
+    settable: false
+    description: "Ex. 5"
+    ssh_key: false
+  - key: "PHP_VERSION"
+    value: ""
+    id: 111481
+    settable: false
+    description: "Ex. 7.2. Please ensure that you put the restart command in the sudoers files via \"sudo visudo command\" on your server. Otherwise delete the restart command line on the deployement process action."
+    ssh_key: false
+  - key: "WORKING_DIR"
+    value: ""
+    id: 111480
+    settable: false
+    description: "Ex. /home/forge/kffein-interne.dev.kffein.work"
+    ssh_key: false
+  - key: "CRAFT_STORAGE_PATH"
+    value: ""
+    id: 111484
+    settable: false
+    description: "Ex. src/craftCMS/storage"
+    ssh_key: false
+  - key: "BUDDY_EXECUTION_REFRESH"
+    value: ""
+    id: 111482
+    settable: false
+    description: "Indicate if release needs to be flushed before each deployment. Default at false."
+    ssh_key: false
+  - key: "SSH_USER"
+    value: ""
+    id: 111486
+    settable: false
+    description: "Ex. forge"
+    ssh_key: false
+- pipeline: "DEPLOY STAGE"
+  trigger_mode: "ON_EVERY_PUSH"
+  ref_name: "master"
+  ref_type: "BRANCH"
+  target_site_url: "http://Cafe Noir.kffein.work"
+  trigger_condition: "ALWAYS"
+  actions:
+  - action: "Clone Repo"
+    type: "SFTP"
+    input_type: "SCM_REPOSITORY"
+    local_path: "/"
+    remote_path: "${WORKING_DIR}/deploy-cache"
+    login: "$SSH_USER"
+    host: "$IP_SERVER"
+    port: "22"
+    env_key: "secure!KPsmQHjyp5UhyHBO2R93Bg=="
+    authentication_mode: "ENV_KEY"
+    variables: []
+  - action: "Create release"
+    type: "SSH_COMMAND"
+    working_directory: "${WORKING_DIR}"
+    login: "$SSH_USER"
+    host: "$IP_SERVER"
+    port: "22"
+    env_key: "secure!KPsmQHjyp5UhyHBO2R93Bg=="
+    authentication_mode: "ENV_KEY"
+    commands:
+    - "# Standard Atomic Release process"
+    - "if [ -d \"releases/$BUDDY_EXECUTION_REVISION\" ] && [ \"$BUDDY_EXECUTION_REFRESH\" = \"true\" ];"
+    - "then"
+    - " echo \"Removing: releases/$BUDDY_EXECUTION_REVISION\""
+    - " rm -rf releases/$BUDDY_EXECUTION_REVISION;"
+    - "fi"
+    - "if [ ! -d \"releases/$BUDDY_EXECUTION_REVISION\" ];"
+    - "then"
+    - " echo \"Creating: releases/$BUDDY_EXECUTION_REVISION\""
+    - " cp -dR deploy-cache releases/$BUDDY_EXECUTION_REVISION;"
+    - "fi"
+    run_as_script: true
+    shell: "BASH"
+    trigger_condition: "ALWAYS"
+    variables: []
+  - action: "Composer install"
+    type: "SSH_COMMAND"
+    login: "$SSH_USER"
+    host: "$IP_SERVER"
+    port: "22"
+    env_key: "secure!KPsmQHjyp5UhyHBO2R93Bg=="
+    authentication_mode: "ENV_KEY"
+    commands:
+    - "RELEASE_DIR=\"releases/$BUDDY_EXECUTION_REVISION\""
+    - "mkdir -p $WORKING_DIR/${RELEASE_DIR}/src/craftCMS/web/assets"
+    - "declare -A symlink"
+    - "# key is symlink to be made : value is folder to be linked at"
+    - "symlink[\"public/upload\"]=\"storage/upload/\""
+    - "symlink[\"src/craftCMS/storage\"]=\"storage/craft_storage/\""
+    - "symlink[\"src/craftCMS/.env\"]=\".env\""
+    - "symlink[\".env\"]=\".env\""
+    - "# Generate symlink"
+    - "for i in \"${!symlink[@]}\""
+    - "do"
+    - "  rm -rf $WORKING_DIR/${RELEASE_DIR}/$i"
+    - "  ln -sf $WORKING_DIR/${symlink[$i]} $WORKING_DIR/${RELEASE_DIR}/$i"
+    - "done"
+    - "cd $WORKING_DIR/${RELEASE_DIR}/src/craftCMS"
+    - "composer install"
+    - "composer dump-autoload"
+    - "chmod +x craft"
+    run_as_script: true
+    shell: "BASH"
+    trigger_condition: "ALWAYS"
+    variables: []
+  - action: "Clear cache"
+    type: "SSH_COMMAND"
+    login: "$SSH_USER"
+    host: "$IP_SERVER"
+    port: "22"
+    env_key: "secure!KPsmQHjyp5UhyHBO2R93Bg=="
+    authentication_mode: "ENV_KEY"
+    commands:
+    - "RELEASE_DIR=\"releases/$BUDDY_EXECUTION_REVISION\""
+    - "cd $WORKING_DIR/${RELEASE_DIR}/src/craftCMS"
+    - "./craft clear-caches/all"
+    run_as_script: true
+    shell: "BASH"
+    trigger_condition: "ALWAYS"
+    variables: []
+  - action: "Optimized Images"
+    type: "SSH_COMMAND"
+    login: "$SSH_USER"
+    host: "$IP_SERVER"
+    port: "22"
+    env_key: "secure!KPsmQHjyp5UhyHBO2R93Bg=="
+    authentication_mode: "ENV_KEY"
+    commands:
+    - "RELEASE_DIR=\"releases/$BUDDY_EXECUTION_REVISION\""
+    - "cd $WORKING_DIR/${RELEASE_DIR}/src/craftCMS"
+    - "./craft image-optimize/optimize/create"
+    - "./craft image-optimize/optimize/clear"
+    run_as_script: true
+    shell: "BASH"
+    trigger_condition: "ALWAYS"
+    variables: []
+  - action: "Finalize"
+    type: "SSH_COMMAND"
+    login: "$SSH_USER"
+    host: "$IP_SERVER"
+    port: "22"
+    env_key: "secure!KPsmQHjyp5UhyHBO2R93Bg=="
+    authentication_mode: "ENV_KEY"
+    commands:
+    - "RELEASE_DIR=\"releases/$BUDDY_EXECUTION_REVISION\""
+    - "# Final step : Switch current revision to our release (No downtime)"
+    - "echo \"Linking current to revision: $BUDDY_EXECUTION_REVISION\""
+    - "rm -rf $WORKING_DIR/current"
+    - "ln -s $WORKING_DIR/${RELEASE_DIR} $WORKING_DIR/current"
+    - "echo \"Removing old releases\""
+    - "cd $WORKING_DIR/releases && ls -t | tail -n +${RELEASE_RETENTION} | xargs rm -rf"
+    - "# Restart PHP service based on version"
+    - "sudo service php${PHP_VERSION}-fpm restart"
+    run_as_script: true
+    shell: "BASH"
+    trigger_condition: "ALWAYS"
+    variables: []
+  - action: "Send notification to kffein__srvr channel"
+    type: "SLACK"
+    disabled: true
+    content: "[#$BUDDY_EXECUTION_ID] $BUDDY_PIPELINE_NAME execution by <$BUDDY_INVOKER_URL|$BUDDY_EXECUTION_REVISION_COMMITTER_EMAIL > |\r\nDeployed at <$BUDDY_PIPELINE_TARGET_SITE_URL |$BUDDY_PIPELINE_TARGET_SITE_URL>"
+    channel: "CANLAQ9PH"
+    channel_name: "kffein__srvr"
+    attachments:
+    - "{\"fallback\":\"$BUDDY_PIPELINE_NAME execution #$BUDDY_EXECUTION_ID\",\"color\":\"good\",\"fields\":[{\"title\":\"Successful execution\",\"value\":\"<$BUDDY_EXECUTION_URL|Execution #$BUDDY_EXECUTION_ID $BUDDY_EXECUTION_COMMENT>\",\"short\":true},{\"title\":\"Pipeline\",\"value\":\"<$BUDDY_PIPELINE_URL|$BUDDY_PIPELINE_NAME>\",\"short\":true},{\"title\":\"Branch\",\"value\":\"$BUDDY_EXECUTION_BRANCH\",\"short\":true},{\"title\":\"Project\",\"value\":\"<$BUDDY_PROJECT_URL|$BUDDY_PROJECT_NAME>\",\"short\":true}]}"
+    trigger_condition: "ALWAYS"
+    variables: []
+    integration_id: 41296
+  variables:
+  - key: "IP_SERVER"
+    value: ""
+    id: 111483
+    settable: false
+    description: "Ex. 127.0.0.1"
+    ssh_key: false
+  - key: "RELEASE_RETENTION"
+    value: ""
+    id: 111485
+    settable: false
+    description: "Ex. 5"
+    ssh_key: false
+  - key: "PHP_VERSION"
+    value: ""
+    id: 111481
+    settable: false
+    description: "Ex. 7.2. Please ensure that you put the restart command in the sudoers files via \"sudo visudo command\" on your server. Otherwise delete the restart command line on the deployement process action."
+    ssh_key: false
+  - key: "WORKING_DIR"
+    value: ""
+    id: 111480
+    settable: false
+    description: "Ex. /home/forge/kffein-interne.dev.kffein.work"
+    ssh_key: false
+  - key: "CRAFT_STORAGE_PATH"
+    value: ""
+    id: 111484
+    settable: false
+    description: "Ex. src/craftCMS/storage"
+    ssh_key: false
+  - key: "BUDDY_EXECUTION_REFRESH"
+    value: ""
+    id: 111482
+    settable: false
+    description: "Indicate if release needs to be flushed before each deployment. Default at false."
+    ssh_key: false
+  - key: "SSH_USER"
+    value: ""
+    id: 111486
+    settable: false
+    description: "Ex. forge"
+    ssh_key: false
+- pipeline: "DEPLOY PROD"
+  trigger_mode: "ON_EVERY_PUSH"
+  ref_name: "master"
+  ref_type: "BRANCH"
+  target_site_url: "http://Cafe Noir.com"
+  trigger_condition: "ALWAYS"
+  actions:
+  - action: "Clone Repo"
+    type: "SFTP"
+    input_type: "SCM_REPOSITORY"
+    local_path: "/"
+    remote_path: "${WORKING_DIR}/deploy-cache"
+    login: "$SSH_USER"
+    host: "$IP_SERVER"
+    port: "22"
+    env_key: "secure!KPsmQHjyp5UhyHBO2R93Bg=="
+    authentication_mode: "ENV_KEY"
+    variables: []
+  - action: "Create release"
+    type: "SSH_COMMAND"
+    working_directory: "${WORKING_DIR}"
+    login: "$SSH_USER"
+    host: "$IP_SERVER"
+    port: "22"
+    env_key: "secure!KPsmQHjyp5UhyHBO2R93Bg=="
+    authentication_mode: "ENV_KEY"
+    commands:
+    - "# Standard Atomic Release process"
+    - "if [ -d \"releases/$BUDDY_EXECUTION_REVISION\" ] && [ \"$BUDDY_EXECUTION_REFRESH\" = \"true\" ];"
+    - "then"
+    - " echo \"Removing: releases/$BUDDY_EXECUTION_REVISION\""
+    - " rm -rf releases/$BUDDY_EXECUTION_REVISION;"
+    - "fi"
+    - "if [ ! -d \"releases/$BUDDY_EXECUTION_REVISION\" ];"
+    - "then"
+    - " echo \"Creating: releases/$BUDDY_EXECUTION_REVISION\""
+    - " cp -dR deploy-cache releases/$BUDDY_EXECUTION_REVISION;"
+    - "fi"
+    run_as_script: true
+    shell: "BASH"
+    trigger_condition: "ALWAYS"
+    variables: []
+  - action: "Composer install"
+    type: "SSH_COMMAND"
+    login: "$SSH_USER"
+    host: "$IP_SERVER"
+    port: "22"
+    env_key: "secure!KPsmQHjyp5UhyHBO2R93Bg=="
+    authentication_mode: "ENV_KEY"
+    commands:
+    - "RELEASE_DIR=\"releases/$BUDDY_EXECUTION_REVISION\""
+    - "mkdir -p $WORKING_DIR/${RELEASE_DIR}/src/craftCMS/web/assets"
+    - "declare -A symlink"
+    - "# key is symlink to be made : value is folder to be linked at"
+    - "symlink[\"public/upload\"]=\"storage/upload/\""
+    - "symlink[\"src/craftCMS/storage\"]=\"storage/craft_storage/\""
+    - "symlink[\"src/craftCMS/.env\"]=\".env\""
+    - "symlink[\".env\"]=\".env\""
+    - "# Generate symlink"
+    - "for i in \"${!symlink[@]}\""
+    - "do"
+    - "  rm -rf $WORKING_DIR/${RELEASE_DIR}/$i"
+    - "  ln -sf $WORKING_DIR/${symlink[$i]} $WORKING_DIR/${RELEASE_DIR}/$i"
+    - "done"
+    - "cd $WORKING_DIR/${RELEASE_DIR}/src/craftCMS"
+    - "composer install"
+    - "composer dump-autoload"
+    - "chmod +x craft"
+    run_as_script: true
+    shell: "BASH"
+    trigger_condition: "ALWAYS"
+    variables: []
+  - action: "Clear cache"
+    type: "SSH_COMMAND"
+    login: "$SSH_USER"
+    host: "$IP_SERVER"
+    port: "22"
+    env_key: "secure!KPsmQHjyp5UhyHBO2R93Bg=="
+    authentication_mode: "ENV_KEY"
+    commands:
+    - "RELEASE_DIR=\"releases/$BUDDY_EXECUTION_REVISION\""
+    - "cd $WORKING_DIR/${RELEASE_DIR}/src/craftCMS"
+    - "./craft clear-caches/all"
+    run_as_script: true
+    shell: "BASH"
+    trigger_condition: "ALWAYS"
+    variables: []
+  - action: "Optimized Images"
+    type: "SSH_COMMAND"
+    login: "$SSH_USER"
+    host: "$IP_SERVER"
+    port: "22"
+    env_key: "secure!KPsmQHjyp5UhyHBO2R93Bg=="
+    authentication_mode: "ENV_KEY"
+    commands:
+    - "RELEASE_DIR=\"releases/$BUDDY_EXECUTION_REVISION\""
+    - "cd $WORKING_DIR/${RELEASE_DIR}/src/craftCMS"
+    - "./craft image-optimize/optimize/create"
+    - "./craft image-optimize/optimize/clear"
+    run_as_script: true
+    shell: "BASH"
+    trigger_condition: "ALWAYS"
+    variables: []
+  - action: "Finalize"
+    type: "SSH_COMMAND"
+    login: "$SSH_USER"
+    host: "$IP_SERVER"
+    port: "22"
+    env_key: "secure!KPsmQHjyp5UhyHBO2R93Bg=="
+    authentication_mode: "ENV_KEY"
+    commands:
+    - "RELEASE_DIR=\"releases/$BUDDY_EXECUTION_REVISION\""
+    - "# Final step : Switch current revision to our release (No downtime)"
+    - "echo \"Linking current to revision: $BUDDY_EXECUTION_REVISION\""
+    - "rm -rf $WORKING_DIR/current"
+    - "ln -s $WORKING_DIR/${RELEASE_DIR} $WORKING_DIR/current"
+    - "echo \"Removing old releases\""
+    - "cd $WORKING_DIR/releases && ls -t | tail -n +${RELEASE_RETENTION} | xargs rm -rf"
+    - "# Restart PHP service based on version"
+    - "sudo service php${PHP_VERSION}-fpm restart"
+    run_as_script: true
+    shell: "BASH"
+    trigger_condition: "ALWAYS"
+    variables: []
+  - action: "Send notification to kffein__srvr channel"
+    type: "SLACK"
+    disabled: true
+    content: "[#$BUDDY_EXECUTION_ID] $BUDDY_PIPELINE_NAME execution by <$BUDDY_INVOKER_URL|$BUDDY_EXECUTION_REVISION_COMMITTER_EMAIL > |\r\nDeployed at <$BUDDY_PIPELINE_TARGET_SITE_URL |$BUDDY_PIPELINE_TARGET_SITE_URL>"
+    channel: "CANLAQ9PH"
+    channel_name: "kffein__srvr"
+    attachments:
+    - "{\"fallback\":\"$BUDDY_PIPELINE_NAME execution #$BUDDY_EXECUTION_ID\",\"color\":\"good\",\"fields\":[{\"title\":\"Successful execution\",\"value\":\"<$BUDDY_EXECUTION_URL|Execution #$BUDDY_EXECUTION_ID $BUDDY_EXECUTION_COMMENT>\",\"short\":true},{\"title\":\"Pipeline\",\"value\":\"<$BUDDY_PIPELINE_URL|$BUDDY_PIPELINE_NAME>\",\"short\":true},{\"title\":\"Branch\",\"value\":\"$BUDDY_EXECUTION_BRANCH\",\"short\":true},{\"title\":\"Project\",\"value\":\"<$BUDDY_PROJECT_URL|$BUDDY_PROJECT_NAME>\",\"short\":true}]}"
+    trigger_condition: "ALWAYS"
+    variables: []
+    integration_id: 41296
+  variables:
+  - key: "IP_SERVER"
+    value: ""
+    id: 111483
+    settable: false
+    description: "Ex. 127.0.0.1"
+    ssh_key: false
+  - key: "RELEASE_RETENTION"
+    value: ""
+    id: 111485
+    settable: false
+    description: "Ex. 5"
+    ssh_key: false
+  - key: "PHP_VERSION"
+    value: ""
+    id: 111481
+    settable: false
+    description: "Ex. 7.2. Please ensure that you put the restart command in the sudoers files via \"sudo visudo command\" on your server. Otherwise delete the restart command line on the deployement process action."
+    ssh_key: false
+  - key: "WORKING_DIR"
+    value: ""
+    id: 111480
+    settable: false
+    description: "Ex. /home/forge/kffein-interne.dev.kffein.work"
+    ssh_key: false
+  - key: "CRAFT_STORAGE_PATH"
+    value: ""
+    id: 111484
+    settable: false
+    description: "Ex. src/craftCMS/storage"
+    ssh_key: false
+  - key: "BUDDY_EXECUTION_REFRESH"
+    value: ""
+    id: 111482
+    settable: false
+    description: "Indicate if release needs to be flushed before each deployment. Default at false."
+    ssh_key: false
+  - key: "SSH_USER"
+    value: ""
+    id: 111486
+    settable: false
+    description: "Ex. forge"
+    ssh_key: false
+- pipeline: "Ping URL and Notify"
+  trigger_mode: "MANUAL"
+  folder: "TOOLS"
+  ref_type: "NONE"
+  trigger_condition: "ALWAYS"
+  actions:
+  - action: "Ping www.example.com"
+    type: "PING"
+    destination: "www.example.com"
+    trigger_condition: "ALWAYS"
+  - action: "Send notification to kffein__srvr channel"
+    type: "SLACK"
+    trigger_time: "ON_FAILURE"
+    content: "[#$BUDDY_EXECUTION_ID] $BUDDY_PIPELINE_NAME execution by <$BUDDY_INVOKER_URL|$BUDDY_INVOKER_NAME>"
+    channel: "C8JALHQP2"
+    channel_name: "CANLAQ9PH"
+    attachments:
+    - "{\"fallback\":\"$BUDDY_PIPELINE_NAME execution #$BUDDY_EXECUTION_ID\",\"color\":\"danger\",\"fields\":[{\"title\":\"Failed execution\",\"value\":\"<$BUDDY_EXECUTION_URL|Execution #$BUDDY_EXECUTION_ID $BUDDY_EXECUTION_COMMENT>\",\"short\":true},{\"title\":\"Pipeline\",\"value\":\"<$BUDDY_PIPELINE_URL|$BUDDY_PIPELINE_NAME>\",\"short\":true},{\"title\":\"Branch\",\"value\":\"$BUDDY_EXECUTION_BRANCH\",\"short\":true},{\"title\":\"Project\",\"value\":\"<$BUDDY_PROJECT_URL|$BUDDY_PROJECT_NAME>\",\"short\":true}]}"
+    trigger_condition: "ALWAYS"
+    integration_id: 42208
+- pipeline: "BACKUP DB"
+  trigger_mode: "MANUAL"
+  folder: "TOOLS"
+  ref_type: "NONE"
+  trigger_condition: "ALWAYS"
+  actions:
+  - action: "BACKUP DB"
+    type: "SSH_COMMAND"
+    working_directory: "$WORKING_DIR/$STORAGE_DIR"
+    login: "$SSH_USER"
+    host: "$IP_SERVER"
+    port: "22"
+    env_key: "secure!KPsmQHjyp5UhyHBO2R93Bg=="
+    authentication_mode: "ENV_KEY"
+    commands:
+    - "# Make sure db folder exist"
+    - "mkdir -p $WORKING_DIR/$STORAGE_DIR"
+    - "timestamp=$(date +%s)"
+    - "# Create and zip the DB dump"
+    - "mysqldump --host=$DB_HOSTNAME --user=$DB_USER --password=$DB_PASS $DB_NAME --single-transaction -R -E > $WORKING_DIR/$STORAGE_DIR/${BUDDY_PROJECT_NAME_ID}_${CURRENT_ENV}_${BUDDY_EXECUTION_START_DATE}.sql"
+    - "ls -1tr | head -n -$DB_RETENTION | xargs -d '\\n' rm -f --"
+    run_as_script: true
+    shell: "BASH"
+    trigger_condition: "ALWAYS"
+    variables: []
+  variables:
+  - key: "CURRENT_ENV"
+    value: ""
+    id: 95796
+    settable: false
+    description: "Examples values are : dev, stage or prod. This will be append to database filename."
+    ssh_key: false
+  - key: "DB_HOSTNAME"
+    value: ""
+    id: 95709
+    settable: false
+    description: "Ex. localhost"
+    ssh_key: false
+  - key: "WORKING_DIR"
+    value: ""
+    id: 95705
+    settable: false
+    description: "Ex. /home/forge/kffein-interne.dev.kffein.work"
+    ssh_key: false
+  - key: "DB_PASS"
+    value: ""
+    id: 95711
+    settable: false
+    description: "Ex. password"
+    ssh_key: false
+  - key: "DB_USER"
+    value: ""
+    id: 95710
+    settable: false
+    description: "Ex. forge"
+    ssh_key: false
+  - key: "DB_RETENTION"
+    value: ""
+    id: 95708
+    settable: false
+    description: "Ex. 5"
+    ssh_key: false
+  - key: "STORAGE_DIR"
+    value: ""
+    id: 95706
+    settable: false
+    description: "Ex. Usually use the path \"storage/backup/db\""
+    ssh_key: false
+- pipeline: "BACKUP ASSETS"
+  trigger_mode: "MANUAL"
+  folder: "TOOLS"
+  ref_type: "NONE"
+  trigger_condition: "ALWAYS"
+  actions:
+  - action: "BACKUP ASSETS"
+    type: "SSH_COMMAND"
+    working_directory: "$WORKING_DIR"
+    login: "$SSH_USER"
+    host: "$IP_SERVER"
+    port: "22"
+    env_key: "secure!KPsmQHjyp5UhyHBO2R93Bg=="
+    authentication_mode: "ENV_KEY"
+    commands:
+    - "# Make sure db folder exist"
+    - "mkdir -p $WORKING_DIR/$STORAGE_DIR"
+    - "timestamp=$(date +%s)"
+    - "# Zip all assets"
+    - "zip -r $WORKING_DIR/$STORAGE_DIR/assets_${BUDDY_PROJECT_NAME_ID}_${CURRENT_ENV}_${BUDDY_EXECUTION_START_DATE}.zip $ASSET_DIR/*"
+    - "# Remove old assets backup"
+    - "cd $WORKING_DIR/$STORAGE_DIR"
+    - "ls -1tr | head -n -$ASSET_RETENTION | xargs -d '\\n' rm -f --"
+    run_as_script: true
+    shell: "BASH"
+    trigger_condition: "ALWAYS"
+    variables: []
+  variables:
+  - key: "ASSET_RETENTION"
+    value: ""
+    id: 95823
+    settable: false
+    description: "Ex. 3"
+    ssh_key: false
+  - key: "STORAGE_DIR"
+    value: ""
+    id: 95826
+    settable: false
+    description: "Ex. Usually use the path \"storage/backup/assets\""
+    ssh_key: false
+  - key: "CURRENT_ENV"
+    value: ""
+    id: 95824
+    settable: false
+    description: "Examples values are : dev, stage or prod. This will be append to database filename."
+    ssh_key: false
+  - key: "WORKING_DIR"
+    value: ""
+    id: 95827
+    settable: false
+    description: "Ex. /home/forge/kffein-interne.dev.kffein.work"
+    ssh_key: false
+  - key: "ASSET_DIR"
+    value: ""
+    id: 95825
+    settable: false
+    description: "Ex. storage/upload"
+    ssh_key: false
+- pipeline: "Cloud Fare - Clearcache"
+  trigger_mode: "MANUAL"
+  folder: "TOOLS"
+  ref_type: "NONE"
+  trigger_condition: "ALWAYS"
+  actions:
+  - action: "Purge cache at www.example.com"
+    type: "CLOUDFLARE"
+    input_type: "SCM_REPOSITORY"
+    local_path: "/"
+    zone_id: "16044bd999c9050fd7e37a69c368706a"
+    distribution_name: "www.example.com"
+    base_url: "www.example.com"
+    purge_all: true
+    trigger_condition: "ALWAYS"
+    integration_id: 42210
+- pipeline: "SERVER INIT"
+  trigger_mode: "MANUAL"
+  ref_name: "develop"
+  folder: "TOOLS"
+  ref_type: "BRANCH"
+  trigger_condition: "ALWAYS"
+  actions:
+  - action: "Run initialisation script"
+    type: "SSH_COMMAND"
+    login: "$SSH_USER"
+    host: "$IP_SERVER"
+    port: "22"
+    env_key: "secure!KPsmQHjyp5UhyHBO2R93Bg=="
+    authentication_mode: "ENV_KEY"
+    commands:
+    - "echo '=================== SERVER INIT ===================='"
+    - "echo ' Current directory : ' $WORKING_DIR"
+    - "echo '===================================================='"
+    - "ls -lah $WORKING_DIR"
+    - "rm -rf $WORKING_DIR/public"
+    - "mkdir $WORKING_DIR/releases $WORKING_DIR/deploy-cache $WORKING_DIR/storage"
+    - "mkdir $WORKING_DIR/storage/uploads $WORKING_DIR/storage/craft_storage"
+    - "touch $WORKING_DIR/.env"
+    - "echo 'Everything has been created, you can now run your deploy pipeline'"
+    run_as_script: true
+    shell: "BASH"
+    trigger_condition: "ALWAYS"
+  variables:
+  - key: "WORKING_DIR"
+    value: ""
+    id: 118767
+    description: "Ex. /home/forge/kffein-interne.kffein.work"
+  - key: "SSH_USER"
+    value: ""
+    id: 118766
+    description: "forge"
+  - key: "IP_SERVER"
+    value: ""
+    id: 118765
+    description: "68.183.192.244"

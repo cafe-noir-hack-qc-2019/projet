@@ -1,0 +1,57 @@
+[
+  {
+    "id": "home",
+    "urls": {
+      "en": "home",
+      "fr": "accueil"
+    },
+    "meta":{
+      "type": "single",
+      "api": "/pages/homepage"
+    }
+  },
+  {
+    "id": "demo",
+    "urls": {
+      "en": "demo",
+      "fr": "demo"
+    },
+    "meta":{
+      "type": "single",
+      "api": "/pages/demo"
+    }
+  },
+  {
+    "id": "news",
+    "urls": {
+      "en": "news",
+      "fr": "nouvelles"
+    },
+    "meta":{
+      "type": "single",
+      "api": "/pages/news"
+    }
+  },
+  {
+    "id": "article",
+    "urls": {
+      "en": "news/:slug",
+      "fr": "nouvelles/:slug"
+    },
+    "meta":{
+      "type": "channel",
+      "api": "/article/:slug"
+    }
+  },
+  {
+    "id": "404",
+    "urls": {
+      "en": "404",
+      "fr": "404"
+    },
+    "meta":{
+      "type": "single",
+      "api": "/pages/404"
+    }
+  }
+]

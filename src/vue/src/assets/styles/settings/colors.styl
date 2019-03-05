@@ -1,0 +1,33 @@
+/**
+ * Colors settings 
+ *
+ * NOTE:
+ *
+ * - You SHOULD NOT print CSS here, like class for example, as settings are included multiple times.
+ *
+ * - It is recommended not to use the variables for black and white because
+ * color names for black and white (among others) is standard and well
+ * supported: https://www.w3.org/TR/CSS21/syndata.html#value-def-color
+ *
+ * - Use Name That Color for consistent naming: https://davidwalsh.name/sass-color-variables-dont-suck
+ *
+ *
+ * @author KFFEIN <admin@kffein.com>
+ */
+$colors = {
+  white: #fff,
+  black: #000,  
+  blue: #00f,
+  gallery: #eee,
+  red: #ff0000,
+  success: #579341,
+  warning: #d34f27,
+  error: #EC1D24,
+  // should be?
+  punch: #d34f27,
+  apple: #579341,
+  alizarin-crimson: #EC1D24,
+}
+
+for $name, $color in $colors
+  define('$c-' + $name, $color)

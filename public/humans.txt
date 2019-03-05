@@ -1,0 +1,15 @@
+/* TEAM */
+
+Kffein: contact@kffein.com
+Site: https://kffein.com
+Location: 7240 Waverly, #212 Montréal, Québec H2R-2Y8 - CANADA
+
+David Guillemin: The nice guy
+Genevieve Durand: Project Manager
+Jérémy Touzé: Project Manager
+Joel Lachance: Backend Developer
+Romain Lapierre: Backend Developer
+Ravy Chan: Frontend Developer
+Camille Boissel: Frontend Developer
+Nicolas Husson: Frontend Developer
+Sébastion Levy: Frontend Developer

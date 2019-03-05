@@ -1,0 +1,95 @@
+/**
+ * Font settings: only vars and mixins !!!
+ *
+ * NOTE:
+ *
+ * - You SHOULD NOT print CSS here, like class for example, as settings are included multiple times.
+ *
+ * @author KFFEIN <admin@kffein.com>
+ */
+
+/*
+  ===VARS===
+*/
+$ff-safe = Arial, Helvetica, sans-serif
+$ff-title = 'FontTitle', Helvetica, Arial, sans-serif
+$ff-text = 'FontText', Arial, Helvetica, sans-serif
+
+/** font weight */
+$fw-black    = 800
+$fw-bold     = 700
+$fw-semibold = 600
+$fw-medium   = 500
+$fw-regular  = 400
+$fw-light    = 300
+
+/** font sizes generic */
+$fz-regular = (1.6rem 1.6rem)
+$fz-h1      = (3rem 2.4rem)
+$fz-title   = (2.6rem 2rem)
+
+/* line heights */
+$lh-regular = 1.25
+$lh-medium  = 1.4
+
+/*
+  ===MIXINS===
+*/
+f-style($type='default', // default | title | subtitle | fbQuote | legend
+  $level=null, // for titles, if `big` use fz-titleBig (some titles are bigger on mobile/tablet)
+  $color=null, // for titles, can be white or black
+  $italic=null, // {Boolean}
+  $bold=null, // {Boolean}
+  $size=null, // {Array|value} if array, different sizes for different mediaquery
+  $responsive=false, // {boolean} if true, fontsize vw
+  $style=null, // {value} font-style
+  $decoration=null, // {value} - text-decoration
+  $transform=null, // {value} - text-transform
+  $spacing=null, // {value} - letter-spacing
+  $lh=null, // {value} - line-height
+  $uppercase=null,
+  $align=null)
+
+  // _DEFAULT_ : default texts
+  if $type is 'default'
+    font-family $ff-text
+    line-height $lh-regular
+    f-size($fz-regular)
+
+    // only if default type because you may use custom font familly for each variant
+    if $italic
+      font-style italic
+    if $bold
+      font-weight $fw-bold
+
+  // _TITLE_ : titles, use level for h1, h2...
+  if $type is 'title'
+    font-family $ff-title
+    if $level is 'h1'
+      f-size($fz-h1, $responsive: true)
+      text-transform uppercase
+    else
+      f-size($fz-title, $responsive: true)
+
+    // Other type here
+    // ...
+  
+  // and others params for quick overrides
+  if $color
+    color $color
+  if $size
+    f-size($size, $responsive)
+  if $decoration
+    text-decoration $decoration
+  if $style
+    font-style $style
+  if $uppercase
+    text-transform uppercase
+  else if $transform
+    text-transform $transform
+  if $lh
+    line-height $lh
+  if $spacing
+    letter-spacing $spacing
+  if $align
+    text-align $align

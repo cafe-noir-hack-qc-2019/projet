@@ -1,0 +1,8 @@
+/.env
+/.idea
+/vendor
+.DS_Store
+/node_modules
+
+# License Key (should differ between environments)
+config/license.key

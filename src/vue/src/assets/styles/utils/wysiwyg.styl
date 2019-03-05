@@ -1,0 +1,57 @@
+/**
+ *	#WYSIWYG
+ *  > default style for wysiwyg content
+ *
+ *	@author	KFFEIN	<dev@kffein.com>
+ */
+
+.wysiwyg
+  f-style()
+
+  > * + p
+  > * + ul
+  > * + ol
+    vertical-margin()
+  
+  a
+    text-decoration underline
+    &:hover
+      text-decoration none
+  
+  ul
+    list-style outside square
+    li
+      margin-left 1em
+
+  ol
+    list-style outside decimal
+    li
+      margin-left 1em
+
+  b
+  strong
+    f-style($bold:true)
+  
+  i
+  em
+    f-style($italic:true)
+
+  b > i,
+  b > em,
+  strong > i,
+  strong > em,
+  i > b,
+  i > strong,
+  em > b,
+  em > strong
+    f-style($bold:true, $italic:true)
+
+  sup
+    position relative
+    top -0.2em
+    font-size 75%
+    line-height 0
+    vertical-align super
+
+  del
+    text-transform line-through
