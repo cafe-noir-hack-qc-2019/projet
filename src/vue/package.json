@@ -92,6 +92,7 @@
     "@fortawesome/free-regular-svg-icons": "^5.6.3",
     "@fortawesome/free-solid-svg-icons": "^5.6.3",
     "@fortawesome/vue-fontawesome": "^0.1.5",
+    "@pderas/vue2-geocoder": "^1.0.2",
     "axios": "^0.18.0",
     "core-js": "^2.5.7",
     "element-closest": "^2.0.2",
