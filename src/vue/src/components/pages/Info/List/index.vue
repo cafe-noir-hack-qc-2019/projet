@@ -49,7 +49,9 @@
     Themes
     <ul>
       <li v-for="theme in popularThemes" :key="theme.id">
-        <span v-html="theme.label" />
+        <router-link :to="{ name: 'infoDetail.fr', params: {themeSlug: theme.slug} }">
+          <span v-html="theme.label" />
+        </router-link>
       </li>
     </ul>
   </div>

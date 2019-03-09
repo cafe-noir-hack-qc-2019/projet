@@ -4,7 +4,7 @@
  *
  * @author Nicolas Husson <nicolas@kffein.com>
  */
-import { assign, get } from 'lodash';
+import { assign, get, orderBy } from 'lodash';
 
 const debug = true; // process.env.NODE_ENV === 'development';
 
@@ -20,7 +20,8 @@ export default {
     themesByDistrict: [],
     themesByTerms: [],
     searchTerms: [],
-    date: null,
+    date: new Date(),
+    categories: [],
   },
   mutations: {
     SET_POSTAL_CODE(state, payload) {
@@ -36,13 +37,16 @@ export default {
       state.district = payload;
     },
     SET_THEMES_BY_DISCTRICT(state, { district, themes }) {
-      state.themesByDistrict = assign(state.themesByDistrict, { [district]: themes });
+      state.themesByDistrict = assign({}, state.themesByDistrict, { [district]: themes });
     },
     SET_SEARCH_TERMS(state, payload) {
       state.searchTerms = payload;
     },
     SET_THEMES_BY_TERMS(state, { themes }) {
       state.themesByTerms = themes;
+    },
+    SET_CATEGORIES(state, payload) {
+      state.categories = payload;
     },
   },
   actions: {
@@ -61,8 +65,15 @@ export default {
       const themes = [
         {
           id: 1,
-          label: 'Aqueduc',
+          slug: 'collecte',
+          label: 'Collecte',
           percentage: 29,
+        },
+        {
+          id: 2,
+          slug: 'taxes-foncieres',
+          label: 'Taxes foncieres',
+          percentage: 31,
         },
       ];
 
@@ -74,12 +85,31 @@ export default {
       // LOAD THEME FROM API
       const themes = [
         {
-          label: 'Aqueduc',
+          id: 1,
+          slug: 'collecte',
+          label: 'Collecte',
           percentage: 29,
         },
       ];
 
       commit('SET_THEMES_BY_TERMS', { themes });
+    },
+    GET_CATEGORIES({ commit }) {
+      // LOAD CATEGORIES FROM API
+      const categories = [
+        {
+          id: 1,
+          slug: 'permis',
+          label: 'Permis',
+        },
+        {
+          id: 2,
+          slug: 'collecte',
+          label: 'Collecte',
+        },
+      ];
+
+      commit('SET_CATEGORIES', categories);
     },
   },
   getters: {
@@ -88,8 +118,8 @@ export default {
     outdated: state => state.outdated,
     postalCode: state => state.postalCode,
     district: state => state.district,
-    themesByDistrict: state => ({ district }) => get(state.themesByDistrict, district),
-    popularThemes: state => get(state.themesByDistrict, state.district), // order by percentage
+    popularThemes: state => orderBy(get(state.themesByDistrict, state.district), ['percentage'], ['desc']),
     themesByTerms: state => state.themesByTerms,
+    categories: state => state.categories,
   },
 };

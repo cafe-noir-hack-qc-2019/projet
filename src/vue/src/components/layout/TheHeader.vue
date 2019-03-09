@@ -23,6 +23,7 @@ export default {
   computed: {
     ...mapGetters({
       postalCode: 'App/postalCode',
+      district: 'App/district',
     }),
     ...mapState('I18n', {
       locale: ({ locale }) => locale,
@@ -39,6 +40,7 @@ export default {
           <LogoSvg class="logo" />
         </router-link>
         <span v-if="postalCode" v-html="postalCode" />
+        <span v-if="district" v-html="`(${district})`" />
         <!-- <nav>
           <ul>
             <li

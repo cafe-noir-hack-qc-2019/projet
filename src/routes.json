@@ -4,21 +4,27 @@
     "urls": {
       "en": "home",
       "fr": "accueil"
-    },
-    "meta":{
-      "type": "single",
-      "api": "/pages/homepage"
     }
   },
   {
-    "id": "info-list",
+    "id": "infoList",
     "urls": {
       "en": "infos/list",
       "fr": "infos/liste"
-    },
-    "meta": {
-      "type": "single",
-      "api": "/pages/infos-liste"
+    }
+  },
+  {
+    "id": "infoDetail",
+    "urls": {
+      "en": "infos/detail/:themeSlug",
+      "fr": "infos/detail/:themeSlug"
+    }
+  },
+  {
+    "id": "bot",
+    "urls": {
+      "en": "bot",
+      "fr": "bot"
     }
   },
   {

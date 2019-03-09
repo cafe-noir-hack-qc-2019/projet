@@ -41,7 +41,7 @@ export default {
   methods: {
     go() {
       this.$store.commit('App/SET_POSTAL_CODE', this.postalCode);
-      this.$router.push({ name: 'info-list.fr' })
+      this.$router.push({ name: 'infoList.fr' })
     }
   },
 };

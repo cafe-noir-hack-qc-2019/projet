@@ -19,7 +19,9 @@ import settings from 'src/settings';
 import routesMap from 'routes';
 
 const Home = () => import(/* webpackChunkName: "pages-home" */ 'components/pages/Home');
-const InfoList = () => import(/* webpackChunkName: "pages-home" */ 'components/pages/Info/List');
+const Bot = () => import(/* webpackChunkName: "pages-bot" */ 'components/pages/Bot');
+const InfoList = () => import(/* webpackChunkName: "pages-info-list" */ 'components/pages/Info/List');
+const InfoDetail = () => import(/* webpackChunkName: "pages-info-detail" */ 'components/pages/Info/Detail');
 const FourOFour = () => import(/* webpackChunkName: "pages-404" */ 'components/pages/FourOFour');
 
 Vue.use(VueRouter);
@@ -34,8 +36,14 @@ function getComponentById(id) {
     case 'home':
       return Home;
 
-    case 'info-list':
+    case 'bot':
+      return Bot;
+
+    case 'infoList':
       return InfoList;
+
+    case 'infoDetail':
+      return InfoDetail;
 
     case '404':
     default:

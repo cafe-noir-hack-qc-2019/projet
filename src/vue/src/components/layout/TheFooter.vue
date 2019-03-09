@@ -26,59 +26,7 @@ export default {
 <template>
   <footer class="TheFooter">
     <div class="_container">
-      <!-- <div class="row">
-        <div
-          class="contact-card"
-          itemscope
-          itemtype="http://schema.org/Corporation">
-          <p
-            itemprop="name"
-            v-html="contact.name"/>
-          <div
-            itemprop="address"
-            itemscope
-            itemtype="http://schema.org/PostalAddress">
-            <p>
-              <span v-html="contact.address1" />,
-              <span v-html="contact.address2" />
-            </p>
-            <p>
-              <span v-html="contact.city" />
-              (<span v-html="contact.state" />)
-              <span v-html="contact.postalCode" />
-            </p>
-          </div>
-          <p>
-            <span
-              itemprop="telephone"
-              v-html="contact.phone" />
-          </p>
-          <p>
-            <span
-              itemprop="email"
-              v-html="contact.email" />
-          </p>
-        </div>
-
-        <nav>
-          <ul>
-            <li
-              v-for="item in socials"
-              :key="item.name">
-              <a :href="item.url">
-                <font-awesome-icon :icon="['fab', item.icon]" />
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-
-      <p
-        class="copyrights">
-        <span v-html="contact.name" /> &copy; <span v-html="year" />
-      </p> -->
-      Footer
-
+      <router-link :to="{name: 'bot.fr'}">Rechercher</router-link>
     </div>
   </footer>
 </template>
