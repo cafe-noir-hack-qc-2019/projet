@@ -11,7 +11,9 @@ import { library, dom, config } from '@fortawesome/fontawesome-svg-core';
 
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 // import { faFile } from '@fortawesome/free-regular-svg-icons';
-import { faFacebookF, faLinkedinIn, faInstagram, faGithub } from '@fortawesome/free-brands-svg-icons';
+import {
+ faFacebookF, faLinkedinIn, faInstagram, faGithub,
+} from '@fortawesome/free-brands-svg-icons';
 
 export default class FontAwesome {
   static init() {

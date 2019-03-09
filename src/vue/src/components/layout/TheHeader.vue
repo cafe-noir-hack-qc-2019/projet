@@ -8,13 +8,11 @@
 <script>
 import { mapGetters, mapState } from 'vuex';
 import LogoSvg from 'assets/svg/logo.svg?vue';
-import LangSwitcher from 'components/misc/LangSwitcher';
 
 export default {
   name: 'TheHeader',
   components: {
     LogoSvg,
-    LangSwitcher,
   },
   props: {
     state: {
@@ -24,8 +22,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      open: 'Menu/open',
-      menu: 'Global/menu',
+      postalCode: 'App/postalCode',
     }),
     ...mapState('I18n', {
       locale: ({ locale }) => locale,
@@ -41,7 +38,8 @@ export default {
         <router-link :to="{name: `home.${locale}`}">
           <LogoSvg class="logo" />
         </router-link>
-        <nav>
+        <span v-if="postalCode" v-html="postalCode" />
+        <!-- <nav>
           <ul>
             <li
               v-for="item in menu.primary"
@@ -55,7 +53,7 @@ export default {
             </li>
           </ul>
         </nav>
-        <LangSwitcher />
+        <LangSwitcher /> -->
       </div>
     </div>
   </header>

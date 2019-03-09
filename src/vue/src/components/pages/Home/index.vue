@@ -7,22 +7,21 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex';
-import NewsCard from 'components/pages/News/Card';
 import store from './store';
 
 export default {
   name: 'PageHome',
   components: {
-    NewsCard,
+  },
+  data() {
+    return {
+      postalCode: null, // @todo geoloc
+    }
   },
   computed: {
     ...mapGetters({
       title: 'PageHome/title',
       intro: 'PageHome/intro',
-      news: 'PageHome/news',
-    }),
-    ...mapState('I18n', {
-      locale: ({ locale }) => locale,
     }),
   },
   /**
@@ -39,6 +38,12 @@ export default {
   //   // or datas will be deleted and you will need to re-call api
   //   this.$store.unregisterModule('PageHome');
   // },
+  methods: {
+    go() {
+      this.$store.commit('App/SET_POSTAL_CODE', this.postalCode);
+      this.$router.push({ name: 'info-list.fr' })
+    }
+  },
 };
 </script>
 
@@ -52,39 +57,10 @@ export default {
         class="wysiwyg"
         v-html="intro" />
     </header>
-    <section class="section-news">
-      <header>
-        <h2
-          v-t="'PAGE_HOME.featured_news_title'"
-          class="subtitle" />
-      </header>
-
-      <ul class="list">
-        <li
-          v-for="article in news"
-          :key="`article-${article.id}`"
-          class="item">
-          <NewsCard v-bind="article" />
-        </li>
-      </ul>
-    </section>
+    <input type="text" v-model="postalCode" placeholder="Code postal" />
+    <button @click="go">GO</button>
   </div>
 </template>
-
-<i18n>
-{
-  "en": {
-    "PAGE_HOME":{
-      "featured_news_title": "Featured news"
-    }
-  },
-  "fr": {
-    "PAGE_HOME":{
-      "featured_news_title": "Nouvelles a la une"
-    }
-  }
-}
-</i18n>
 
 <style lang="stylus" scoped>
   /**
@@ -96,21 +72,6 @@ export default {
    */
 
   //  ===LAYOUT===
-  .title
-    f-style(title, h1)
-    vertical-padding()
-  .subtitle
-    f-style(title)
-    vertical-margin()
-
-  .section-news
-    margin-top 2em
-    .list
-      flexbox(row, $align: stretch)
-      >.item
-        flex-basis 49%
-        +mobile()
-          flex-basis 100%
 
   //  ===DEBUG===
   [data-debug-mode="true"] .PageHome

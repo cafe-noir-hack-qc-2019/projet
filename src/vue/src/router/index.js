@@ -19,15 +19,8 @@ import settings from 'src/settings';
 import routesMap from 'routes';
 
 const Home = () => import(/* webpackChunkName: "pages-home" */ 'components/pages/Home');
-const Contact = () => import(/* webpackChunkName: "pages-contact" */ 'components/pages/Contact');
+const InfoList = () => import(/* webpackChunkName: "pages-home" */ 'components/pages/Info/List');
 const FourOFour = () => import(/* webpackChunkName: "pages-404" */ 'components/pages/FourOFour');
-const News = {
-  collection: () => import(/* webpackChunkName: "pages-works" */ 'components/pages/News/Collection'),
-  single: () => import(/* webpackChunkName: "pages-works" */ 'components/pages/News/Single'),
-};
-const Tests = {
-  demo: () => import(/* webpackChunkName: "pages-tests" */ 'components/pages/Tests/Demo'),
-};
 
 Vue.use(VueRouter);
 
@@ -40,16 +33,9 @@ function getComponentById(id) {
   switch (id) {
     case 'home':
       return Home;
-    case 'contact':
-      return Contact;
-    // News
-    case 'news':
-      return News.collection;
-    case 'article':
-      return News.single;
 
-    case 'demo':
-      return Tests.demo;
+    case 'info-list':
+      return InfoList;
 
     case '404':
     default:

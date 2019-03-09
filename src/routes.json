@@ -11,36 +11,14 @@
     }
   },
   {
-    "id": "demo",
+    "id": "info-list",
     "urls": {
-      "en": "demo",
-      "fr": "demo"
+      "en": "infos/list",
+      "fr": "infos/liste"
     },
-    "meta":{
+    "meta": {
       "type": "single",
-      "api": "/pages/demo"
-    }
-  },
-  {
-    "id": "news",
-    "urls": {
-      "en": "news",
-      "fr": "nouvelles"
-    },
-    "meta":{
-      "type": "single",
-      "api": "/pages/news"
-    }
-  },
-  {
-    "id": "article",
-    "urls": {
-      "en": "news/:slug",
-      "fr": "nouvelles/:slug"
-    },
-    "meta":{
-      "type": "channel",
-      "api": "/article/:slug"
+      "api": "/pages/infos-liste"
     }
   },
   {

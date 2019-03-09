@@ -13,7 +13,6 @@ export default {
   components: {},
   computed: {
     ...mapGetters({
-      locale: 'I18n/locale',
       contact: 'Global/contact',
       socials: 'Global/socials',
     }),
@@ -27,7 +26,7 @@ export default {
 <template>
   <footer class="TheFooter">
     <div class="_container">
-      <div class="row">
+      <!-- <div class="row">
         <div
           class="contact-card"
           itemscope
@@ -77,7 +76,8 @@ export default {
       <p
         class="copyrights">
         <span v-html="contact.name" /> &copy; <span v-html="year" />
-      </p>
+      </p> -->
+      Footer
 
     </div>
   </footer>
