@@ -9,6 +9,7 @@
   * ---
   */
   import { mapGetters } from 'vuex';
+// import Axios from 'axios';
   export default {
     name: 'Bot',
     components: {},
@@ -19,12 +20,12 @@
       }
     },
     computed: {
-      ...mapGetters({
-        categories: 'App/categories',
-      }),
     },
     created() {
-      this.$store.dispatch('App/GET_CATEGORIES');
+      // Axios({
+      //   method: 'get',
+      //   url: ''
+      // })
     },
     methods: {},
   }
