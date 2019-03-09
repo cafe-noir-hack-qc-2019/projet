@@ -14,8 +14,11 @@
 
 import {ApiAiClient} from "api-ai-javascript";
 
+<<<<<<< HEAD
 // import Axios from 'axios';
 >>>>>>> pre bot
+=======
+>>>>>>> test firebase
   export default {
     name: 'Bot',
     components: {},
@@ -32,7 +35,6 @@ import {ApiAiClient} from "api-ai-javascript";
       }),
     },
     created() {
-<<<<<<< HEAD
       this.$store.dispatch('Bot/START_BOT');
     },
     methods: {
@@ -44,12 +46,23 @@ import {ApiAiClient} from "api-ai-javascript";
       //   method: 'get',
       //   url: ''
       // })
+=======
+>>>>>>> test firebase
       const client = new ApiAiClient({accessToken: 'e382bdba343946bd9a56fd60b6da2368'})
 
       .textRequest('permis')
           .then((response) => {console.log(response)})
           .catch((error) => {console.log(error)})
+<<<<<<< HEAD
 >>>>>>> pre bot
+=======
+      this.$store.dispatch('Bot/START_BOT');
+    },
+    methods: {
+      go() {
+        this.$store.dispatch('Bot/QUERY_BOT', this.query);
+      }
+>>>>>>> test firebase
     },
   }
 </script>
@@ -66,6 +79,11 @@ import {ApiAiClient} from "api-ai-javascript";
     <button @click="go">GO</button> -->
     <iframe
         allow="microphone;"
+<<<<<<< HEAD
+=======
+        width="350"
+        height="430"
+>>>>>>> test firebase
         src="https://console.dialogflow.com/api-client/demo/embedded/9198181c-1450-4265-9221-42d0b2682498">
     </iframe>
   </div>
