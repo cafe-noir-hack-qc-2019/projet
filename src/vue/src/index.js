@@ -27,7 +27,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import i18n from 'plugins/i18n';
 import App from 'components/TheApp';
 import Geocoder from '@pderas/vue2-geocoder';
-
+import * as VueGoogleMaps from 'vue2-google-maps';
 
 // Enable HRM
 if (module.hot) {
@@ -46,8 +46,15 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 // Google map
 Vue.use(Geocoder, {
   googleMapsApiKey: 'AIzaSyDgNiyzwZ8LIKJpNvjqOVQKvQo_ev_nUKU',
+  // googleMapsApiKey: 'AIzaSyC-V0mqpdhNegiMG8aRjT0fbgOSXRRG6aA',
 });
 Vue.$geocoder.setDefaultMode('address');
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyDgNiyzwZ8LIKJpNvjqOVQKvQo_ev_nUKU',
+    // key: 'AIzaSyC-V0mqpdhNegiMG8aRjT0fbgOSXRRG6aA',
+  },
+});
 
 new Vue({ // eslint-disable-line
   el: '#App',
@@ -62,6 +69,8 @@ new Vue({ // eslint-disable-line
     ...mapGetters({
       ready: 'App/ready', // we will wait before rendering anything
       debug: 'App/debug',
+      postalCode: 'App/postalCode',
+      district: 'App/district',
       locale: 'I18n/locale',
     }),
   },
@@ -70,6 +79,22 @@ new Vue({ // eslint-disable-line
       handler(newValue) {
         this.$store.dispatch('I18n/SET_LOCALE', newValue);
         this.load();
+      },
+    },
+    postalCode: {
+      immediate: true,
+      handler() {
+        if (this.postalCode) {
+          this.$store.dispatch('App/GET_DISTRICT');
+        }
+      },
+    },
+    district: {
+      immediate: true,
+      handler() {
+        if (this.district) {
+          this.$store.dispatch('App/GET_THEMES_BY_DISTRICT');
+        }
       },
     },
   },
