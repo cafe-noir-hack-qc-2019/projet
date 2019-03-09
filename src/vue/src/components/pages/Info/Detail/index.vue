@@ -9,7 +9,10 @@
   * ---
   */
   import { mapGetters } from 'vuex';
+<<<<<<< HEAD
   import { get } from 'lodash';
+=======
+>>>>>>> info
   export default {
     name: 'InfoDetail',
     components: {},
@@ -26,10 +29,14 @@
         latLng: 'App/latLng',
       }),
       isCollect() {
+<<<<<<< HEAD
         return this.info.type === 'collectes';
       },
       isLicence() {
         return this.info.type === 'licences';
+=======
+        return this.categorySlug === 'collectes';
+>>>>>>> info
       },
       categorySlug() {
         return this.$route.params.categorySlug;
@@ -37,6 +44,7 @@
       themeSlug() {
         return this.$route.params.themeSlug;
       },
+<<<<<<< HEAD
       optionSlug() {
         return this.$route.params.optionSlug;
       },
@@ -79,6 +87,16 @@
         themeSlug: this.themeSlug,
         optionSlug: this.optionSlug,
       });
+=======
+      titleInfo() {
+        if (this.isCollect) {
+          return `Collecte des ${this.info.TYPE_DECHET.toLowerCase()}`;
+        }
+      }
+    },
+    created() {
+      this.$store.dispatch('App/GET_INFO', { categorySlug: this.categorySlug, themeSlug: this.themeSlug });
+>>>>>>> info
     },
     methods: {},
   }

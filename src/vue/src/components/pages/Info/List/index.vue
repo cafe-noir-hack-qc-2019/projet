@@ -77,9 +77,12 @@ export default {
           class="list"
         >
           <li class="list-item" v-for="theme in popularThemes" :key="theme.id">
-            <router-link  class="item" :to="{ name: 'infoDetail.fr', params: {themeSlug: theme.slug} }">
+            <router-link  class="item" :to="{ name: 'infoDetail.fr', params: {categorySlug: theme.category.slug, themeSlug: theme.theme.slug} }">
               <img class="thumb" src="https://picsum.photos/300/300/?random" alt="">
-              <span class="label" v-html="theme.label" />
+              <span class="label">
+                <span v-html="theme.category.label" /><br />
+                <span v-html="theme.theme.label" />
+              </span>
             </router-link>
           </li>
         </transition-group>

@@ -9,16 +9,9 @@
   * ---
   */
   import { mapGetters } from 'vuex';
-<<<<<<< HEAD
-=======
 
 import {ApiAiClient} from "api-ai-javascript";
 
-<<<<<<< HEAD
-// import Axios from 'axios';
->>>>>>> pre bot
-=======
->>>>>>> test firebase
   export default {
     name: 'Bot',
     components: {},
@@ -47,7 +40,6 @@ import {ApiAiClient} from "api-ai-javascript";
       //   url: ''
       // })
 =======
->>>>>>> test firebase
       const client = new ApiAiClient({accessToken: 'e382bdba343946bd9a56fd60b6da2368'})
 
       .textRequest('permis')
