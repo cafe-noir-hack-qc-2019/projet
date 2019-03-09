@@ -11,7 +11,7 @@
 /*
   ===VARS===
 */
-$ff-safe = Arial, Helvetica, sans-serif
+$ff-all = 'Martel Sans', sans-serif
 $ff-title = 'FontTitle', Helvetica, Arial, sans-serif
 $ff-text = 'FontText', Arial, Helvetica, sans-serif
 
@@ -52,7 +52,7 @@ f-style($type='default', // default | title | subtitle | fbQuote | legend
 
   // _DEFAULT_ : default texts
   if $type is 'default'
-    font-family $ff-text
+    font-family $ff-all
     line-height $lh-regular
     f-size($fz-regular)
 

@@ -35,9 +35,9 @@
     beforeCreate() {
     },
     created() {
-      if (!this.postalCode) {
-        this.$router.push({ name: 'home.fr' })
-      }
+      // if (!this.postalCode) {
+      //   this.$router.push({ name: 'home.fr' })
+      // }
       this.$store.dispatch('App/GET_DISTRICT');
     },
     methods: {},

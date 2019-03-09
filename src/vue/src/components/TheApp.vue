@@ -74,7 +74,6 @@ export default {
       <main class="page">
         <router-view v-if="loaded" />
       </main>
-      <TheFooter />
     </div>
 
     <TheLoader v-if="!loaded"/>
@@ -91,6 +90,9 @@ export default {
    */
 
   /* ===LAYOUT=== */
+  .app
+    f-style('default')
+
 
   /* ===DEBUG=== */
 

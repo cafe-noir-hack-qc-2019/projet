@@ -43,11 +43,18 @@ svg
   display block
   size 100%
 
+button
+  width 100%
+  border none 
+  background $c-blue
+  padding 10px
+  border-radius 3px
+  color $c-white
+
 /**
  * @todo document all this: should have layout styl? with examples?
  */
 .app
-  f-style('default')
   flexbox(column)
   height 100vh
   overflow-x hidden
@@ -62,10 +69,4 @@ svg
     flex-grow 1
     // vertical-padding()
     background $c-gallery
-
-.btn
-  button()
-
-.icon
-  display inline-block
 

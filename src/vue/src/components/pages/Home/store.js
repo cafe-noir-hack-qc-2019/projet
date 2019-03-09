@@ -22,14 +22,13 @@ const store = {
       data: {
         title: '...',
         intro: '...<br>...<br>...<br>',
-        news: [],
       },
     };
   },
   getters: {
     title: ({ data }) => data.title,
     intro: ({ data }) => data.intro,
-    news: ({ data }) => data.news,
+    postalText: ({ data }) => data.postalText,
   },
 };
 

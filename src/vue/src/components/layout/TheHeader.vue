@@ -36,8 +36,8 @@ export default {
   <header class="TheHeader">
     <div class="_container">
       <div class="header-block">
-        <router-link :to="{name: `home.${locale}`}">
-          <LogoSvg class="logo" />
+        <router-link :to="{name: `home.${locale}`}"  class="logo">
+          <h1>Info 311</h1>
         </router-link>
         <span v-if="postalCode" v-html="postalCode" />
         <span v-if="district" v-html="`(${district})`" />
@@ -72,22 +72,17 @@ export default {
 
   //  ===LAYOUT===
   .TheHeader
-    vertical-padding(10)
-
+    padding-top 18px
+    padding-bottom 15px
   .header-block
     flexbox($align: center, $justify: space-between)
 
   .logo
-    width 50px
-    stroke $c-white
-    stroke-width 10px
+    width 100%
+    color black
+    text-align center
+    font-weight 800
 
-  ul
-    flexbox()
-
-  .link
-    padding 8px
-    margin-left 8px
 
   //  ===DEBUG===
   [data-debug-mode="true"] .TheHeader
