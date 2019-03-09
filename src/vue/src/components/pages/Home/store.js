@@ -7,7 +7,7 @@
 import composer from 'store/composer';
 import ApiPageBehaviour from 'store/behaviors/ApiPage';
 
-const debug = process.env.NODE_ENV === 'development'; // && false;
+const debug = true; // process.env.NODE_ENV === 'development'; // && false;
 const store = {
   namespaced: true,
   state() {
