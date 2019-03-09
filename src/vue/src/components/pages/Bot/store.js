@@ -80,7 +80,7 @@ export default {
         },
       })
         .then((response) => {
-          console.log('response', response);
+          console.log('responses', response);
           commit('ADD_STEP', get(response, 'data.result'));
         })
         .catch((error) => {
