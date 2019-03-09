@@ -15,6 +15,7 @@ import districtMapping from 'assets/data-mapping/district';
 import Dates from 'utils/helpers/Dates';
 import Axios from 'axios';
 import settings from 'src/settings';
+import Cookies from 'js-cookie';
 
 const debug = true; // process.env.NODE_ENV === 'development';
 
@@ -24,7 +25,7 @@ export default {
     debug,
     ready: false, // true if all content loaded
     outdated: false, // force app to reload and fetch data if app is outdated
-    postalCode: null,
+    postalCode: Cookies.get('postalCode'),
     district: null,
     mappedDistrict: null,
     sectorID: null,
@@ -35,6 +36,7 @@ export default {
   mutations: {
     SET_POSTAL_CODE(state, payload) {
       state.postalCode = payload;
+      Cookies.set('postalCode', state.postalCode);
     },
     SET_READY(state, payload) {
       state.ready = payload;
