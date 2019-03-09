@@ -24,6 +24,7 @@ export default {
         postalCode: 'App/postalCode',
         district: 'App/district',
         themeChaud: 'InfoList/themeChaud',
+        heltText: 'InfoList/heltText',
         popularThemes: 'App/popularThemes',
       }),
     },
@@ -49,12 +50,20 @@ export default {
       // }
       this.$store.dispatch('App/GET_DISTRICT');
     },
-    methods: {},
+    methods: {
+
+      enter(el, done) {
+        TweenMax.fromTo(el, 0.2, { opacity: 0, y: -20}, { opacity: 1, y: 0, onComplete: done} )
+      },
+      leave(el, done) {
+        TweenMax.to(el, 0.3, { opacity: 0, y: 20, onComplete: done})
+      }
+    },
   }
 </script>
 
 <template>
-  <div class="InfoList">
+  <div class="InfoList _container">
     <header class="header">
       <div class="logo robot"><img src="/static/boto.svg" alt=""></div>
     </header>
@@ -68,15 +77,26 @@ export default {
           </div>
         </div>
       <div class="list-collection">
-        <ul class="list">
+        <transition-group
+          @enter="enter"
+          @leave="leave"
+          mode="out-in"
+          @css="false"
+          tag="ul"
+          class="list"
+        >
           <li class="list-item" v-for="theme in popularThemes" :key="theme.id">
             <router-link  class="item" :to="{ name: 'infoDetail.fr', params: {themeSlug: theme.slug} }">
               <img class="thumb" src="https://picsum.photos/300/300/?random" alt="">
               <span class="label" v-html="theme.label" />
             </router-link>
           </li>
-        </ul>
+        </transition-group>
       </div>
+      <h1
+        class="title bot"
+        v-html="heltText" />
+      <button class="btn-bot">Aidez-moi !</button>
     </div>
   </div>
 </template>
@@ -112,6 +132,12 @@ export default {
     width 70%
     text-align center
     font-weight 700
+  .title
+    &.bot
+      margin-top 40px
+  .btn-bot
+    margin-top 30px
+    margin-bottom 60px
 
   /* ===DEBUG=== */
 

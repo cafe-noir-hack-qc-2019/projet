@@ -28,6 +28,7 @@ const store = {
   getters: {
     title: ({ data }) => data.title,
     themeChaud: ({ data }) => data.themeChaud,
+    heltText: ({ data }) => data.heltText,
   },
 };
 
