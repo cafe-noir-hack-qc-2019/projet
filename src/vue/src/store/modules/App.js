@@ -5,6 +5,7 @@
  * @author Nicolas Husson <nicolas@kffein.com>
  */
 import { assign, get, orderBy } from 'lodash';
+import axios from 'axios';
 
 const debug = true; // process.env.NODE_ENV === 'development';
 
@@ -53,6 +54,17 @@ export default {
     GET_DISTRICT({ commit, state }) {
       // GOOGLE API GEOCODE
       console.log('postalCode', state.postalCode);
+      axios({
+        method: 'get',
+        url: 'https://maps.googleapis.com/maps/api/geocode/json',
+        data: {
+          address: state.postalCode,
+          key: 'AIzaSyDgNiyzwZ8LIKJpNvjqOVQKvQo_ev_nUKU',
+        },
+      })
+        .then((response) => {
+          console.log('response', response);
+        });
 
       // COMMIT
       commit('SET_DISTRICT', 'St-Laurent');
