@@ -26,6 +26,8 @@ import FontAwesome from 'utils/plugins/FontAwesome';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import i18n from 'plugins/i18n';
 import App from 'components/TheApp';
+import Geocoder from '@pderas/vue2-geocoder';
+
 
 // Enable HRM
 if (module.hot) {
@@ -40,6 +42,12 @@ Vue.use(Meta, {
 // Font Awesome
 FontAwesome.init();
 Vue.component('font-awesome-icon', FontAwesomeIcon);
+
+// Google map
+Vue.use(Geocoder, {
+  googleMapsApiKey: 'AIzaSyDgNiyzwZ8LIKJpNvjqOVQKvQo_ev_nUKU',
+});
+Vue.$geocoder.setDefaultMode('address');
 
 new Vue({ // eslint-disable-line
   el: '#App',
