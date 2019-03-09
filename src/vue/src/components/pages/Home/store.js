@@ -7,14 +7,14 @@
 import composer from 'store/composer';
 import ApiPageBehaviour from 'store/behaviors/ApiPage';
 
-const debug = true; // process.env.NODE_ENV === 'development'; // && false;
+// const debug = true; // process.env.NODE_ENV === 'development'; // && false;
 const store = {
   namespaced: true,
   state() {
     return {
       api: {
         url: 'pages/homepage',
-        moc: debug,
+        moc: true,
         getMoc(locale) {
           return import(`assets/moc/homepage/${locale}`);
         },
