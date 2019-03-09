@@ -7,12 +7,10 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex';
-import LogoSvg from 'assets/svg/logo.svg?vue';
 
 export default {
   name: 'TheHeader',
   components: {
-    LogoSvg,
   },
   props: {
     state: {
@@ -36,26 +34,13 @@ export default {
   <header class="TheHeader">
     <div class="_container">
       <div class="header-block">
-        <router-link :to="{name: `home.${locale}`}"  class="logo">
+        <router-link :to="{name: `home.${locale}`}"  class="app-name">
           <h1>Info 311</h1>
         </router-link>
-        <span v-if="postalCode" v-html="postalCode" />
-        <span v-if="district" v-html="`(${district})`" />
-        <!-- <nav>
-          <ul>
-            <li
-              v-for="item in menu.primary"
-              :key="item.slug"
-            >
-              <router-link
-                :to="item.url"
-                class="link"
-                v-html="item.name"
-              />
-            </li>
-          </ul>
-        </nav>
-        <LangSwitcher /> -->
+        <!-- <span v-if="postalCode" v-html="postalCode" />
+        <span v-if="district" v-html="`(${district})`" /> -->
+        <div class="helper">Aide</div>
+
       </div>
     </div>
   </header>
@@ -72,17 +57,21 @@ export default {
 
   //  ===LAYOUT===
   .TheHeader
-    padding-top 18px
-    padding-bottom 15px
+    padding-top 10px
+    padding-bottom 8px
+    position relative
   .header-block
     flexbox($align: center, $justify: space-between)
 
-  .logo
+  .app-name
     width 100%
     color black
     text-align center
-    font-weight 800
-
+  
+  .helper
+    absolute right 15px top 10px
+    color $c-blue
+    font-weight 600
 
   //  ===DEBUG===
   [data-debug-mode="true"] .TheHeader

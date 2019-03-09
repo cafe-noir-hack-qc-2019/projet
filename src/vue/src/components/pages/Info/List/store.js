@@ -1,5 +1,5 @@
 /**
- * # PageHome store
+ * # List store
  * > for our /api/homepage stuff
  *
  * @author Nicolas Husson <nicolas@kffein.com>
@@ -27,10 +27,7 @@ const store = {
   },
   getters: {
     title: ({ data }) => data.title,
-    intro: ({ data }) => data.intro,
-    postalText: ({ data }) => data.postalText,
-    titleSearch: ({ data }) => data.titleSearch,
-    infobulle: ({ data }) => data.infobulle,
+    themeChaud: ({ data }) => data.themeChaud,
   },
 };
 

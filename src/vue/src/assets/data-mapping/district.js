@@ -11,4 +11,9 @@ export default {
     slug: Strings.slugify('LASALLE'),
     label: 'LASALLE',
   },
+  'Le Plateau-Mont-Royal': {
+    id: 2,
+    slug: Strings.slugify('LASALLE'),
+    label: 'LASALLE',
+  },
 };

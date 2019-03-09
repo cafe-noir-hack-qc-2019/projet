@@ -7,7 +7,7 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex';
-import { TweenMax } from 'gsap';
+import { TweenMax, Power1} from 'gsap';
 import store from './store';
 
 export default {
@@ -17,7 +17,7 @@ export default {
   data() {
     return {
       postalCode: null, // @todo geoloc
-      placehodlerInput: 'Code postal',
+      placehodlerInput: 'XXX-XXX',
       postalReady: false
     }
   },
@@ -26,6 +26,8 @@ export default {
       title: 'PageHome/title',
       intro: 'PageHome/intro',
       postalText: 'PageHome/postalText',
+      titleSearch: 'PageHome/titleSearch',
+      infobulle: 'PageHome/infobulle',
     }),
   },
   /**
@@ -50,12 +52,16 @@ export default {
     setPostalReady() {
       this.postalReady = true
     },
+    flipIn(el, done) {
+      TweenMax.fromTo(el, 0.5, { css: { transform: 'rotateY(90deg)'}}, { css: { transform: 'rotateY(0)'}, ease: Power1.easeOut, onComplete: done} )
+    },
+    flipOut(el, done) {
+      TweenMax.to(el, 0.2, { css: { transform: 'rotateY(90deg)'}, ease: Power1.easeIn, onComplete: done})
+    },
     enter(el, done) {
-      console.log('ENTER');
-      TweenMax.fromTo(el, 0.3, { opacity: 0, y: -20}, { opacity: 1, y: 0, delay: 0.3, onComplete: done} )
+      TweenMax.fromTo(el, 0.2, { opacity: 0, y: -20}, { opacity: 1, y: 0, onComplete: done} )
     },
     leave(el, done) {
-      console.log('LEAVE');
       TweenMax.to(el, 0.3, { opacity: 0, y: 20, onComplete: done})
     }
   },
@@ -64,33 +70,50 @@ export default {
 
 <template>
   <div class="PageHome _container">
-    <header class="header">
-      <div class="logo"></div>
-      <h1
-        class="title"
-        v-html="title" />
-    </header>
+
+    <transition
+      @enter="flipIn"
+      @leave="flipOut"
+      mode="out-in"
+      @css="false"
+    >
+      <header class="header" v-if="postalReady" key="in">
+        <div class="logo robot"><img src="/static/boto.svg" alt=""></div>
+      </header>
+      <header class="header" v-else key="out">
+        <div class="logo"><img src="/static/logo.png" alt=""></div>
+      </header>
+    </transition>
+
     <transition
       @enter="enter"
       @leave="leave"
       mode="out-in"
       @css="false"
-
     >
-      <div v-if="postalReady" key="out">
-        <div
-          class="text"
-          v-html="postalText" />
+      <div v-if="postalReady" :class="[{'is-active': postalReady}, 'container']" key="out">
+        <h1
+          class="title"
+          v-html="titleSearch" />
+        <div class="bot-helper">
+          <div class="icon bot"></div>
+          <div class="info-bulle" v-html="infobulle"></div>
+        </div>
         <div class="postal-code-container">
-          <input class="postal-code-input" type="text" v-model="postalCode" :placeholder="placehodlerInput" @focus="placehodlerInput = ''" @blur="placehodlerInput = 'Code Postal' " />
-          <button class="btn" @click="go">GO</button>
+          <div class="input-container">
+            <input class="input" type="text" v-model="postalCode" :placeholder="placehodlerInput" @focus="placehodlerInput = ''" @blur="placehodlerInput = 'Code Postal' " @keyup.enter="go" />
+          </div>
+          <button class="btn" @click="go">Rechercher</button>
         </div>
       </div>
-      <div v-else key="text">
+      <div :class="[{'is-intro': !postalReady}, 'container']" v-else key="text">
+        <h1
+          class="title"
+          v-html="title" />
         <div
           class="text"
           v-html="intro" />
-        <button class="btn" @click="setPostalReady">GO</button>
+        <button class="btn" @click="setPostalReady">Oui</button>
       </div>
     </transition>
   </div>
@@ -106,51 +129,17 @@ export default {
    */
 
   //  ===LAYOUT===
-  header
-    flexbox(column, $align: center)
-    width 90%
-    margin auto
-
-  .logo
-    size 150px
-    border-radius 50%
-    background #41AFC4
-    flexbox(column, $align: center, $justify: center)
-    color white
-    margin-top 100px
-
-  .title
-    color black
-    margin-top 20px
-    font-weight 800
-    f-size(1.8rem)
-
   .text
     text-align center
     f-size(1.5rem)
-    margin-top 10px
+    margin-top 20px
     color $c-grey
 
   .postal-code-container
     width 80%
-    margin 30px auto 0
+    margin 0px auto 0
     flexbox(column, $align: center)
 
-  .postal-code-input
-    width 100%
-    text-align center
-    margin-bottom 30px
-    padding 10px
-    text-transform uppercase
-    f-size(1.9rem 1.9rem)
-    border-radius 3px
-    border none
-    color $c-grey
-    &:focus
-      outline none
-  
-  .btn
-    margin-top 15px
 
   //  ===DEBUG===
   [data-debug-mode="true"] .PageHome

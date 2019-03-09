@@ -50,6 +50,52 @@ button
   padding 10px
   border-radius 3px
   color $c-white
+  f-size(1.4rem)
+
+.bot-helper
+  width 100%
+  margin 30px auto 0
+  flexbox(row, $justify: flex-start, $align: flex-end)
+  .icon
+    size 40px
+
+.info-bulle
+  width 60%
+  padding 10px
+  margin-left 15px
+  background-color #ECF0F1
+  border-top-left-radius 3px
+  border-top-right-radius 3px
+  border-bottom-right-radius 3px
+  f-size(1.4rem 1.4rem)
+
+.icon
+  &.bot
+    border-radius 50%
+    background url('/static/boto.svg')
+    background-size cover
+
+.input-container
+  position relative
+  width 100%
+  &:after
+    content url('/static/position.svg')
+    height 23px
+    absolute top 0 right 10px bottom 0
+    margin auto
+  .input
+    size 100%
+    text-align center
+    text-transform uppercase
+    padding 10px
+    margin 30px auto
+    f-size(1.9rem 1.9rem)
+    border-radius 3px
+    border none
+    color $c-grey
+    box-shadow 0 0 3px 0px rgba(0, 0, 0, 0.2)
+    &:focus
+      outline none
 
 /**
  * @todo document all this: should have layout styl? with examples?
@@ -70,3 +116,61 @@ button
     // vertical-padding()
     background $c-gallery
 
+
+  header
+    flexbox(column, $align: center)
+    width 90%
+    margin auto
+
+  .logo
+    position relative
+    display block
+    size 150px
+    border-radius 50%
+    background #41AFC4
+    flexbox(column, $align: center, $justify: center)
+    color white
+    margin-top 50px
+    &.robot
+      img
+        size 140px
+      &:after
+        content ''
+        absolute 0
+        background url('/static/border.png')
+        background-size cover
+        animation rotate 5s infinite
+
+  
+  .container
+    flexbox(column, $align: center)
+    &.is-intro
+      .btn
+        margin-top 20px
+
+  .title
+    text-align center
+    color black
+    margin-top 30px
+    font-weight 800
+    f-size(2rem 2rem)
+    width 80%
+    
+
+::placeholder /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color lighten($c-grey, 70%)
+  opacity 1 /* Firefox */
+
+
+:-ms-input-placeholder /* Internet Explorer 10-11 */
+  color lighten($c-grey, 70%)
+
+
+::-ms-input-placeholder /* Microsoft Edge */
+  color lighten($c-grey, 70%)
+
+@keyframes rotate
+  0%
+    transform rotate(0)
+  100%
+    transform rotate(360deg)

@@ -77,7 +77,11 @@ export default {
           date: Dates.formatDate(state.date, 'Y-m-d'),
         },
       })
+        .catch((error) => {
+          console.log(error);
+        })
         .then((response) => {
+          console.log(response);
           commit('SET_THEMES_BY_DISCTRICT', { district: state.district, themes: response.data });
         });
     },
