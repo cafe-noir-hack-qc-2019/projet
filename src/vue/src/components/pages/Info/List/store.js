@@ -16,5 +16,6 @@ export default {
   getters: {
     title: state => state.data.title,
     themeChaud: state => state.data.themeChaud,
+    heltText: state => state.data.heltText,
   },
 };

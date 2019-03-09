@@ -76,6 +76,7 @@ export default {
       </main>
     </div>
 
+    <TheFooter />
     <TheLoader v-if="!loaded"/>
     <component
       :is="'style'"
