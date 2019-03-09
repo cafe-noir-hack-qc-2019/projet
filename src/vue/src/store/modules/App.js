@@ -4,8 +4,17 @@
  *
  * @author Nicolas Husson <nicolas@kffein.com>
  */
-import { assign, get, orderBy } from 'lodash';
-import axios from 'axios';
+import {
+ assign,
+ get,
+ orderBy,
+ filter,
+} from 'lodash';
+import Vue from 'vue';
+import districtMapping from 'assets/data-mapping/district';
+import Dates from 'utils/helpers/Dates';
+import Axios from 'axios';
+import settings from 'src/settings';
 
 const debug = true; // process.env.NODE_ENV === 'development';
 
@@ -17,12 +26,11 @@ export default {
     outdated: false, // force app to reload and fetch data if app is outdated
     postalCode: null,
     district: null,
+    mappedDistrict: null,
     sectorID: null,
     themesByDistrict: [],
-    themesByTerms: [],
-    searchTerms: [],
     date: new Date(),
-    categories: [],
+    geocoderResult: null,
   },
   mutations: {
     SET_POSTAL_CODE(state, payload) {
@@ -36,92 +44,40 @@ export default {
     },
     SET_DISTRICT(state, payload) {
       state.district = payload;
+      state.mappedDistrict = get(districtMapping, state.district);
     },
     SET_THEMES_BY_DISCTRICT(state, { district, themes }) {
       state.themesByDistrict = assign({}, state.themesByDistrict, { [district]: themes });
     },
-    SET_SEARCH_TERMS(state, payload) {
-      state.searchTerms = payload;
-    },
-    SET_THEMES_BY_TERMS(state, { themes }) {
-      state.themesByTerms = themes;
-    },
-    SET_CATEGORIES(state, payload) {
-      state.categories = payload;
+    SET_GEOCODER_RESULT(state, payload) {
+      state.geocoderResult = payload;
     },
   },
   actions: {
     GET_DISTRICT({ commit, state }) {
       // GOOGLE API GEOCODE
-      console.log('postalCode', state.postalCode);
-      axios({
-        method: 'get',
-        url: 'https://maps.googleapis.com/maps/api/geocode/json',
-        data: {
-          address: state.postalCode,
-          key: 'AIzaSyDgNiyzwZ8LIKJpNvjqOVQKvQo_ev_nUKU',
-        },
-      })
-        .then((response) => {
-          console.log('response', response);
-        });
-
-      // COMMIT
-      commit('SET_DISTRICT', 'St-Laurent');
+      Vue.$geocoder.send({
+        zip_code: state.postalCode,
+      }, (response) => {
+        commit('SET_GEOCODER_RESULT', get(response, 'results.0'));
+        const address = get(state.geocoderResult, 'address_components');
+        const sublocality = filter(address, line => line.types.indexOf('sublocality_level_1') !== -1);
+        commit('SET_DISTRICT', get(sublocality, '0.long_name'));
+      });
     },
     GET_THEMES_BY_DISTRICT({ commit, state }) {
       // LOAD FROM API
-      // USE ALSO state.date
-      console.log('district', state.district);
-      console.log('date', state.date);
-      const themes = [
-        {
-          id: 1,
-          slug: 'collecte',
-          label: 'Collecte',
-          percentage: 29,
+      Axios({
+        method: 'get',
+        url: `${settings.API_URL}/theme/list`,
+        data: {
+          district: state.mappedDistrict.slug,
+          date: Dates.formatDate(state.date, 'Y-m-d'),
         },
-        {
-          id: 2,
-          slug: 'taxes-foncieres',
-          label: 'Taxes foncieres',
-          percentage: 31,
-        },
-      ];
-
-      commit('SET_THEMES_BY_DISCTRICT', { district: state.district, themes });
-    },
-    SEARCH_BY_TERMS({ commit }, { terms }) {
-      commit('SET_SEARCH_TERMS', terms);
-
-      // LOAD THEME FROM API
-      const themes = [
-        {
-          id: 1,
-          slug: 'collecte',
-          label: 'Collecte',
-          percentage: 29,
-        },
-      ];
-
-      commit('SET_THEMES_BY_TERMS', { themes });
-    },
-    GET_CATEGORIES({ commit }) {
-      // LOAD CATEGORIES FROM API
-      const categories = [
-        {
-          id: 1,
-          slug: 'permis',
-          label: 'Permis',
-        },
-        {
-          id: 2,
-          slug: 'collecte',
-          label: 'Collecte',
-        },
-      ];
-
-      commit('SET_CATEGORIES', categories);
+      })
+        .then((response) => {
+          commit('SET_THEMES_BY_DISCTRICT', { district: state.district, themes: response.data });
+        });
     },
   },
   getters: {
@@ -131,7 +87,5 @@ export default {
     postalCode: state => state.postalCode,
     district: state => state.district,
     popularThemes: state => orderBy(get(state.themesByDistrict, state.district), ['percentage'], ['desc']),
-    themesByTerms: state => state.themesByTerms,
-    categories: state => state.categories,
   },
 };
