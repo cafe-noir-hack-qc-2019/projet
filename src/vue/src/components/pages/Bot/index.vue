@@ -9,36 +9,48 @@
   * ---
   */
   import { mapGetters } from 'vuex';
-// import Axios from 'axios';
   export default {
     name: 'Bot',
     components: {},
     props: {},
     data() {
       return {
-
+        query: null,
       }
     },
     computed: {
+      ...mapGetters({
+        steps: 'Bot/steps',
+        isLoading: 'Bot/isLoading',
+      }),
     },
     created() {
-      // Axios({
-      //   method: 'get',
-      //   url: ''
-      // })
+      this.$store.dispatch('Bot/START_BOT');
     },
-    methods: {},
+    methods: {
+      go() {
+        this.$store.dispatch('Bot/QUERY_BOT', this.query);
+      }
+    },
   }
 </script>
 
 <template>
   <div class="Bot">
-    Coucou je suis le bot
-    <ul>
-      <li v-for="category in categories" :key="category.id">
-        <span v-html="category.label"/>
+    <!-- <ul>
+      <li v-for="step in steps" :key="step.metadata.intentId">
+        {{ step.speech }}
       </li>
     </ul>
+    <div v-if="isLoading">...</div>
+    <input type="text" v-model="query" />
+    <button @click="go">GO</button> -->
+    <iframe
+        allow="microphone;"
+        width="350"
+        height="430"
+        src="https://console.dialogflow.com/api-client/demo/embedded/9198181c-1450-4265-9221-42d0b2682498">
+    </iframe>
   </div>
 </template>
 
