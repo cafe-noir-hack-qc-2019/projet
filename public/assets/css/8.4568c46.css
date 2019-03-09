@@ -1,0 +1,40 @@
+/**
+* TABLE OF CONTENT
+* --------
+*  - LAYOUT
+*  - DEBUG
+*  - NO_SCOPE
+*/
+.page[data-v-0c81a578] {
+  display: flex;
+  flex-direction: column;
+  -ms-justify-content: center;
+  justify-content: center;
+  -ms-align-items: center;
+  align-items: center;
+  padding-top: 20%;
+}
+.title[data-v-0c81a578] {
+  font-family: 'FontTitle', Helvetica, Arial, sans-serif;
+  font-size: 2.083333333333333vw;
+  text-transform: uppercase;
+  text-align: center;
+}
+@media only screen and (max-width: 1024px) {
+.title[data-v-0c81a578] {
+    font-size: 3rem;
+}
+}
+@media only screen and (max-width: 768px) {
+.title[data-v-0c81a578] {
+    font-size: 2.4rem;
+}
+}
+.description[data-v-0c81a578] {
+  margin-top: 2em;
+}
+.description[data-v-0c81a578] a {
+  text-decoration: underline;
+}
+
+
