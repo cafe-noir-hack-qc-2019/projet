@@ -47,8 +47,6 @@
     <button @click="go">GO</button> -->
     <iframe
         allow="microphone;"
-        width="350"
-        height="430"
         src="https://console.dialogflow.com/api-client/demo/embedded/9198181c-1450-4265-9221-42d0b2682498">
     </iframe>
   </div>
@@ -64,6 +62,14 @@
   */
 
   /* ===LAYOUT=== */
+  .Bot
+    height 100%
+    overflow hidden
+
+  iframe 
+    width 100%
+    height calc('100% + 110px')
+    transform translateY(-110px)
 
   /* ===DEBUG=== */
 
