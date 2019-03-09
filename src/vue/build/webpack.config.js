@@ -14,6 +14,7 @@ const cssConfig = generateCssConfig({
   stylus: true,
   includeCSSPaths: [
     `${WebpackHelper.DIRS.NODE_MODULES}swiper/dist/css/`,
+    `${WebpackHelper.DIRS.NODE_MODULES}vue2-google-maps/`,
   ],
 });
 

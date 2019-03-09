@@ -12,8 +12,13 @@ export default {
     label: 'LASALLE',
   },
   'Le Plateau-Mont-Royal': {
-    id: 2,
+    id: 3,
     slug: Strings.slugify('LASALLE'),
     label: 'LASALLE',
+  },
+  'Pierrefonds-Roxboro': {
+    id: 4,
+    slug: Strings.slugify('Pierrefonds-Roxboro'),
+    label: 'Pierrefonds-Roxboro',
   },
 };
