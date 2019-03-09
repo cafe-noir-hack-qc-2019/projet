@@ -9,6 +9,9 @@
   * ---
   */
   import { mapGetters } from 'vuex';
+
+import {ApiAiClient} from "api-ai-javascript";
+
 // import Axios from 'axios';
   export default {
     name: 'Bot',
@@ -26,6 +29,11 @@
       //   method: 'get',
       //   url: ''
       // })
+      const client = new ApiAiClient({accessToken: 'e382bdba343946bd9a56fd60b6da2368'})
+
+      .textRequest('permis')
+          .then((response) => {console.log(response)})
+          .catch((error) => {console.log(error)})
     },
     methods: {},
   }
