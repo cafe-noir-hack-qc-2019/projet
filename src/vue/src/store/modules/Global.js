@@ -7,7 +7,7 @@
 import { get, each, set } from 'lodash';
 import ApiHelper from 'utils/helpers/Api';
 
-const debug = process.env.NODE_ENV === 'development'; // && false;
+const debug = true; // process.env.NODE_ENV === 'development'; // && false;
 
 export default {
   namespaced: true,
