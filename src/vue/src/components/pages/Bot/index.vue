@@ -9,6 +9,13 @@
   * ---
   */
   import { mapGetters } from 'vuex';
+<<<<<<< HEAD
+=======
+
+import {ApiAiClient} from "api-ai-javascript";
+
+// import Axios from 'axios';
+>>>>>>> pre bot
   export default {
     name: 'Bot',
     components: {},
@@ -25,12 +32,24 @@
       }),
     },
     created() {
+<<<<<<< HEAD
       this.$store.dispatch('Bot/START_BOT');
     },
     methods: {
       go() {
         this.$store.dispatch('Bot/QUERY_BOT', this.query);
       }
+=======
+      // Axios({
+      //   method: 'get',
+      //   url: ''
+      // })
+      const client = new ApiAiClient({accessToken: 'e382bdba343946bd9a56fd60b6da2368'})
+
+      .textRequest('permis')
+          .then((response) => {console.log(response)})
+          .catch((error) => {console.log(error)})
+>>>>>>> pre bot
     },
   }
 </script>
