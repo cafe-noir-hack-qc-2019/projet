@@ -8,7 +8,7 @@
  */
 
 import { each, isNumber, throttle } from 'lodash';
-import { TweenMax, Power2 } from 'gsap';
+// import { TweenMax, Power2 } from 'gsap';
 import ScrollToPlugin from 'gsapPlugins/ScrollToPlugin'; // eslint-disable-line no-unused-vars
 import DomHelper from 'utils/helpers/Dom';
 import Modernizr from 'utils/plugins/Modernizr';
@@ -121,9 +121,8 @@ export default {
      * @param {Number|String|HTMLElement} value - can be the y position (Number), an HTMLElement target or the selector of that target
      * @returns {TweenMax} tween instance (or null if no scroll)
      */
-    SCROLL_TO({ dispatch, getters }, payload) {
-      console.log('scrollto', isNumber(payload));
-      const BASE_SPEED = 1; // Time in secondes per 1,000 pixels
+    SCROLL_TO({ getters }, payload) {
+      // const BASE_SPEED = 1; // Time in secondes per 1,000 pixels
       const container = getters.scrollContainer;
 
       // compute y (px) whereas value is px, selector or HTMLElement
@@ -154,22 +153,24 @@ export default {
 
       if (y === null) return null;
 
-      const currentY = window.scrollY; // container.scrollTop; // window.scrollY
-      const gapY = Math.abs(y - currentY);
-      const speed = (gapY * BASE_SPEED) / 1000;
+      // const currentY = window.scrollY; // container.scrollTop; // window.scrollY
+      // const gapY = Math.abs(y - currentY);
+      // const speed = (gapY * BASE_SPEED) / 1000;
 
       // now we scroll :)
-      dispatch('DISABLE_SCROLL');
-      return TweenMax.to(container, speed, {
-        scrollTo: {
-          y,
-          autoKill: false,
-        },
-        ease: Power2.easeInOut,
-        onComplete: () => {
-          dispatch('ENABLE_SCROLL');
-        },
-      });
+      // dispatch('DISABLE_SCROLL');
+      window.scrollTo(0, 0);
+      return y;
+      // return TweenMax.to(container, speed, {
+      //   scrollTo: {
+      //     y,
+      //     autoKill: false,
+      //   },
+      //   ease: Power2.easeInOut,
+      //   onComplete: () => {
+      //     dispatch('ENABLE_SCROLL');
+      //   },
+      // });
     },
 
     /**

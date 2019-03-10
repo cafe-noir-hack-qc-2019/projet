@@ -97,12 +97,14 @@
     watch: {
       optionSlug: {
         handler() {
-          this.$store.dispatch('Interface/SCROLL_TOP');
           this.$store.dispatch('App/GET_INFO', { 
             categorySlug: this.categorySlug,
             themeSlug: this.themeSlug,
             optionSlug: this.optionSlug,
           });
+          setTimeout(() => {
+            this.$store.dispatch('Interface/SCROLL_TOP');
+          }, 200);
         }
       }
     },
