@@ -10,10 +10,11 @@
   */
   import { mapGetters } from 'vuex';
   import {get} from 'lodash';
+  import Card from 'components/sections/Card';
   import store from './store';
 export default {
     name: 'InfoList',
-    components: {},
+    components: {Card},
     props: {},
     data() {
       return {
@@ -73,7 +74,8 @@ export default {
         </div>
       <div class="list-collection">
         <ul class="list">
-          <li class="list-item" v-for="card in popularCards" :key="card.id">
+          <Card :card="card" v-for="card in popularCards" :key="card.id" />
+          <!-- <li class="list-item" v-for="card in popularCards" :key="card.id">
             <router-link :class="['item', {'-disabled': card.fake}]" :to="getRoute(card)">
               <img class="thumb" :src="`/static/card/${card.image}`" alt="">
               <span class="label">
@@ -82,7 +84,7 @@ export default {
                 <span v-if="card.option" v-html="card.option.label" />
               </span>
             </router-link>
-          </li>
+          </li> -->
         </ul>
       </div>
     </div>
@@ -105,24 +107,24 @@ export default {
     flexbox(row, $justify: space-between, $wrap: wrap)
   .list-collection
     margin-top 10px
-  .list-item
-    max-width 48%
-  .item
-    border-radius 3px
-    flexbox(row, $justify: center, $align: center)
-    ratio-box(200/200)
-    &.-disabled
-      pointer-events none
-      opacity 0.5
-  .thumb
-    border-radius 3px
-  .label
-    position absolute
-    z-index 1
-    color white
-    width 70%
-    text-align center
-    font-weight 700
+  // .list-item
+  //   max-width 48%
+  // .item
+  //   border-radius 3px
+  //   flexbox(row, $justify: center, $align: center)
+  //   ratio-box(200/200)
+  //   &.-disabled
+  //     pointer-events none
+  //     opacity 0.5
+  // .thumb
+  //   border-radius 3px
+  // .label
+  //   position absolute
+  //   z-index 1
+  //   color white
+  //   width 70%
+  //   text-align center
+  //   font-weight 700
 
   /* ===DEBUG=== */
 
