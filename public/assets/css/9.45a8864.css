@@ -1,0 +1,65 @@
+/**
+* 
+* TABLE OF CONTENT
+* --------
+*	=LAYOUT
+*	=DEBUG
+*/
+/* ===LAYOUT=== */
+.list[data-v-88d74904] {
+  max-width: 90%;
+  margin: auto;
+  display: flex;
+  -ms-justify-content: space-between;
+  justify-content: space-between;
+  -ms-align-items: center;
+  align-items: center;
+  -ms-justify-content: space-between;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.list-collection[data-v-88d74904] {
+  margin-top: 10px;
+}
+.list-item[data-v-88d74904] {
+  max-width: 48%;
+}
+.item[data-v-88d74904] {
+  border-radius: 3px;
+  display: flex;
+  -ms-justify-content: space-between;
+  justify-content: space-between;
+  -ms-align-items: center;
+  align-items: center;
+  -ms-justify-content: center;
+  justify-content: center;
+  -ms-align-items: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+}
+.item[data-v-88d74904]:before {
+  content: "";
+  display: block;
+  height: 0;
+  padding-top: 100%;
+}
+.item.-disabled[data-v-88d74904] {
+  pointer-events: none;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+  filter: alpha(opacity=50);
+  opacity: 0.5;
+}
+.thumb[data-v-88d74904] {
+  border-radius: 3px;
+}
+.label[data-v-88d74904] {
+  position: absolute;
+  z-index: 1;
+  color: #fff;
+  width: 70%;
+  text-align: center;
+  font-weight: 700;
+}
+/* ===DEBUG=== */
+
