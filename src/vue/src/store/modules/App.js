@@ -12,9 +12,9 @@ import {
 } from 'lodash';
 import Vue from 'vue';
 import districtMapping from 'assets/data-mapping/district';
-import Dates from 'utils/helpers/Dates';
-import Axios from 'axios';
-import settings from 'src/settings';
+// import Dates from 'utils/helpers/Dates';
+// import Axios from 'axios';
+// import settings from 'src/settings';
 import Cookies from 'js-cookie';
 
 const debug = true; // process.env.NODE_ENV === 'development';
@@ -29,10 +29,10 @@ export default {
     district: null,
     mappedDistrict: null,
     sectorID: null,
-    themesByDistrict: [],
+    cardsByDistrict: [],
     date: new Date(),
     geocoderResult: null,
-    info: {},
+    info: null,
     selectedTheme: null,
     keywords: [],
   },
@@ -51,8 +51,8 @@ export default {
       state.district = payload;
       state.mappedDistrict = get(districtMapping, state.district);
     },
-    SET_THEMES_BY_DISCTRICT(state, { district, themes }) {
-      state.themesByDistrict = assign({}, state.themesByDistrict, { [district]: themes });
+    SET_CARDS_BY_DISCTRICT(state, { district, cards }) {
+      state.cardsByDistrict = assign({}, state.cardsByDistrict, { [district]: cards });
     },
     SET_GEOCODER_RESULT(state, payload) {
       state.geocoderResult = payload;
@@ -79,51 +79,89 @@ export default {
         commit('SET_DISTRICT', get(sublocality, '0.long_name'));
       });
     },
-    GET_THEMES_BY_DISTRICT({ commit, state }) {
+    GET_CARDS_BY_DISTRICT({ commit, state }) {
       // LOAD FROM API
-      console.log('themes');
-      Axios({
-        method: 'get',
-        url: `${settings.API_URL}/theme/list`,
-        data: {
-          district: state.mappedDistrict.slug,
-          date: Dates.formatDate(state.date, 'Y-m-d'),
-        },
-      })
-        .catch((error) => {
-          console.log(error);
-        })
-        .then((response) => {
-          console.log(response);
-          commit('SET_THEMES_BY_DISCTRICT', { district: state.district, themes: response.data });
-        });
-    },
-    GET_INFO({ commit, state }, { categorySlug, themeSlug }) {
-      Axios({
-        method: 'get',
-        url: `${settings.API_URL}/theme/${categorySlug}/${themeSlug}`,
-        data: {
-          postal_code: state.postalCode,
-          date: Dates.formatDate(state.date, 'Y-m-d'),
-        },
-      })
-        .catch((error) => {
-          console.log(error);
-        })
-        .then((response) => {
-          console.log(response);
-          commit('SET_INFO', response.data);
-        });
-      // console.log(state, categorySlug, themeSlug);
-      // commit('SET_INFO',
-      //   {
-      //     ID: '141',
-      //     MUNICIPALITE: 'Montreal',
-      //     SECTEUR: '141',
-      //     TYPE_DECHET: 'Matières recyclables',
-      //     MESSAGE_FR: 'La collecte a lieu le JEUDI. Déposez votre bac sur le trottoir entre 19 h la veille et 7 h le matin de la collecte.',
-      //     MESSAGE_EN: 'The collection takes place on THURSDAY. Deposit your box on the sidewalk between 7 p.m. the day before and 7 a.m.  the day of collection. ',
+      // Axios({
+      //   method: 'get',
+      //   url: `${settings.API_URL}/theme/list`,
+      //   data: {
+      //     district: state.mappedDistrict.slug ? 'lasalle',
+      //     date: Dates.formatDate(state.date, 'Y-m-d'),
+      //   },
+      // })
+      //   .catch((error) => {
+      //     console.log(error);
+      //   })
+      //   .then((response) => {
+      //     console.log(response);
+      //     commit('SET_THEMES_BY_DISCTRICT', { district: state.district, themes: response.data });
       //   });
+      const cards = [
+        {
+          id: 1,
+          category: {
+            slug: 'collectes',
+            label: 'Collectes',
+          },
+          theme: {
+            slug: 'matieres-recyclables',
+            label: 'Matières recyclables',
+          },
+          fake: false,
+          image: 'image.jpg',
+          percentage: '29',
+        },
+        {
+          id: 2,
+          category: {
+            slug: 'permis',
+            label: 'Permis',
+          },
+          theme: {
+            slug: 'animaux',
+            label: 'animaux',
+          },
+          option: {
+            slug: 'chat',
+            label: 'Chat',
+          },
+          fake: true,
+          image: 'image.jpg',
+          percentage: '29',
+        },
+      ];
+      commit('SET_CARDS_BY_DISCTRICT', { district: state.district, cards });
+    },
+    GET_INFO({ commit, state }, { categorySlug, themeSlug, optionSlug }) {
+      // Axios({
+      //   method: 'get',
+      //   url: `${settings.API_URL}/theme/${categorySlug}/${themeSlug}`,
+      //   data: {
+      //     postal_code: state.postalCode,
+      //     date: Dates.formatDate(state.date, 'Y-m-d'),
+      //   },
+      // })
+      //   .catch((error) => {
+      //     console.log(error);
+      //   })
+      //   .then((response) => {
+      //     console.log(response);
+      //     commit('SET_INFO', response.data);
+      //   });
+      console.log(state, categorySlug, themeSlug, optionSlug);
+      if (categorySlug === 'collectes') {
+        commit('SET_INFO', {
+          type: 'collectes',
+          data: {
+            ID: '141',
+            MUNICIPALITE: 'Montreal',
+            SECTEUR: '141',
+            TYPE_DECHET: 'Matières recyclables',
+            MESSAGE_FR: 'La collecte a lieu le JEUDI. Déposez votre bac sur le trottoir entre 19 h la veille et 7 h le matin de la collecte.',
+            MESSAGE_EN: 'The collection takes place on THURSDAY. Deposit your box on the sidewalk between 7 p.m. the day before and 7 a.m.  the day of collection. ',
+          },
+        });
+      }
     },
   },
   getters: {
@@ -132,8 +170,8 @@ export default {
     outdated: state => state.outdated,
     postalCode: state => state.postalCode,
     district: state => state.district,
-    popularThemes: state => orderBy(get(state.themesByDistrict, state.district), ['percentage'], ['desc']),
-    info: state => get(state.info, 'properties'),
+    popularCards: state => orderBy(get(state.cardsByDistrict, state.district), ['percentage'], ['desc']),
+    info: state => state.info,
     latLng: state => get(state.geocoderResult, 'geometry.location'),
   },
 };

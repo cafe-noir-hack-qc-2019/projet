@@ -9,6 +9,7 @@
   * ---
   */
   import { mapGetters } from 'vuex';
+  import {get} from 'lodash';
   import store from './store';
 export default {
     name: 'InfoList',
@@ -23,8 +24,8 @@ export default {
       ...mapGetters({
         postalCode: 'App/postalCode',
         district: 'App/district',
+        popularCards: 'App/popularCards',
         themeChaud: 'InfoList/themeChaud',
-        popularThemes: 'App/popularThemes',
       }),
     },
     watch: {
@@ -40,7 +41,22 @@ export default {
     },
     created() {
     },
-    methods: {},
+    mounted() {
+      console.log('');
+    },
+    methods: {
+      getRoute(card) {
+        console.log('card', get(card, 'category.slug'));
+        return { 
+          name: 'infoDetail.fr', 
+          params: {
+            categorySlug: get(card, 'category.slug'),
+            themeSlug: get(card, 'theme.slug'),
+            optionSlug: get(card, 'option.slug'),
+          }
+        };
+      },
+    },
   }
 </script>
 
@@ -60,12 +76,13 @@ export default {
         </div>
       <div class="list-collection">
         <ul class="list">
-          <li class="list-item" v-for="theme in popularThemes" :key="theme.id">
-            <router-link  class="item" :to="{ name: 'infoDetail.fr', params: {categorySlug: theme.category.slug, themeSlug: theme.theme.slug} }">
+          <li class="list-item" v-for="card in popularCards" :key="card.id">
+            <router-link  class="item" :to="getRoute(card)">
               <img class="thumb" src="https://picsum.photos/300/300/?random" alt="">
               <span class="label">
-                <span v-html="theme.category.label" /><br />
-                <span v-html="theme.theme.label" />
+                <span v-html="card.category.label" /><br />
+                <span v-html="card.theme.label" />
+                <span v-if="card.option" v-html="card.option.label" />
               </span>
             </router-link>
           </li>

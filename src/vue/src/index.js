@@ -93,7 +93,7 @@ new Vue({ // eslint-disable-line
       immediate: true,
       handler() {
         if (this.district) {
-          this.$store.dispatch('App/GET_THEMES_BY_DISTRICT');
+          this.$store.dispatch('App/GET_CARDS_BY_DISTRICT');
         }
       },
     },
@@ -119,6 +119,7 @@ new Vue({ // eslint-disable-line
       this.$router.push({ path: `/${locale}` });
     }
     this.$store.dispatch('I18n/SET_LOCALE', locale);
+    // this.$store.commit('App/SET_INFO', null);
   },
   mounted() {
     this.load();

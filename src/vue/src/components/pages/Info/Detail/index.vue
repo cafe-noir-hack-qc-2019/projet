@@ -9,6 +9,7 @@
   * ---
   */
   import { mapGetters } from 'vuex';
+  import { get } from 'lodash';
   export default {
     name: 'InfoDetail',
     components: {},
@@ -25,7 +26,7 @@
         latLng: 'App/latLng',
       }),
       isCollect() {
-        return this.categorySlug === 'collectes';
+        return this.info.type === 'collectes';
       },
       categorySlug() {
         return this.$route.params.categorySlug;
@@ -33,14 +34,29 @@
       themeSlug() {
         return this.$route.params.themeSlug;
       },
+      optionSlug() {
+        return this.$route.params.optionSlug;
+      },
       titleInfo() {
         if (this.isCollect) {
-          return `Collecte des ${this.info.TYPE_DECHET.toLowerCase()}`;
+          return `Collecte des ${get(this.info, 'data.TYPE_DECHET', '').toLowerCase()}`;
+        }
+      }
+    },
+    watch: {
+      info: {
+        immediate: true,
+        handler() {
+          console.log('info', this.info);
         }
       }
     },
     created() {
-      this.$store.dispatch('App/GET_INFO', { categorySlug: this.categorySlug, themeSlug: this.themeSlug });
+      this.$store.dispatch('App/GET_INFO', { 
+        categorySlug: this.categorySlug,
+        themeSlug: this.themeSlug,
+        optionSlug: this.optionSlug,
+      });
     },
     methods: {},
   }
@@ -52,27 +68,20 @@
       <h1
           class="title"
           v-html="titleInfo" />
-      <!-- <GmapMap
-        :center="latLng"
-        :zoom="7"
-        map-type-id="terrain"
-        style="width: 100%; height: 20vh"
-      >
-      </GmapMap> -->
       <span v-html="postalCode" />
     </header>
     <template v-if="isCollect">
       <div>
         <strong>Type de déchet</strong>
-        <p v-html="info.TYPE_DECHET" />
+        <p v-html="info.data.TYPE_DECHET" />
       </div>
       <div>
         <strong>Infos</strong>
-        <p v-html="info.MESSAGE_FR" />
+        <p v-html="info.data.MESSAGE_FR" />
       </div>
-      <div v-if="info.EXCEPTION_FR">
+      <div v-if="info.data.EXCEPTION_FR">
         <strong>Exceptions</strong>
-        <p v-html="info.EXCEPTION_FR" />
+        <p v-html="info.data.EXCEPTION_FR" />
       </div>
     </template>
 

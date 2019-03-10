@@ -88,7 +88,8 @@ class WebpackHelper {
    * so no conflict with index.php
    */
   static getExtractHTMLPlugin(data = {}) {
-    const filename = WebpackHelper.ENV.BUILD ? 'app.html' : 'index.html';
+    // const filename = WebpackHelper.ENV.BUILD ? 'app.html' : 'index.html';
+    const filename = 'index.html';
 
     const HtmlWebpackPlugin = require('html-webpack-plugin'); // eslint-disable-line global-require
     return new HtmlWebpackPlugin({
