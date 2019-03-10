@@ -101,7 +101,7 @@ export default {
           commit('SET_CARDS_BY_DISCTRICT', { district: state.district, cards: response.data });
         });
     },
-    GET_INFO({ commit, state }, { categorySlug, themeSlug }) {
+    GET_INFO({ commit, state }, { categorySlug, themeSlug, optionSlug }) {
       if (categorySlug === 'collectes') {
          Axios({
           method: 'get',
@@ -126,9 +126,15 @@ export default {
             console.log(error);
           })
           .then((response) => {
+            const animal = get({
+              chat: 'cat',
+              cat: 'cat',
+              chien: 'dog',
+              dog: 'dog',
+            }, optionSlug);
             commit('SET_LICENCES_INFOS', response.data.district);
             const disctrictLicencesInfos = get(filter(state.licencesInfos, info => info.slug === 'outremont'), '0.types');
-            const optionInfos = filter(disctrictLicencesInfos, info => info.animalType === 'dog');
+            const optionInfos = filter(disctrictLicencesInfos, info => info.animalType === animal);
             commit('SET_INFO', {
               type: 'licences',
               data: get(optionInfos, '0'),

@@ -17,7 +17,7 @@ export default {
   data() {
     return {
       postalCode: null, // @todo geoloc
-      placehodlerInput: 'XXX-XXX',
+      placehodlerInput: 'XXX XXX',
       postalReady: false
     }
   },
