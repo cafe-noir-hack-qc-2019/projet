@@ -31,7 +31,7 @@ const settings = {
   API_PREFIX: 'api',
 
   /** @argument {String} API_URL - if null, create it below : `${BASE_URL}/${API_PREFIX}` */
-  API_URL: 'https://501fc223-10d7-495a-900f-672d83271ad7.mock.pstmn.io/api',
+  API_URL: 'https://1938c3d0-0862-4403-8cbb-1f3385417141.mock.pstmn.io/api',
 
   /** @argument {Array} cookies - list of cookies names, please keep locale */
   cookies: {
