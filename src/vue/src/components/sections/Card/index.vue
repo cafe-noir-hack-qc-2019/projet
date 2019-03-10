@@ -40,13 +40,15 @@
 </script>
 
 <template>
-  <li class="Card">
-    <router-link :class="['item', {'-disabled': card.fake}]" :to="route">
+  <li :class="['Card', {'-disabled': card.fake}]">
+    <router-link :class="['item']" :to="route">
       <img class="thumb" :src="`/static/card/${card.image}`" alt="">
       <span class="label">
-        <span v-html="card.category.label" /><br />
-        <span v-html="card.theme.label" /><br />
-        <span v-if="card.option" v-html="card.option.label" />
+        <span v-html="card.title" />
+        <template v-if="card.fake">
+          <br />
+          <span class="fake-alert">(bientôt disponible)</span>
+        </template>
       </span>
     </router-link>
   </li>
@@ -69,21 +71,26 @@
       margin-bottom 10px
     &:after
       content ''
-      background black 
+      // background black 
+      background $c-pickled-bluewood
       size 100%
       absolute 0
       border-radius 3px
+      opacity 0.5
+
+    &.-disabled
+      pointer-events none
       opacity 0.4
+
   .item
     border-radius 3px
     flexbox(row, $justify: center, $align: center)
-    &.-disabled
-      pointer-events none
-      opacity 0.5
+
   .thumb
     ratio-box(400/200)
     border-radius 3px
     display block
+
   .label
     position absolute
     z-index 1
@@ -93,6 +100,8 @@
     font-weight 700
     f-size(1.8rem 1.8rem)
 
+  .fake-alert
+    font-size 1.3rem
 
   /* ===DEBUG=== */
 

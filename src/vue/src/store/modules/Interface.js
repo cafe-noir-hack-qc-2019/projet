@@ -122,6 +122,7 @@ export default {
      * @returns {TweenMax} tween instance (or null if no scroll)
      */
     SCROLL_TO({ dispatch, getters }, payload) {
+      console.log('scrollto', isNumber(payload));
       const BASE_SPEED = 1; // Time in secondes per 1,000 pixels
       const container = getters.scrollContainer;
 
@@ -130,6 +131,7 @@ export default {
         let posY = null;
         if (isNumber(payload)) {
           posY = payload;
+          console.log('posY', posY);
         } else {
           let target = null;
           if (typeof (payload) === 'string') {
@@ -143,16 +145,16 @@ export default {
           }
         }
 
-        if (!posY) {
-          return null;
-        }
+        // if (!posY) {
+        //   return null;
+        // }
 
         return posY;
       })();
 
-      if (!y) return null;
+      if (y === null) return null;
 
-      const currentY = container.scrollTop; // window.scrollY
+      const currentY = window.scrollY; // container.scrollTop; // window.scrollY
       const gapY = Math.abs(y - currentY);
       const speed = (gapY * BASE_SPEED) / 1000;
 

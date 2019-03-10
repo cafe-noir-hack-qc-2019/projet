@@ -174,7 +174,7 @@
             <tr>
               <td v-html="`${get(info, 'data.prices.sterilized')}$`" />
               <td v-html="`${get(info, 'data.prices.not-sterilized')}$`" />
-              <td v-html="`${get(info, 'data.prices.promotion')}$`" />
+              <td v-html="get(info, 'data.prices.promotion')" />
             </tr>
           </table>
         </div>
@@ -270,6 +270,7 @@
     h3
       f-style('title', $level: 'h1')
       flexbox('center')
+      margin-bottom 10px
       &::before
         display block
         content ''

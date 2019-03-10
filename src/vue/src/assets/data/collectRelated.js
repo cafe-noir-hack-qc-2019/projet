@@ -1,6 +1,7 @@
 export default [
   {
     id: 8,
+    title: 'Collecte de déchets',
     category: {
       slug: 'collectes',
       label: 'Collectes',
