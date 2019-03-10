@@ -1,0 +1,31 @@
+/**
+ * TABLE OF CONTENT
+ * --------
+ *  - LAYOUT
+ *  - DEBUG
+ *  - NO_SCOPE
+ */
+.text[data-v-5138bef8] {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-top: 20px;
+  color: #808080;
+}
+@media only screen and (max-width: 768px) {
+.text[data-v-5138bef8] {
+    font-size: ;
+}
+}
+.postal-code-container[data-v-5138bef8] {
+  width: 80%;
+  margin: 0px auto 0;
+  display: flex;
+  flex-direction: column;
+  -ms-justify-content: space-between;
+  justify-content: space-between;
+  -ms-align-items: stretch;
+  align-items: stretch;
+  -ms-align-items: center;
+  align-items: center;
+}
+
