@@ -44,7 +44,7 @@ export default function () {
         // api config
         api: {
           url: '',
-          moc: null,
+          moc: true,
           getMoc(/* locale */) {
             // return import('./moc');
           },

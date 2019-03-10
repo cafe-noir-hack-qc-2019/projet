@@ -19,12 +19,11 @@ const settings = {
     switch (env) {
       // local
       case 'development':
-        return 'https://cafe-noir.kffein';
+        return 'https://info311.servehttp.com/';
       // build for prod
       case 'production':
       default:
-        // return 'https://cafe-noir.com';
-        return 'http://cafe-noir.dev.kffein.work';
+        return 'https://info311.servehttp.com/';
     }
   })(process.env.NODE_ENV),
 
