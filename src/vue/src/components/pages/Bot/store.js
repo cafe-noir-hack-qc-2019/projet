@@ -39,11 +39,11 @@ export default {
     },
     QUERY_BOT({ commit, state }, query) {
       state.client.textRequest(query.text)
-          .then((response) => {
-            console.log('QUERY BOT RESPONSE:', response);
-            commit('ADD_STEP', get(response, 'result.fulfillment'));
-          })
-          .catch((error) => { console.log(error); });
+        .then((response) => {
+          console.log('QUERY BOT RESPONSE:', response);
+          commit('ADD_STEP', get(response, 'result.fulfillment'));
+        })
+        .catch((error) => { console.log(error); });
       commit('SET_STATUS', STATUS.QUERY_LOADING);
     },
 
@@ -64,7 +64,7 @@ export default {
         },
       })
         .then((response) => {
-          console.log('response', response);
+          console.log('responses', response);
           commit('ADD_STEP', get(response, 'data.result'));
         })
         .catch((error) => {
