@@ -45,7 +45,7 @@
       <img class="thumb" :src="`/static/card/${card.image}`" alt="">
       <span class="label">
         <span v-html="card.category.label" /><br />
-        <span v-html="card.theme.label" />
+        <span v-html="card.theme.label" /><br />
         <span v-if="card.option" v-html="card.option.label" />
       </span>
     </router-link>

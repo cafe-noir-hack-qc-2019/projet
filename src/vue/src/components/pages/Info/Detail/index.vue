@@ -11,7 +11,8 @@
   import { mapGetters } from 'vuex';
   import { get } from 'lodash';
   import collectRelated from 'assets/data/collectRelated';
-  import licenceRelated from 'assets/data/licenceRelated';
+  import licenceCatRelated from 'assets/data/licenceCatRelated';
+  import licenceDogRelated from 'assets/data/licenceDogRelated';
   import Card from 'components/sections/Card';
   export default {
     name: 'InfoDetail',
@@ -80,7 +81,28 @@
           return collectRelated;
         }
         if (this.isLicence) {
-          return licenceRelated;
+          switch (get(this.info, 'data.animalType')) {
+            case 'cat':
+              return licenceCatRelated;
+              
+            case 'dog':
+              return licenceDogRelated;
+              
+            default:
+              return licenceDogRelated;
+          }
+        }
+      }
+    },
+    watch: {
+      optionSlug: {
+        handler() {
+          this.$store.dispatch('Interface/SCROLL_TOP');
+          this.$store.dispatch('App/GET_INFO', { 
+            categorySlug: this.categorySlug,
+            themeSlug: this.themeSlug,
+            optionSlug: this.optionSlug,
+          });
         }
       }
     },
@@ -128,7 +150,7 @@
     <template v-if="isLicence">
       <div class="detail-header">
         <h1 v-html="titleInfo" />
-        <img src="/static/fake-dog.jpg" />
+        <img :src="`/static/card/${get(this.info, 'data.animalType')}.jpg`" />
         <p v-html="postalCode" />
       </div>
       <div class="infos-block">
@@ -145,9 +167,9 @@
           <p v-if="get(info, 'data.prices.extra')" v-html="get(info, 'data.prices.extra')" />
           <table>
             <tr>
-              <th>Stérilisé</th>
+              <th>Stérilisé (avec preuve)</th>
               <th>Non Stérilisé</th>
-              <th>Promotion</th>
+              <th>Rabais</th>
             </tr>
             <tr>
               <td v-html="`${get(info, 'data.prices.sterilized')}$`" />

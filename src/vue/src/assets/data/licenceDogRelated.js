@@ -10,10 +10,10 @@ export default [
       label: 'animaux',
     },
     option: {
-      slug: 'cat',
+      slug: 'chat',
       label: 'Chat',
     },
-    fake: true,
+    fake: false,
     image: 'cat.jpg',
     percentage: '29',
   },

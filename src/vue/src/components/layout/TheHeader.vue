@@ -6,8 +6,7 @@
 </docs>
 
 <script>
-import { mapGetters, mapState } from 'vuex';
-
+import arrowBack from 'assets/svg/arrow-back.svg';
 export default {
   name: 'TheHeader',
   components: {
@@ -18,14 +17,15 @@ export default {
       default: false,
     },
   },
+  data() {
+    return {
+      arrowBack,
+    }
+  },
   computed: {
-    ...mapGetters({
-      postalCode: 'App/postalCode',
-      district: 'App/district',
-    }),
-    ...mapState('I18n', {
-      locale: ({ locale }) => locale,
-    }),
+    isInfoDetail() {
+      return /infoDetail/.test(this.$route.name);
+    }
   },
 };
 </script>
@@ -33,11 +33,12 @@ export default {
 <template>
   <header class="TheHeader">
     <div class="header-block">
-      <router-link :to="{name: `home.${locale}`}"  class="app-name">
+      <a v-if="isInfoDetail" class="back" @click.prevent="$router.go(-1)">
+        <img :src="arrowBack" />
+      </a>
+      <router-link :to="{name: `home.fr`}"  class="app-name">
         <h1>Infos 311</h1>
       </router-link>
-      <!-- <span v-if="postalCode" v-html="postalCode" />
-      <span v-if="district" v-html="`(${district})`" /> -->
       <div class="helper">Aide</div>
 
     </div>
@@ -69,6 +70,9 @@ export default {
     absolute right 15px top 10px
     color $c-blue
     font-weight 600
+
+  .back
+    absolute left 15px top 10px
 
   //  ===DEBUG===
   [data-debug-mode="true"] .TheHeader

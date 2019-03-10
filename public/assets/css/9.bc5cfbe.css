@@ -1,0 +1,86 @@
+/**
+* 
+* TABLE OF CONTENT
+* --------
+*	=LAYOUT
+*	=DEBUG
+*/
+/* ===LAYOUT=== */
+.Card[data-v-1a6d8e02] {
+  max-width: 100%;
+}
+.Card[data-v-1a6d8e02]:nth-child(n+1) {
+  margin-bottom: 10px;
+}
+.item[data-v-1a6d8e02] {
+  border-radius: 3px;
+  display: flex;
+  -ms-justify-content: space-between;
+  justify-content: space-between;
+  -ms-align-items: center;
+  align-items: center;
+  -ms-justify-content: center;
+  justify-content: center;
+  -ms-align-items: center;
+  align-items: center;
+}
+.item.-disabled[data-v-1a6d8e02] {
+  pointer-events: none;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+  filter: alpha(opacity=50);
+  opacity: 0.5;
+}
+.thumb[data-v-1a6d8e02] {
+  overflow: hidden;
+  position: relative;
+  border-radius: 3px;
+  display: block;
+}
+.thumb[data-v-1a6d8e02]:before {
+  content: "";
+  display: block;
+  height: 0;
+  padding-top: 50%;
+}
+.label[data-v-1a6d8e02] {
+  position: absolute;
+  z-index: 1;
+  color: #fff;
+  width: 70%;
+  text-align: center;
+  font-weight: 700;
+}
+/* ===DEBUG=== */
+
+/**
+* 
+* TABLE OF CONTENT
+* --------
+*	=LAYOUT
+*	=DEBUG
+*/
+/* ===LAYOUT=== */
+.list[data-v-b796e9bc] {
+  max-width: 90%;
+  margin: auto;
+  display: flex;
+  -ms-justify-content: space-between;
+  justify-content: space-between;
+  -ms-align-items: center;
+  align-items: center;
+  -ms-justify-content: space-between;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.list-collection[data-v-b796e9bc] {
+  margin-top: 10px;
+}
+.title.bot[data-v-b796e9bc] {
+  margin-top: 40px;
+}
+.btn-bot[data-v-b796e9bc] {
+  margin-top: 30px;
+  margin-bottom: 90px;
+}
+/* ===DEBUG=== */
+
