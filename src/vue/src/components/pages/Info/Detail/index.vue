@@ -128,7 +128,7 @@
     <template v-if="isLicence">
       <div class="detail-header">
         <h1 v-html="titleInfo" />
-        <img src="/static/fake-dog.png" />
+        <img src="/static/fake-dog.jpg" />
         <p v-html="postalCode" />
       </div>
       <div class="infos-block">
