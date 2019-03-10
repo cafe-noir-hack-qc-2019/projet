@@ -27,7 +27,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import i18n from 'plugins/i18n';
 import App from 'components/TheApp';
 import Geocoder from '@pderas/vue2-geocoder';
-import * as VueGoogleMaps from 'vue2-google-maps';
+// import * as VueGoogleMaps from 'vue2-google-maps';
 
 // Enable HRM
 if (module.hot) {
@@ -49,12 +49,12 @@ Vue.use(Geocoder, {
   // googleMapsApiKey: 'AIzaSyC-V0mqpdhNegiMG8aRjT0fbgOSXRRG6aA',
 });
 Vue.$geocoder.setDefaultMode('address');
-Vue.use(VueGoogleMaps, {
-  load: {
-    key: 'AIzaSyDgNiyzwZ8LIKJpNvjqOVQKvQo_ev_nUKU',
-    // key: 'AIzaSyC-V0mqpdhNegiMG8aRjT0fbgOSXRRG6aA',
-  },
-});
+// Vue.use(VueGoogleMaps, {
+//   load: {
+//     key: 'AIzaSyDgNiyzwZ8LIKJpNvjqOVQKvQo_ev_nUKU',
+//     // key: 'AIzaSyC-V0mqpdhNegiMG8aRjT0fbgOSXRRG6aA',
+//   },
+// });
 
 new Vue({ // eslint-disable-line
   el: '#App',

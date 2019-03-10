@@ -14,7 +14,6 @@ body
   font-size 100%
   background $c-white
   color $c-black
-  overflow hidden
 
 /*
   // If you want to scroll inside a page
@@ -55,6 +54,9 @@ button
   border-radius 3px
   color $c-white
   f-size(1.4rem)
+  transition()
+  &:focus
+    outline none
 
 .bot-helper
   width 100%
@@ -62,9 +64,24 @@ button
   flexbox(row, $justify: flex-start, $align: flex-end)
   .icon
     size 40px
+  button
+    width auto
+    background-color #ECF0F1
+    color $c-blue-second
+    text-align left
+    margin 5px 0 0 15px
+    border-radius 20px
+    font-weight 700
+    &:focus
+      background-color $c-green
+      color white
+  >div
+    width calc('100% - 40px')
+
 
 .info-bulle
-  width 60%
+  width 210px
+  max-width 207px
   padding 10px
   margin-left 15px
   background-color #ECF0F1
@@ -82,11 +99,12 @@ button
 .input-container
   position relative
   width 100%
-  &:after
-    content url('/static/position.svg')
-    height 23px
-    absolute top 0 right 10px bottom 0
-    margin auto
+  &.loc
+    &:after
+      content url('/static/position.svg')
+      height 23px
+      absolute top 0 right 10px bottom 0
+      margin auto
   .input
     size 100%
     text-align center
@@ -105,10 +123,8 @@ button
  * @todo document all this: should have layout styl? with examples?
  */
 .app
+  min-height var(--viewport-height)
   flexbox(column)
-  height 100vh
-  overflow-x hidden
-  overflow-y scroll
   -webkit-overflow-scrolling touch
 
   &.-no-scroll
@@ -117,9 +133,7 @@ button
   > .page
     width 100%
     flex-grow 1
-    // vertical-padding()
     background $c-gallery
-
 
   .header
     flexbox(column, $align: center)

@@ -105,7 +105,7 @@ export default {
           <div class="info-bulle" v-html="infobulle"></div>
         </div>
         <div class="postal-code-container">
-          <div class="input-container">
+          <div class="input-container loc">
             <input class="input" type="text" v-model="postalCode" :placeholder="placehodlerInput" @focus="placehodlerInput = ''" @blur="placehodlerInput = 'Code Postal' " @keyup.enter="go" />
           </div>
           <button class="btn" @click="go">Rechercher</button>

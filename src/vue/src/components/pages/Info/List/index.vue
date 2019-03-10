@@ -90,7 +90,9 @@ export default {
       <h1
         class="title bot"
         v-html="heltText" />
-      <button class="btn-bot">Aidez-moi !</button>
+        <router-link :to="{name: 'bot.fr'}" class="btn-bot">
+          Aidez-moi !
+        </router-link>
     </div>
   </div>
 </template>
