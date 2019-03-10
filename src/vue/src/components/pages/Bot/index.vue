@@ -11,6 +11,7 @@
   import { mapGetters } from 'vuex';
   import { TweenMax, Power1} from 'gsap';
   import ScrollToPlugin from 'gsapPlugins/ScrollToPlugin'; // eslint-disable-line no-unused-vars
+  import { get, last } from 'lodash';
 
 
   export default {
@@ -31,43 +32,55 @@
     created() {
       this.$store.dispatch('Bot/START_BOT');
     },
+    mounted() {
+    },
     watch: {
-      steps() {
+      steps(step) {
         setTimeout(() => {
           TweenMax.to(window, 0.5, {
             scrollTo: {
               y: document.body.scrollHeight,
               autoKill: false,
             },
+            onComplete: () => {
+              // get(this.steps, `${index}.messages.0.speech`);
+            }
             // ease: Power2.easeInOut,
           });
-          // TweenMax.to(window, 0.2, { y: document.body.scrollHeight } )
         }, 200);
       }
     },
     methods: {
       buttonSelect(e) {
-        console.log(e.target.dataset.value)
         this.$store.commit('Bot/ADD_STEP', e.target.dataset.value)
         this.$store.dispatch('Bot/QUERY_BOT', {text: e.target.dataset.value});
         this.query = '';
-        this.$refs.Input.blur();
+        this.$refs.Input.focus();
       },
       go() {
         this.$store.commit('Bot/ADD_STEP', this.query)
         this.$store.dispatch('Bot/QUERY_BOT', {text: this.query});
         this.query = '';
-        this.$refs.Input.blur();
+        this.$refs.Input.focus();
       },
       haskeyspeech(index) {
         if (this.steps[index].speech || this.steps[index].speech === '' ) return true
         return false
       },
       messagewithchoices(index) {
-        return this.steps[index].messages[0].speech
+        return get(this.steps, `${index}.messages.0.speech`);
       },
       choices(index) {
-        return this.steps[index].messages[1].replies
+        return get(this.steps, `${index}.messages.1.replies`);
+      },
+      finalCardLink(index) {
+        return get(this.steps, `${index}.messages.1.buttons.0.postback`);
+      },
+      finalCardImg(index) {
+        return get(this.steps, `${index}.messages.1.imageUrl`);
+      },
+      finalCardLabel(index) {
+        return get(this.steps, `${index}.messages.1.title`);
       },
       slideIn(el, done) {
         TweenMax.fromTo(el, 0.2, { opacity: 0, x: -30}, { opacity: 1, x: 0, delay: 0.5, onComplete: done} )
@@ -95,14 +108,18 @@
           @leave="slideOut"
           mode="out-in"
           @css="false">
-          <li v-for="(step, index) in steps" :key="index">
+          <li v-for="(step, index) in steps" :key="index + 0">
             <div class="bot-helper" v-if="haskeyspeech(index)">
               <div class="icon bot"></div>
               <div v-if="step.speech === ''">
                 <div class="info-bulle" v-html="messagewithchoices(index)" />
-                <ul>
-                  <button :data-value="item" v-for="item in choices(index)" :key="item" v-html="item" @click="buttonSelect"></button>
+                <ul v-if="choices(index)">
+                  <button class="choice" :data-value="item" v-for="item in choices(index)" :key="item" v-html="item" @click="buttonSelect"></button>
                 </ul>
+                <a class="final-link" :href="finalCardLink(index)" v-else>
+                    <img :src="finalCardImg(index)" alt="">
+                    <div class="label" v-html="finalCardLabel(index)"></div>
+                </a>
               </div>
               <div class="info-bulle" v-html="step.speech" v-else />
             </div>

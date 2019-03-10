@@ -33,11 +33,11 @@ export default {
         </router-link>
         <router-link :to="{name: 'bot.fr'}" class="item">
           <img src="/static/magnifier.svg" alt="" class="icon">
-          <p>Accueil</p>
+          <p>Rechercher</p>
         </router-link>
         <a class="item" href="tel:+311">
           <img src="/static/call.svg" alt="" class="icon">
-          <p>Accueil</p>
+          <p>Appeler</p>
         </a>
       </div>
     </div>

@@ -133,7 +133,7 @@ export default {
       margin-top 40px
   .btn-bot
     margin-top 30px
-    margin-bottom 60px
+    margin-bottom 90px
 
   /* ===DEBUG=== */
 
