@@ -27,6 +27,7 @@ export default {
         district: 'App/district',
         popularCards: 'App/popularCards',
         themeChaud: 'InfoList/themeChaud',
+        heltText: 'InfoList/heltText',
       }),
     },
     watch: {
@@ -41,25 +42,20 @@ export default {
     },
     created() {
     },
-    mounted() {
-    },
     methods: {
-      getRoute(card) {
-        return { 
-          name: 'infoDetail.fr', 
-          params: {
-            categorySlug: get(card, 'category.slug'),
-            themeSlug: get(card, 'theme.slug'),
-            optionSlug: get(card, 'option.slug'),
-          }
-        };
+
+      enter(el, done) {
+        TweenMax.fromTo(el, 0.2, { opacity: 0, y: -20}, { opacity: 1, y: 0, onComplete: done} )
       },
+      leave(el, done) {
+        TweenMax.to(el, 0.3, { opacity: 0, y: 20, onComplete: done})
+      }
     },
   }
 </script>
 
 <template>
-  <div class="InfoList">
+  <div class="InfoList _container">
     <header class="header">
       <div class="logo robot"><img src="/static/boto.svg" alt=""></div>
     </header>
@@ -73,20 +69,44 @@ export default {
           </div>
         </div>
       <div class="list-collection">
+<<<<<<< HEAD
         <ul class="list">
           <Card :card="card" v-for="card in popularCards" :key="card.id" />
           <!-- <li class="list-item" v-for="card in popularCards" :key="card.id">
             <router-link :class="['item', {'-disabled': card.fake}]" :to="getRoute(card)">
               <img class="thumb" :src="`/static/card/${card.image}`" alt="">
+=======
+        <transition-group
+          @enter="enter"
+          @leave="leave"
+          mode="out-in"
+          @css="false"
+          tag="ul"
+          class="list"
+        >
+          <li class="list-item" v-for="theme in popularThemes" :key="theme.id">
+            <router-link  class="item" :to="{ name: 'infoDetail.fr', params: {categorySlug: theme.category.slug, themeSlug: theme.theme.slug} }">
+              <img class="thumb" src="https://picsum.photos/300/300/?random" alt="">
+>>>>>>> test-api
               <span class="label">
-                <span v-html="card.category.label" /><br />
-                <span v-html="card.theme.label" />
-                <span v-if="card.option" v-html="card.option.label" />
+                <span v-html="theme.category.label" /><br />
+                <span v-html="theme.theme.label" />
               </span>
             </router-link>
+<<<<<<< HEAD
           </li> -->
         </ul>
+=======
+          </li>
+        </transition-group>
+>>>>>>> test-api
       </div>
+      <h1
+        class="title bot"
+        v-html="heltText" />
+        <router-link :to="{name: 'bot.fr'}" class="btn-bot">
+          Aidez-moi !
+        </router-link>
     </div>
   </div>
 </template>
@@ -107,6 +127,7 @@ export default {
     flexbox(row, $justify: space-between, $wrap: wrap)
   .list-collection
     margin-top 10px
+<<<<<<< HEAD
   // .list-item
   //   max-width 48%
   // .item
@@ -125,6 +146,32 @@ export default {
   //   width 70%
   //   text-align center
   //   font-weight 700
+=======
+  .list-item
+    max-width 48%
+  .item
+    border-radius 3px
+    flexbox(row, $justify: center, $align: center)
+    ratio-box(200/200)
+    &.-disabled
+      pointer-events none
+      opacity 0.5
+  .thumb
+    border-radius 3px
+  .label
+    position absolute
+    z-index 1
+    color white
+    width 70%
+    text-align center
+    font-weight 700
+  .title
+    &.bot
+      margin-top 40px
+  .btn-bot
+    margin-top 30px
+    margin-bottom 90px
+>>>>>>> test-api
 
   /* ===DEBUG=== */
 

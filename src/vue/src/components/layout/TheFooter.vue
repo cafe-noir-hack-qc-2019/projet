@@ -26,7 +26,20 @@ export default {
 <template>
   <footer class="TheFooter">
     <div class="_container">
-      <router-link :to="{name: 'bot.fr'}">Rechercher</router-link>
+      <div class="footer-icon">
+        <router-link to="/" class="item">
+          <img src="/static/call.svg" alt="" class="icon">
+          <p>Accueil</p>
+        </router-link>
+        <router-link :to="{name: 'bot.fr'}" class="item">
+          <img src="/static/magnifier.svg" alt="" class="icon">
+          <p>Rechercher</p>
+        </router-link>
+        <a class="item" href="tel:+311">
+          <img src="/static/call.svg" alt="" class="icon">
+          <p>Appeler</p>
+        </a>
+      </div>
     </div>
   </footer>
 </template>
@@ -42,22 +55,25 @@ export default {
 
   //  ===LAYOUT===
   .TheFooter
-    vertical-padding(10)
-    f-style($size: 1.2rem)
-
-  .row
-    flexbox($align: center, $justify: space-between)
-
-  .copyrights
-    text-align center
-
-  nav
-    ul
-      flexbox($align: center, $justify: space-between)
-
-      a
-        margin-left 10px
-        f-style($size: 2.3rem)
+    fixed bottom 0
+    width 100%
+    background white
+    padding-top 5px
+    padding-bottom 5px
+  .footer-icon
+    flexbox(row)
+  .icon
+    img
+      width
+  .item
+    flexbox(column, $align: center)
+    width 33%
+    img
+      size 20px
+    p
+      f-size(1.4rem)
+      margin-top 5px
+      color $c-blue
 
   //  ===DEBUG===
   [data-debug-mode="true"] .TheFooter

@@ -32,16 +32,14 @@ export default {
 
 <template>
   <header class="TheHeader">
-    <div class="_container">
-      <div class="header-block">
-        <router-link :to="{name: `home.${locale}`}"  class="app-name">
-          <h1>Info 311</h1>
-        </router-link>
-        <!-- <span v-if="postalCode" v-html="postalCode" />
-        <span v-if="district" v-html="`(${district})`" /> -->
-        <div class="helper">Aide</div>
+    <div class="header-block">
+      <router-link :to="{name: `home.${locale}`}"  class="app-name">
+        <h1>Infos 311</h1>
+      </router-link>
+      <!-- <span v-if="postalCode" v-html="postalCode" />
+      <span v-if="district" v-html="`(${district})`" /> -->
+      <div class="helper">Aide</div>
 
-      </div>
     </div>
   </header>
 </template>
@@ -57,12 +55,10 @@ export default {
 
   //  ===LAYOUT===
   .TheHeader
-    padding-top 10px
-    padding-bottom 8px
     position relative
   .header-block
-    flexbox($align: center, $justify: space-between)
-
+    padding-top 10px
+    padding-bottom 8px
   .app-name
     width 100%
     color black

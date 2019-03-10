@@ -38,6 +38,11 @@ export default {
       this.$store.registerModule('PageHome', store);
     }
   },
+  mounted() {
+    setTimeout(() => {
+      this.postalReady = true
+    }, 1000);
+  },
   // beforeDestroy() {
   //   // !!! Do not unregister store
   //   // or datas will be deleted and you will need to re-call api
@@ -58,10 +63,10 @@ export default {
       TweenMax.to(el, 0.2, { css: { transform: 'rotateY(90deg)'}, ease: Power1.easeIn, onComplete: done})
     },
     enter(el, done) {
-      TweenMax.fromTo(el, 0.2, { opacity: 0, y: -20}, { opacity: 1, y: 0, onComplete: done} )
+      TweenMax.fromTo(el, 0.2, { opacity: 0, y: 10}, { opacity: 1, y: 0, onComplete: done} )
     },
     leave(el, done) {
-      TweenMax.to(el, 0.3, { opacity: 0, y: 20, onComplete: done})
+      TweenMax.to(el, 0.3, { opacity: 0, y: -10, onComplete: done})
     }
   },
 };
@@ -99,7 +104,7 @@ export default {
           <div class="info-bulle" v-html="infobulle"></div>
         </div>
         <div class="postal-code-container">
-          <div class="input-container">
+          <div class="input-container loc">
             <input class="input" type="text" v-model="postalCode" :placeholder="placehodlerInput" @focus="placehodlerInput = ''" @blur="placehodlerInput = 'Code Postal' " @keyup.enter="go" />
           </div>
           <button class="btn" @click="go">Rechercher</button>
@@ -107,12 +112,12 @@ export default {
       </div>
       <div :class="[{'is-intro': !postalReady}, 'container']" v-else key="text">
         <h1
-          class="title"
-          v-html="title" />
-        <div
+          class="title">
+          INFOS <span>311</span>
+        </h1>
+        <!-- <div
           class="text"
-          v-html="intro" />
-        <button class="btn" @click="setPostalReady">Oui</button>
+          v-html="intro" /> -->
       </div>
     </transition>
   </div>
@@ -139,6 +144,15 @@ export default {
     margin 0px auto 0
     flexbox(column, $align: center)
 
+  .is-intro
+    .title
+      margin-top 20px
+      f-size(2.3rem 2.3rem)
+      line-height 1
+      color lighten($c-black, 30%)
+      span
+        f-size(4rem 4rem)
+        display block
 
   //  ===DEBUG===
   [data-debug-mode="true"] .PageHome

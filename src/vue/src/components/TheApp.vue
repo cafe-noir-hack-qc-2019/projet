@@ -64,8 +64,7 @@ export default {
   <div
     id="App"
     :data-debug-mode="$root.debug"
-    :data-scrollable="scrollable.toString()"
-    class="_fullViewport">
+    :data-scrollable="scrollable.toString()">
 
     <div
       v-if="loaded"
@@ -76,6 +75,7 @@ export default {
       </main>
     </div>
 
+    <TheFooter />
     <TheLoader v-if="!loaded"/>
     <component
       :is="'style'"
