@@ -69,13 +69,6 @@ export default {
           </div>
         </div>
       <div class="list-collection">
-<<<<<<< HEAD
-        <ul class="list">
-          <Card :card="card" v-for="card in popularCards" :key="card.id" />
-          <!-- <li class="list-item" v-for="card in popularCards" :key="card.id">
-            <router-link :class="['item', {'-disabled': card.fake}]" :to="getRoute(card)">
-              <img class="thumb" :src="`/static/card/${card.image}`" alt="">
-=======
         <transition-group
           @enter="enter"
           @leave="leave"
@@ -84,22 +77,8 @@ export default {
           tag="ul"
           class="list"
         >
-          <li class="list-item" v-for="theme in popularThemes" :key="theme.id">
-            <router-link  class="item" :to="{ name: 'infoDetail.fr', params: {categorySlug: theme.category.slug, themeSlug: theme.theme.slug} }">
-              <img class="thumb" src="https://picsum.photos/300/300/?random" alt="">
->>>>>>> test-api
-              <span class="label">
-                <span v-html="theme.category.label" /><br />
-                <span v-html="theme.theme.label" />
-              </span>
-            </router-link>
-<<<<<<< HEAD
-          </li> -->
-        </ul>
-=======
-          </li>
+          <Card :card="card" v-for="card in popularCards" :key="card.id" />
         </transition-group>
->>>>>>> test-api
       </div>
       <h1
         class="title bot"
@@ -127,7 +106,6 @@ export default {
     flexbox(row, $justify: space-between, $wrap: wrap)
   .list-collection
     margin-top 10px
-<<<<<<< HEAD
   // .list-item
   //   max-width 48%
   // .item
@@ -146,32 +124,12 @@ export default {
   //   width 70%
   //   text-align center
   //   font-weight 700
-=======
-  .list-item
-    max-width 48%
-  .item
-    border-radius 3px
-    flexbox(row, $justify: center, $align: center)
-    ratio-box(200/200)
-    &.-disabled
-      pointer-events none
-      opacity 0.5
-  .thumb
-    border-radius 3px
-  .label
-    position absolute
-    z-index 1
-    color white
-    width 70%
-    text-align center
-    font-weight 700
   .title
     &.bot
       margin-top 40px
   .btn-bot
     margin-top 30px
     margin-bottom 90px
->>>>>>> test-api
 
   /* ===DEBUG=== */
 
