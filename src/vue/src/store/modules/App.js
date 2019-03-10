@@ -13,8 +13,8 @@ import {
 import Vue from 'vue';
 import districtMapping from 'assets/data-mapping/district';
 // import Dates from 'utils/helpers/Dates';
-// import Axios from 'axios';
-// import settings from 'src/settings';
+import Axios from 'axios';
+import settings from 'src/settings';
 import Cookies from 'js-cookie';
 
 const debug = true; // process.env.NODE_ENV === 'development';
@@ -35,6 +35,7 @@ export default {
     info: null,
     selectedTheme: null,
     keywords: [],
+    licencesInfos: null,
   },
   mutations: {
     SET_POSTAL_CODE(state, payload) {
@@ -65,6 +66,9 @@ export default {
     },
     SET_KEYWORDS(state, payload) {
       state.keywords = payload;
+    },
+    SET_LICENCES_INFOS(state, payload) {
+      state.licencesInfos = payload;
     },
   },
   actions: {
@@ -122,7 +126,7 @@ export default {
             label: 'animaux',
           },
           option: {
-            slug: 'chat',
+            slug: 'cat',
             label: 'Chat',
           },
           fake: true,
@@ -161,6 +165,24 @@ export default {
             MESSAGE_EN: 'The collection takes place on THURSDAY. Deposit your box on the sidewalk between 7 p.m. the day before and 7 a.m.  the day of collection. ',
           },
         });
+      }
+      if (categorySlug === 'permis' && themeSlug === 'animaux') {
+        Axios({
+          method: 'get',
+          url: `${settings.API_URL}/theme/licence/animaux`,
+        })
+          .catch((error) => {
+            console.log(error);
+          })
+          .then((response) => {
+            commit('SET_LICENCES_INFOS', response.data.district);
+            const disctrictLicencesInfos = get(filter(state.licencesInfos, info => info.slug === state.mappedDistrict.slug), '0.types');
+            const optionInfos = filter(disctrictLicencesInfos, info => info.animalType === optionSlug);
+            commit('SET_INFO', {
+              type: 'licences',
+              data: get(optionInfos, '0'),
+            });
+          });
       }
     },
   },

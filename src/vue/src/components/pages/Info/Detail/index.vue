@@ -16,7 +16,7 @@
     props: {},
     data() {
       return {
-
+        get,
       }
     },
     computed: {
@@ -27,6 +27,9 @@
       }),
       isCollect() {
         return this.info.type === 'collectes';
+      },
+      isLicence() {
+        return this.info.type === 'licences';
       },
       categorySlug() {
         return this.$route.params.categorySlug;
@@ -41,14 +44,33 @@
         if (this.isCollect) {
           return `Collecte des ${get(this.info, 'data.TYPE_DECHET', '').toLowerCase()}`;
         }
-      }
-    },
-    watch: {
-      info: {
-        immediate: true,
-        handler() {
-          console.log('info', this.info);
+        if (this.isLicence) {
+          return `Optenir son permis<br/> ${this.licenceType}`;
         }
+      },
+      licenceType() {
+        let type = '';
+        switch (get(this.info, 'data.status')) {
+          case 'owner':
+            type = 'Propriétaire'
+            break;
+        
+          default:
+            break;
+        }
+
+        switch (get(this.info, 'data.animalType')) {
+          case 'cat':
+            type += 'd\'un chat';
+            break;
+          case 'dog':
+            type += 'd\'un chien';
+            break;
+        
+          default:
+            break;
+        }
+        return type;
       }
     },
     created() {
@@ -82,6 +104,41 @@
       <div v-if="info.data.EXCEPTION_FR">
         <strong>Exceptions</strong>
         <p v-html="info.data.EXCEPTION_FR" />
+      </div>
+    </template>
+    <template v-if="isLicence">
+      <div>
+        <strong>Type de permis</strong>
+        <p v-html="licenceType" />
+      </div>
+      <div>
+        <strong>Infos</strong>
+        <p v-html="get(info, 'data.how-to-get-license')" />
+      </div>
+      <div>
+        <strong>Prix</strong>
+        <p v-if="get(info, 'data.prices.extra')" v-html="get(info, 'data.prices.extra')" />
+        <table>
+          <tr>
+            <th>Stérilisé</th>
+            <th>Non Stérilisé</th>
+            <th>Promotion</th>
+          </tr>
+          <tr>
+            <td v-html="get(info, 'data.prices.sterilized')" />
+            <td v-html="get(info, 'data.prices.not-sterilized')" />
+            <td v-html="get(info, 'data.prices.promotion')" />
+          </tr>
+        </table>
+      </div>
+      <div>
+        <strong>Contact</strong>
+        <p>
+          <span v-html="get(info, 'data.contact-address.address')" /><br />
+          <span v-html="get(info, 'data.contact-address.city')" /><br />
+          <span v-html="get(info, 'data.contact-address.postal_code')" />
+          <span v-html="get(info, 'data.contact-address.region')" />
+        </p>
       </div>
     </template>
 
