@@ -63,16 +63,19 @@
 
   /* ===LAYOUT=== */
   .Card
-    max-width 48%
+    max-width 100%
+    &:nth-child(n+1)
+      margin-bottom 10px
   .item
     border-radius 3px
     flexbox(row, $justify: center, $align: center)
-    ratio-box(200/200)
     &.-disabled
       pointer-events none
       opacity 0.5
   .thumb
+    ratio-box(400/200)
     border-radius 3px
+    display block
   .label
     position absolute
     z-index 1

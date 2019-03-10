@@ -98,10 +98,10 @@
       <header class="header">
         <div class="logo robot"><img src="/static/boto.svg" alt=""></div>
       </header>
-      <h1
+      <!-- <h1
         class="title">
-        Que recherches tu now ?
-      </h1>
+        Ok, c’est parti!
+      </h1> -->
       <ul class="step-list">
         <transition-group
           @enter="slideIn"
@@ -132,9 +132,9 @@
       <!-- <div v-if="isLoading">...</div> -->
 
       <div class="input-container">
-        <input ref="Input" class="input" type="text" v-model="query" @keyup.enter="go" />
+        <input ref="Input" class="input" type="text" v-model="query" placeholder="Rechercher..." @keyup.enter="go" />
       </div>
-      <button class="btn-send" @click="go">Go</button>
+      <button class="btn-send" @click="go">Envoyer</button>
     </div>
   </div>
 </template>
@@ -154,13 +154,16 @@
     overflow hidden
 
   .input-container
+    width 98%
     .input
-      box-shadow none
+      box-shadow 0 0 3px 0px rgba(0, 0, 0, 0.2)
       text-align left
       text-transform lowercase
       f-size(1.4rem 1.4rem)
   .btn-send
     margin-bottom 60px
+    width 98%
+
 
   .user-response
     .info-bulle

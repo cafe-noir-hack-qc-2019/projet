@@ -25,7 +25,7 @@ export default {
 
 <template>
   <footer class="TheFooter">
-    <div class="_container">
+    <div class="">
       <div class="footer-icon">
         <router-link to="/" class="item">
           <img src="/static/call.svg" alt="" class="icon">
@@ -60,6 +60,7 @@ export default {
     background white
     padding-top 5px
     padding-bottom 5px
+    max-width 375px
   .footer-icon
     flexbox(row)
   .icon

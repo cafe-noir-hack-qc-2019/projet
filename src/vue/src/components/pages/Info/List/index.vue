@@ -84,7 +84,7 @@ export default {
         class="title bot"
         v-html="heltText" />
         <router-link :to="{name: 'bot.fr'}" class="btn-bot">
-          Aidez-moi !
+          Oui, aide-moi
         </router-link>
     </div>
   </div>

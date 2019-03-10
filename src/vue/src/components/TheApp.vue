@@ -90,6 +90,9 @@ export default {
    */
 
   /* ===LAYOUT=== */
+  #App
+    max-width 375px
+    margin auto
   .app
     f-style('default')
 

@@ -56,6 +56,7 @@ export default {
   //  ===LAYOUT===
   .TheHeader
     position relative
+    background white
   .header-block
     padding-top 10px
     padding-bottom 8px

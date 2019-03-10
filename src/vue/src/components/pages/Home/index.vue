@@ -41,7 +41,7 @@ export default {
   mounted() {
     setTimeout(() => {
       this.postalReady = true
-    }, 1000);
+    }, 1500);
   },
   // beforeDestroy() {
   //   // !!! Do not unregister store
@@ -98,10 +98,10 @@ export default {
       <div v-if="postalReady" :class="[{'is-active': postalReady}, 'container']" key="out">
         <h1
           class="title"
-          v-html="titleSearch" />
+          v-html="title" />
         <div class="bot-helper">
           <div class="icon bot"></div>
-          <div class="info-bulle" v-html="infobulle"></div>
+          <div class="info-bulle" v-html="intro"></div>
         </div>
         <div class="postal-code-container">
           <div class="input-container loc">

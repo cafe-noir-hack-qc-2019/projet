@@ -25,7 +25,7 @@ export default {
     device: Modernizr.device,
 
     /** @argument {HTMLElement} scrollContainer - the Node element where we scroll (body or any node) */
-    scrollContainer: document.querySelector('#App'),
+    scrollContainer: window,
 
     /** @argument {Boolean} scrollable - if container is scrollable or not - @todo watch this where your container stand */
     scrollable: true,
