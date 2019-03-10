@@ -12,10 +12,10 @@ import {
 } from 'lodash';
 import Vue from 'vue';
 import districtMapping from 'assets/data-mapping/district';
-// import Dates from 'utils/helpers/Dates';
 import Axios from 'axios';
 import settings from 'src/settings';
 import Cookies from 'js-cookie';
+import defaultGeocoderResult from 'assets/data/geocoderResult';
 
 const debug = true; // process.env.NODE_ENV === 'development';
 
@@ -77,10 +77,11 @@ export default {
       Vue.$geocoder.send({
         zip_code: state.postalCode,
       }, (response) => {
-        commit('SET_GEOCODER_RESULT', get(response, 'results.0'));
+        const results = get(response, 'results.0', defaultGeocoderResult);
+        commit('SET_GEOCODER_RESULT', results);
         const address = get(state.geocoderResult, 'address_components');
         const sublocality = filter(address, line => line.types.indexOf('sublocality_level_1') !== -1);
-        commit('SET_DISTRICT', get(sublocality, '0.long_name'));
+        commit('SET_DISTRICT', get(sublocality, '0.long_name', 'Rosemont-La Petite-Patrie'));
       });
     },
     GET_CARDS_BY_DISTRICT({ commit, state }) {
@@ -137,34 +138,20 @@ export default {
       commit('SET_CARDS_BY_DISCTRICT', { district: state.district, cards });
     },
     GET_INFO({ commit, state }, { categorySlug, themeSlug, optionSlug }) {
-      // Axios({
-      //   method: 'get',
-      //   url: `${settings.API_URL}/theme/${categorySlug}/${themeSlug}`,
-      //   data: {
-      //     postal_code: state.postalCode,
-      //     date: Dates.formatDate(state.date, 'Y-m-d'),
-      //   },
-      // })
-      //   .catch((error) => {
-      //     console.log(error);
-      //   })
-      //   .then((response) => {
-      //     console.log(response);
-      //     commit('SET_INFO', response.data);
-      //   });
-      console.log(state, categorySlug, themeSlug, optionSlug);
       if (categorySlug === 'collectes') {
-        commit('SET_INFO', {
-          type: 'collectes',
-          data: {
-            ID: '141',
-            MUNICIPALITE: 'Montreal',
-            SECTEUR: '141',
-            TYPE_DECHET: 'Matières recyclables',
-            MESSAGE_FR: 'La collecte a lieu le JEUDI. Déposez votre bac sur le trottoir entre 19 h la veille et 7 h le matin de la collecte.',
-            MESSAGE_EN: 'The collection takes place on THURSDAY. Deposit your box on the sidewalk between 7 p.m. the day before and 7 a.m.  the day of collection. ',
-          },
-        });
+         Axios({
+          method: 'get',
+          url: `${settings.API_URL}/theme/${categorySlug}/${themeSlug}`,
+        })
+          .catch((error) => {
+            console.log(error);
+          })
+          .then((response) => {
+            commit('SET_INFO', {
+              type: 'collectes',
+              data: response.data,
+            });
+          });
       }
       if (categorySlug === 'permis' && themeSlug === 'animaux') {
         Axios({
@@ -175,6 +162,7 @@ export default {
             console.log(error);
           })
           .then((response) => {
+            console.log('response', response);
             commit('SET_LICENCES_INFOS', response.data.district);
             const disctrictLicencesInfos = get(filter(state.licencesInfos, info => info.slug === state.mappedDistrict.slug), '0.types');
             const optionInfos = filter(disctrictLicencesInfos, info => info.animalType === optionSlug);

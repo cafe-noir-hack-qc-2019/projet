@@ -95,15 +95,15 @@
     <template v-if="isCollect">
       <div>
         <strong>Type de déchet</strong>
-        <p v-html="info.data.TYPE_DECHET" />
+        <p v-html="get(info, 'data.properties.TYPE_DECHET')" />
       </div>
       <div>
         <strong>Infos</strong>
-        <p v-html="info.data.MESSAGE_FR" />
+        <p v-html="get(info, 'data.properties.MESSAGE_FR')" />
       </div>
-      <div v-if="info.data.EXCEPTION_FR">
+      <div v-if="get(info, 'data.properties.EXCEPTION_FR')">
         <strong>Exceptions</strong>
-        <p v-html="info.data.EXCEPTION_FR" />
+        <p v-html="get(info, 'data.properties.EXCEPTION_FR')" />
       </div>
     </template>
     <template v-if="isLicence">

@@ -42,11 +42,9 @@ export default {
     created() {
     },
     mounted() {
-      console.log('');
     },
     methods: {
       getRoute(card) {
-        console.log('card', get(card, 'category.slug'));
         return { 
           name: 'infoDetail.fr', 
           params: {
