@@ -37,16 +37,7 @@
     watch: {
       steps(step) {
         setTimeout(() => {
-          TweenMax.to(window, 0.5, {
-            scrollTo: {
-              y: document.body.scrollHeight,
-              autoKill: false,
-            },
-            onComplete: () => {
-              // get(this.steps, `${index}.messages.0.speech`);
-            }
-            // ease: Power2.easeInOut,
-          });
+          window.scrollTo(0, document.body.scrollHeight)
         }, 200);
       }
     },
