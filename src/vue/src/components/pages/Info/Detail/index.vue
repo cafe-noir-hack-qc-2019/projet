@@ -10,9 +10,12 @@
   */
   import { mapGetters } from 'vuex';
   import { get } from 'lodash';
+  import collectRelated from 'assets/data/collectRelated';
+  import licenceRelated from 'assets/data/licenceRelated';
+  import Card from 'components/sections/Card';
   export default {
     name: 'InfoDetail',
-    components: {},
+    components: { Card },
     props: {},
     data() {
       return {
@@ -71,6 +74,14 @@
             break;
         }
         return type;
+      },
+      related() {
+        if (this.isCollect) {
+          return collectRelated;
+        }
+        if (this.isLicence) {
+          return licenceRelated;
+        }
       }
     },
     created() {
@@ -150,8 +161,20 @@
       </div>
     </template>
 
-    <div>
+    <div class="related-blocks">
       <h3>Cela pourrait vous intéresser</h3>
+      <div class="list-collection">
+        <transition-group
+          @enter="enter"
+          @leave="leave"
+          mode="out-in"
+          @css="false"
+          tag="ul"
+          class="list"
+        >
+          <Card :card="card" v-for="card in related" :key="card.id" />
+        </transition-group>
+      </div>
     </div>
 
     <router-link :to="{name: 'infoList.fr'}">Retour</router-link>
@@ -213,6 +236,22 @@
         border 1px solid $c-raven
         padding 7px 10px 3px
 
+  .related-blocks
+    padding 0 25px 25px
+    h3
+      f-style('title', $level: 'h1')
+      flexbox('center')
+      &::before
+        display block
+        content ''
+        width 18px
+        height 2px
+        background $c-green
+        margin-right 10px
+        margin-bottom 2px
+
+    >>> .Card
+      max-width 75%
   /* ===DEBUG=== */
 
 </style>
