@@ -1,0 +1,192 @@
+/**
+* 
+* TABLE OF CONTENT
+* --------
+*	=LAYOUT
+*	=DEBUG
+*/
+/* ===LAYOUT=== */
+.Card[data-v-71cb071a] {
+  position: relative;
+  max-width: 100%;
+}
+.Card[data-v-71cb071a]:nth-child(n+1) {
+  margin-bottom: 10px;
+}
+.Card[data-v-71cb071a]:after {
+  content: '';
+  background: #2c3e50;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 3px;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+  filter: alpha(opacity=50);
+  opacity: 0.5;
+}
+.Card.-disabled[data-v-71cb071a] {
+  pointer-events: none;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=40)";
+  filter: alpha(opacity=40);
+  opacity: 0.4;
+}
+.item[data-v-71cb071a] {
+  border-radius: 3px;
+  display: flex;
+  -ms-justify-content: space-between;
+  justify-content: space-between;
+  -ms-align-items: center;
+  align-items: center;
+  -ms-justify-content: center;
+  justify-content: center;
+  -ms-align-items: center;
+  align-items: center;
+}
+.thumb[data-v-71cb071a] {
+  overflow: hidden;
+  position: relative;
+  border-radius: 3px;
+  display: block;
+}
+.thumb[data-v-71cb071a]:before {
+  content: "";
+  display: block;
+  height: 0;
+  padding-top: 50%;
+}
+.label[data-v-71cb071a] {
+  position: absolute;
+  z-index: 1;
+  color: #fff;
+  width: 70%;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.8rem;
+}
+@media only screen and (max-width: 768px) {
+.label[data-v-71cb071a] {
+    font-size: 1.8rem;
+}
+}
+.fake-alert[data-v-71cb071a] {
+  font-size: 1.3rem;
+}
+/* ===DEBUG=== */
+
+/**
+* 
+* TABLE OF CONTENT
+* --------
+*	=LAYOUT
+*	=DEBUG
+*/
+/* ===LAYOUT=== */
+.detail-header h1[data-v-778c8060] {
+  font-family: 'Martel Sans', Helvetica, Arial, sans-serif;
+  font-size: 2rem;
+  font-weight: bold;
+  font-size: 2.6rem;
+  color: #2c3e50;
+  text-transform: none;
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+@media only screen and (max-width: 768px) {
+.detail-header h1[data-v-778c8060] {
+    font-size: 1.5rem;
+}
+}
+@media only screen and (max-width: 768px) {
+.detail-header h1[data-v-778c8060] {
+    font-size: 2rem;
+}
+}
+.detail-header img[data-v-778c8060] {
+  display: block;
+  width: 100%;
+}
+.detail-header p[data-v-778c8060] {
+  background: #fff;
+  color: #9b9b9b;
+  text-align: center;
+  padding: 7px 0 4px;
+  text-transform: uppercase;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+.infos-block[data-v-778c8060] {
+  padding: 25px;
+}
+.infos-block strong[data-v-778c8060] {
+  display: block;
+  font-family: 'Martel Sans', Helvetica, Arial, sans-serif;
+  font-size: $fz-h2;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 5px;
+}
+@media only screen and (max-width: 768px) {
+.infos-block strong[data-v-778c8060] {
+    font-size: ;
+}
+}
+.infos-block p[data-v-778c8060] {
+  color: #727e8b;
+  margin-bottom: 20px;
+}
+.infos-block table[data-v-778c8060] {
+  color: #727e8b;
+  margin-bottom: 20px;
+}
+.infos-block table th[data-v-778c8060] {
+  font-weight: bold;
+}
+.infos-block table th[data-v-778c8060],
+.infos-block table td[data-v-778c8060] {
+  border: 1px solid #727e8b;
+  padding: 7px 10px 3px;
+}
+.related-blocks[data-v-778c8060] {
+  padding: 0 25px 25px;
+}
+.related-blocks h3[data-v-778c8060] {
+  font-family: 'Martel Sans', Helvetica, Arial, sans-serif;
+  font-size: 2rem;
+  font-weight: bold;
+  font-size: 2.6rem;
+  display: flex;
+  -ms-justify-content: center;
+  justify-content: center;
+  -ms-align-items: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+@media only screen and (max-width: 768px) {
+.related-blocks h3[data-v-778c8060] {
+    font-size: 1.5rem;
+}
+}
+@media only screen and (max-width: 768px) {
+.related-blocks h3[data-v-778c8060] {
+    font-size: 2rem;
+}
+}
+.related-blocks h3[data-v-778c8060]::before {
+  display: block;
+  content: '';
+  width: 18px;
+  height: 2px;
+  background: #89dfc4;
+  margin-right: 10px;
+  margin-bottom: 2px;
+}
+.related-blocks[data-v-778c8060] .Card {
+  max-width: 75%;
+}
+/* ===DEBUG=== */
+
