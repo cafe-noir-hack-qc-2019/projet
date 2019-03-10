@@ -47,12 +47,14 @@ svg
   size 100%
 
 button
+.btn-bot
   width 100%
   border none 
   background $c-blue
   padding 10px
   border-radius 3px
   color $c-white
+  text-align center
   f-size(1.4rem)
   transition()
   &:focus
@@ -64,7 +66,7 @@ button
   flexbox(row, $justify: flex-start, $align: flex-end)
   .icon
     size 40px
-  button
+  .choice
     width auto
     background-color #ECF0F1
     color $c-blue-second
@@ -78,6 +80,19 @@ button
   >div
     width calc('100% - 40px')
 
+  .final-link
+    position relative
+    margin-left 15px
+    flexbox(column, $align: center, $justify: center)
+    border-radius 3px
+    overflow hidden
+    .label
+      position absolute
+      color white
+      font-weight 800
+    img
+      ratio-box(150/150)
+
 
 .info-bulle
   width 210px
@@ -89,6 +104,7 @@ button
   border-top-right-radius 3px
   border-bottom-right-radius 3px
   f-size(1.4rem 1.4rem)
+
 
 .icon
   &.bot
