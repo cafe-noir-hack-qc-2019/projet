@@ -1,0 +1,35 @@
+/**
+* 
+* TABLE OF CONTENT
+* --------
+*	=LAYOUT
+*	=DEBUG
+*/
+/* ===LAYOUT=== */
+.Bot[data-v-723865d9] {
+  height: 100%;
+  overflow: hidden;
+}
+.input-container .input[data-v-723865d9] {
+  box-shadow: none;
+  text-align: left;
+  text-transform: lowercase;
+  font-size: 1.4rem;
+}
+@media only screen and (max-width: 768px) {
+.input-container .input[data-v-723865d9] {
+    font-size: 1.4rem;
+}
+}
+.btn-send[data-v-723865d9] {
+  margin-bottom: 60px;
+}
+.user-response .info-bulle[data-v-723865d9] {
+  margin: 30px 0 0 auto;
+  background: #d9e8d5;
+}
+.step-list[data-v-723865d9] {
+  width: 100%;
+}
+/* ===DEBUG=== */
+
