@@ -123,7 +123,7 @@ const config = {
     new CopyWebpackPlugin([
       {
         from: DIRS.STATIC,
-        to: `${DIRS.PUBLIC}/${'[path][name].[ext]'}`,
+        to: `${DIRS.PUBLIC}/${DIRS.STATIC}/${'[path][name].[ext]'}`,
         ignore: ['.*'],
       },
     ]),

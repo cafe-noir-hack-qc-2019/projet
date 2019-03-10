@@ -71,8 +71,6 @@ export default function () {
        * @return {Object} data
        */
       SET_DATA(state, data) {
-        console.log('SET_DATA', { data });
-
         state.data = data;
         return data;
       },
@@ -136,7 +134,7 @@ export default function () {
       LOAD({ commit, state }, opts = {}) {
         // merge some options within defaults
         const options = assign({
-          debug: false,
+          debug: true,
           getMoc() {},
           url: null,
         }, state.api, opts);
