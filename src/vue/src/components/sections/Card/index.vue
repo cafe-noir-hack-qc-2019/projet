@@ -63,9 +63,17 @@
 
   /* ===LAYOUT=== */
   .Card
+    position relative
     max-width 100%
     &:nth-child(n+1)
       margin-bottom 10px
+    &:after
+      content ''
+      background black 
+      size 100%
+      absolute 0
+      border-radius 3px
+      opacity 0.4
   .item
     border-radius 3px
     flexbox(row, $justify: center, $align: center)
@@ -83,6 +91,8 @@
     width 70%
     text-align center
     font-weight 700
+    f-size(1.8rem 1.8rem)
+
 
   /* ===DEBUG=== */
 

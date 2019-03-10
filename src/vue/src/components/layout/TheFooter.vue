@@ -60,7 +60,7 @@ export default {
     background white
     padding-top 5px
     padding-bottom 5px
-    max-width 375px
+    max-width 414px
   .footer-icon
     flexbox(row)
   .icon
