@@ -44,9 +44,7 @@
     <router-link :class="['item', {'-disabled': card.fake}]" :to="route">
       <img class="thumb" :src="`/static/card/${card.image}`" alt="">
       <span class="label">
-        <span v-html="card.category.label" /><br />
-        <span v-html="card.theme.label" /><br />
-        <span v-if="card.option" v-html="card.option.label" />
+        <span v-html="card.title" />
       </span>
     </router-link>
   </li>
