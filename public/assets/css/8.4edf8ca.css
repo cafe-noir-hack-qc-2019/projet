@@ -1,0 +1,162 @@
+/**
+* 
+* TABLE OF CONTENT
+* --------
+*	=LAYOUT
+*	=DEBUG
+*/
+/* ===LAYOUT=== */
+.Card[data-v-24f0815e] {
+  max-width: 48%;
+}
+.item[data-v-24f0815e] {
+  border-radius: 3px;
+  display: flex;
+  -ms-justify-content: space-between;
+  justify-content: space-between;
+  -ms-align-items: center;
+  align-items: center;
+  -ms-justify-content: center;
+  justify-content: center;
+  -ms-align-items: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+}
+.item[data-v-24f0815e]:before {
+  content: "";
+  display: block;
+  height: 0;
+  padding-top: 100%;
+}
+.item.-disabled[data-v-24f0815e] {
+  pointer-events: none;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+  filter: alpha(opacity=50);
+  opacity: 0.5;
+}
+.thumb[data-v-24f0815e] {
+  border-radius: 3px;
+}
+.label[data-v-24f0815e] {
+  position: absolute;
+  z-index: 1;
+  color: #fff;
+  width: 70%;
+  text-align: center;
+  font-weight: 700;
+}
+/* ===DEBUG=== */
+
+/**
+* 
+* TABLE OF CONTENT
+* --------
+*	=LAYOUT
+*	=DEBUG
+*/
+/* ===LAYOUT=== */
+.detail-header h1[data-v-2f4ac713] {
+  font-family: 'Martel Sans', Helvetica, Arial, sans-serif;
+  font-size: 2rem;
+  font-weight: bold;
+  font-size: 2.6rem;
+  color: #2c3e50;
+  text-transform: none;
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+@media only screen and (max-width: 768px) {
+.detail-header h1[data-v-2f4ac713] {
+    font-size: 1.5rem;
+}
+}
+@media only screen and (max-width: 768px) {
+.detail-header h1[data-v-2f4ac713] {
+    font-size: 2rem;
+}
+}
+.detail-header img[data-v-2f4ac713] {
+  display: block;
+  width: 100%;
+}
+.detail-header p[data-v-2f4ac713] {
+  background: #fff;
+  color: #9b9b9b;
+  text-align: center;
+  padding: 7px 0 4px;
+  text-transform: uppercase;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+.infos-block[data-v-2f4ac713] {
+  padding: 25px;
+}
+.infos-block strong[data-v-2f4ac713] {
+  display: block;
+  font-family: 'Martel Sans', Helvetica, Arial, sans-serif;
+  font-size: $fz-h2;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 5px;
+}
+@media only screen and (max-width: 768px) {
+.infos-block strong[data-v-2f4ac713] {
+    font-size: ;
+}
+}
+.infos-block p[data-v-2f4ac713] {
+  color: #727e8b;
+  margin-bottom: 20px;
+}
+.infos-block table[data-v-2f4ac713] {
+  color: #727e8b;
+  margin-bottom: 20px;
+}
+.infos-block table th[data-v-2f4ac713] {
+  font-weight: bold;
+}
+.infos-block table th[data-v-2f4ac713],
+.infos-block table td[data-v-2f4ac713] {
+  border: 1px solid #727e8b;
+  padding: 7px 10px 3px;
+}
+.related-blocks[data-v-2f4ac713] {
+  padding: 0 25px 25px;
+}
+.related-blocks h3[data-v-2f4ac713] {
+  font-family: 'Martel Sans', Helvetica, Arial, sans-serif;
+  font-size: 2rem;
+  font-weight: bold;
+  font-size: 2.6rem;
+  display: flex;
+  -ms-justify-content: center;
+  justify-content: center;
+  -ms-align-items: center;
+  align-items: center;
+}
+@media only screen and (max-width: 768px) {
+.related-blocks h3[data-v-2f4ac713] {
+    font-size: 1.5rem;
+}
+}
+@media only screen and (max-width: 768px) {
+.related-blocks h3[data-v-2f4ac713] {
+    font-size: 2rem;
+}
+}
+.related-blocks h3[data-v-2f4ac713]::before {
+  display: block;
+  content: '';
+  width: 18px;
+  height: 2px;
+  background: #89dfc4;
+  margin-right: 10px;
+  margin-bottom: 2px;
+}
+.related-blocks[data-v-2f4ac713] .Card {
+  max-width: 75%;
+}
+/* ===DEBUG=== */
+
