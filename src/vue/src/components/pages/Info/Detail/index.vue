@@ -42,7 +42,7 @@
       },
       titleInfo() {
         if (this.isCollect) {
-          return `Collecte des ${get(this.info, 'data.TYPE_DECHET', '').toLowerCase()}`;
+          return `Collecte des ${get(this.info, 'data.properties.TYPE_DECHET', '').toLowerCase()}`;
         }
         if (this.isLicence) {
           return `Optenir son permis<br/> ${this.licenceType}`;
@@ -61,10 +61,10 @@
 
         switch (get(this.info, 'data.animalType')) {
           case 'cat':
-            type += 'd\'un chat';
+            type += ' d\'un chat';
             break;
           case 'dog':
-            type += 'd\'un chien';
+            type += ' d\'un chien';
             break;
         
           default:
@@ -86,59 +86,67 @@
 
 <template>
   <div class="InfoDetail" v-if="info">
-    <header>
-      <h1
-          class="title"
-          v-html="titleInfo" />
-      <span v-html="postalCode" />
-    </header>
     <template v-if="isCollect">
-      <div>
-        <strong>Type de déchet</strong>
-        <p v-html="get(info, 'data.properties.TYPE_DECHET')" />
+      <div class="detail-header">
+        <h1 v-html="titleInfo" />
+        <img src="/static/fake-map.png" />
+        <p v-html="postalCode" />
       </div>
-      <div>
-        <strong>Infos</strong>
-        <p v-html="get(info, 'data.properties.MESSAGE_FR')" />
-      </div>
-      <div v-if="get(info, 'data.properties.EXCEPTION_FR')">
-        <strong>Exceptions</strong>
-        <p v-html="get(info, 'data.properties.EXCEPTION_FR')" />
+      <div class="infos-block">
+        <div>
+          <strong>📦 Type de déchet</strong>
+          <p v-html="get(info, 'data.properties.TYPE_DECHET')" />
+        </div>
+        <div>
+          <strong>ℹ️ Infos</strong>
+          <p v-html="get(info, 'data.properties.MESSAGE_FR')" />
+        </div>
+        <div v-if="get(info, 'data.properties.EXCEPTION_FR')">
+          <strong>Exceptions</strong>
+          <p v-html="get(info, 'data.properties.EXCEPTION_FR')" />
+        </div>
       </div>
     </template>
     <template v-if="isLicence">
-      <div>
-        <strong>Type de permis</strong>
-        <p v-html="licenceType" />
+      <div class="detail-header">
+        <h1 v-html="titleInfo" />
+        <img src="/static/fake-dog.png" />
+        <p v-html="postalCode" />
       </div>
-      <div>
-        <strong>Infos</strong>
-        <p v-html="get(info, 'data.how-to-get-license')" />
-      </div>
-      <div>
-        <strong>Prix</strong>
-        <p v-if="get(info, 'data.prices.extra')" v-html="get(info, 'data.prices.extra')" />
-        <table>
-          <tr>
-            <th>Stérilisé</th>
-            <th>Non Stérilisé</th>
-            <th>Promotion</th>
-          </tr>
-          <tr>
-            <td v-html="get(info, 'data.prices.sterilized')" />
-            <td v-html="get(info, 'data.prices.not-sterilized')" />
-            <td v-html="get(info, 'data.prices.promotion')" />
-          </tr>
-        </table>
-      </div>
-      <div>
-        <strong>Contact</strong>
-        <p>
-          <span v-html="get(info, 'data.contact-address.address')" /><br />
-          <span v-html="get(info, 'data.contact-address.city')" /><br />
-          <span v-html="get(info, 'data.contact-address.postal_code')" />
-          <span v-html="get(info, 'data.contact-address.region')" />
-        </p>
+      <div class="infos-block">
+        <div>
+          <strong>🗒 Type de permis</strong>
+          <p v-html="licenceType" />
+        </div>
+        <div>
+          <strong>ℹ️ Infos</strong>
+          <p v-html="get(info, 'data.how-to-get-license')" />
+        </div>
+        <div>
+          <strong>💰 Prix</strong>
+          <p v-if="get(info, 'data.prices.extra')" v-html="get(info, 'data.prices.extra')" />
+          <table>
+            <tr>
+              <th>Stérilisé</th>
+              <th>Non Stérilisé</th>
+              <th>Promotion</th>
+            </tr>
+            <tr>
+              <td v-html="`${get(info, 'data.prices.sterilized')}$`" />
+              <td v-html="`${get(info, 'data.prices.not-sterilized')}$`" />
+              <td v-html="`${get(info, 'data.prices.promotion')}$`" />
+            </tr>
+          </table>
+        </div>
+        <div>
+          <strong>📍 Contact</strong>
+          <p>
+            <span v-html="get(info, 'data.contact-address.address')" /><br />
+            <span v-html="get(info, 'data.contact-address.city')" />,
+            <span v-html="get(info, 'data.contact-address.postal_code')" /><br />
+            <span v-html="get(info, 'data.contact-address.region')" />
+          </p>
+        </div>
       </div>
     </template>
 
@@ -160,6 +168,50 @@
   */
 
   /* ===LAYOUT=== */
+  .detail-header
+    h1
+      f-style('title', $level: 'h1')
+      color $c-pickled-bluewood
+      text-transform none
+      text-align center
+      vertical-padding()
+
+    img
+      display block
+      width 100%
+
+    p
+      background $c-white
+      color $c-dusty-gray
+      text-align center
+      padding 7px 0 4px
+      text-transform uppercase
+      border-top 1px solid #ccc
+      border-bottom 1px solid #ccc
+
+  .infos-block
+    padding 25px
+
+    strong
+      display block
+      f-style('title', $level: 'h2')
+      color $c-pickled-bluewood
+      margin-bottom 5px
+    
+    p
+      color $c-raven
+      margin-bottom 20px
+
+    table 
+      color $c-raven
+      margin-bottom 20px
+      
+      th
+        font-weight bold
+
+      th, td
+        border 1px solid $c-raven
+        padding 7px 10px 3px
 
   /* ===DEBUG=== */
 
