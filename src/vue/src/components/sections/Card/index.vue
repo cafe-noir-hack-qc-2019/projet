@@ -77,6 +77,7 @@
       absolute 0
       border-radius 3px
       opacity 0.5
+      pointer-events none
 
     &.-disabled
       pointer-events none

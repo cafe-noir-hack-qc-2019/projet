@@ -165,7 +165,16 @@
         <div>
           <strong>💰 Prix</strong>
           <p v-if="get(info, 'data.prices.extra')" v-html="get(info, 'data.prices.extra')" />
-          <table>
+          <p class="price-info">
+            <strong>Stérilisé (avec preuve)</strong> {{ get(info, 'data.prices.sterilized') }}$
+          </p>
+          <p class="price-info">
+            <strong>Non Stérilisé</strong> {{ get(info, 'data.prices.not-sterilized') }}$
+          </p>
+          <p class="price-info">
+            <strong>Rabais</strong> {{ get(info, 'data.prices.promotion') }}
+          </p>
+          <!-- <table>
             <tr>
               <th>Stérilisé (avec preuve)</th>
               <th>Non Stérilisé</th>
@@ -176,7 +185,7 @@
               <td v-html="`${get(info, 'data.prices.not-sterilized')}$`" />
               <td v-html="get(info, 'data.prices.promotion')" />
             </tr>
-          </table>
+          </table> -->
         </div>
         <div>
           <strong>📍 Contact</strong>
@@ -264,6 +273,14 @@
       th, td
         border 1px solid $c-raven
         padding 7px 10px 3px
+
+    .price-info
+      font-size 1.3rem
+      &:not(:last-child)
+        margin-bottom 0
+      strong
+        display inline-block
+        width 43%
 
   .related-blocks
     padding 0 25px 25px
