@@ -4,35 +4,17 @@
  *
  * @author Nicolas Husson <nicolas@kffein.com>
  */
-import composer from 'store/composer';
-import ApiPageBehaviour from 'store/behaviors/ApiPage';
+import data from 'assets/moc/infos-list/fr';
 
-const debug = process.env.NODE_ENV === 'development'; // && false;
-const store = {
+export default {
   namespaced: true,
   state() {
     return {
-      api: {
-        url: 'pages/homepage',
-        moc: debug,
-        getMoc(locale) {
-          return import(`assets/moc/homepage/${locale}`);
-        },
-      },
-      data: {
-        title: '...',
-        intro: '...<br>...<br>...<br>',
-      },
+      data,
     };
   },
   getters: {
-    title: ({ data }) => data.title,
-    themeChaud: ({ data }) => data.themeChaud,
+    title: state => state.data.title,
+    themeChaud: state => state.data.themeChaud,
   },
 };
-
-/**
- * compose our store with ApiPageBehaviour so will fetch `state.data` from api
- * and handle a `state.status`
- */
-export default composer(store, ApiPageBehaviour());

@@ -37,7 +37,6 @@ export default {
       if (!this.$store.state.InfoList) {
         this.$store.registerModule('InfoList', store);
       }
-      this.$store.dispatch('InfoList/LOAD');
     },
     created() {
     },
