@@ -28,7 +28,7 @@ export default {
     <div class="">
       <div class="footer-icon">
         <router-link to="/" class="item">
-          <img src="/static/call.svg" alt="" class="icon">
+          <img src="/static/home.svg" alt="" class="icon">
           <p>Accueil</p>
         </router-link>
         <router-link :to="{name: 'bot.fr'}" class="item">
