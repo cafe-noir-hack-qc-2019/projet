@@ -1,0 +1,203 @@
+/**
+* 
+* TABLE OF CONTENT
+* --------
+*	=LAYOUT
+*	=DEBUG
+*/
+/* ===LAYOUT=== */
+.Card[data-v-3710701f] {
+  position: relative;
+  max-width: 100%;
+}
+.Card[data-v-3710701f]:nth-child(n+1) {
+  margin-bottom: 10px;
+}
+.Card[data-v-3710701f]:after {
+  content: '';
+  background: #2c3e50;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 3px;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+  filter: alpha(opacity=50);
+  opacity: 0.5;
+  pointer-events: none;
+}
+.Card.-disabled[data-v-3710701f] {
+  pointer-events: none;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=40)";
+  filter: alpha(opacity=40);
+  opacity: 0.4;
+}
+.item[data-v-3710701f] {
+  border-radius: 3px;
+  display: flex;
+  -ms-justify-content: space-between;
+  justify-content: space-between;
+  -ms-align-items: center;
+  align-items: center;
+  -ms-justify-content: center;
+  justify-content: center;
+  -ms-align-items: center;
+  align-items: center;
+}
+.thumb[data-v-3710701f] {
+  overflow: hidden;
+  position: relative;
+  border-radius: 3px;
+  display: block;
+}
+.thumb[data-v-3710701f]:before {
+  content: "";
+  display: block;
+  height: 0;
+  padding-top: 50%;
+}
+.label[data-v-3710701f] {
+  position: absolute;
+  z-index: 1;
+  color: #fff;
+  width: 70%;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.8rem;
+}
+@media only screen and (max-width: 768px) {
+.label[data-v-3710701f] {
+    font-size: 1.8rem;
+}
+}
+.fake-alert[data-v-3710701f] {
+  font-size: 1.3rem;
+}
+/* ===DEBUG=== */
+
+/**
+* 
+* TABLE OF CONTENT
+* --------
+*	=LAYOUT
+*	=DEBUG
+*/
+/* ===LAYOUT=== */
+.detail-header h1[data-v-5a39ab2c] {
+  font-family: 'Martel Sans', Helvetica, Arial, sans-serif;
+  font-size: 2rem;
+  font-weight: bold;
+  font-size: 2.6rem;
+  color: #2c3e50;
+  text-transform: none;
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+@media only screen and (max-width: 768px) {
+.detail-header h1[data-v-5a39ab2c] {
+    font-size: 1.5rem;
+}
+}
+@media only screen and (max-width: 768px) {
+.detail-header h1[data-v-5a39ab2c] {
+    font-size: 2rem;
+}
+}
+.detail-header img[data-v-5a39ab2c] {
+  display: block;
+  width: 100%;
+}
+.detail-header p[data-v-5a39ab2c] {
+  background: #fff;
+  color: #9b9b9b;
+  text-align: center;
+  padding: 7px 0 4px;
+  text-transform: uppercase;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+.infos-block[data-v-5a39ab2c] {
+  padding: 25px;
+}
+.infos-block strong[data-v-5a39ab2c] {
+  display: block;
+  font-family: 'Martel Sans', Helvetica, Arial, sans-serif;
+  font-size: $fz-h2;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 5px;
+}
+@media only screen and (max-width: 768px) {
+.infos-block strong[data-v-5a39ab2c] {
+    font-size: ;
+}
+}
+.infos-block p[data-v-5a39ab2c] {
+  color: #727e8b;
+  margin-bottom: 20px;
+}
+.infos-block table[data-v-5a39ab2c] {
+  color: #727e8b;
+  margin-bottom: 20px;
+}
+.infos-block table th[data-v-5a39ab2c] {
+  font-weight: bold;
+}
+.infos-block table th[data-v-5a39ab2c],
+.infos-block table td[data-v-5a39ab2c] {
+  border: 1px solid #727e8b;
+  padding: 7px 10px 3px;
+}
+.infos-block .price-info[data-v-5a39ab2c] {
+  font-size: 1.3rem;
+}
+.infos-block .price-info[data-v-5a39ab2c]:not(:last-child) {
+  margin-bottom: 0;
+}
+.infos-block .price-info strong[data-v-5a39ab2c] {
+  display: inline-block;
+  width: 43%;
+}
+.related-blocks[data-v-5a39ab2c] {
+  padding: 0 25px 25px;
+}
+.related-blocks h3[data-v-5a39ab2c] {
+  font-family: 'Martel Sans', Helvetica, Arial, sans-serif;
+  font-size: 2rem;
+  font-weight: bold;
+  font-size: 2.6rem;
+  display: flex;
+  -ms-justify-content: center;
+  justify-content: center;
+  -ms-align-items: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+@media only screen and (max-width: 768px) {
+.related-blocks h3[data-v-5a39ab2c] {
+    font-size: 1.5rem;
+}
+}
+@media only screen and (max-width: 768px) {
+.related-blocks h3[data-v-5a39ab2c] {
+    font-size: 2rem;
+}
+}
+.related-blocks h3[data-v-5a39ab2c]::before {
+  display: block;
+  content: '';
+  width: 18px;
+  height: 2px;
+  background: #89dfc4;
+  margin-right: 10px;
+  margin-bottom: 2px;
+}
+.related-blocks[data-v-5a39ab2c] .Card {
+  max-width: 75%;
+}
+/* ===DEBUG=== */
+
