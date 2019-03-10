@@ -1,6 +1,7 @@
 export default [
   {
     id: 7,
+    title: 'Obtenir un permis chat',
     category: {
       slug: 'permis',
       label: 'Permis',
