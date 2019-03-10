@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[0],{118:function(e,o,n){"use strict";n.r(o),o.default={LABELS:{read_more:"Read more"}}}}]);
