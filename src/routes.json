@@ -16,8 +16,8 @@
   {
     "id": "infoDetail",
     "urls": {
-      "en": "infos/:categorySlug/:themeSlug",
-      "fr": "infos/:categorySlug/:themeSlug"
+      "en": "infos/:categorySlug/:themeSlug/:optionSlug?",
+      "fr": "infos/:categorySlug/:themeSlug/:optionSlug?"
     }
   },
   {
