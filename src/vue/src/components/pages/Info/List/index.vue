@@ -43,7 +43,6 @@ export default {
     created() {
     },
     methods: {
-
       enter(el, done) {
         TweenMax.fromTo(el, 0.2, { opacity: 0, y: -20}, { opacity: 1, y: 0, onComplete: done} )
       },
