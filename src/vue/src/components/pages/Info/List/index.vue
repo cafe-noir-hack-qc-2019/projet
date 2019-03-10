@@ -68,16 +68,18 @@ export default {
           </div>
         </div>
       <div class="list-collection">
-        <transition-group
+        <!-- <transition-group
           @enter="enter"
           @leave="leave"
           mode="out-in"
           @css="false"
           tag="ul"
           class="list"
-        >
+        > -->
+        <ul class="list">
           <Card :card="card" v-for="card in popularCards" :key="card.id" />
-        </transition-group>
+        </ul>
+        <!-- </transition-group> -->
       </div>
       <h1
         class="title bot"
