@@ -75,8 +75,8 @@ export default {
       <div class="list-collection">
         <ul class="list">
           <li class="list-item" v-for="card in popularCards" :key="card.id">
-            <router-link  class="item" :to="getRoute(card)">
-              <img class="thumb" src="https://picsum.photos/300/300/?random" alt="">
+            <router-link :class="['item', {'-disabled': card.fake}]" :to="getRoute(card)">
+              <img class="thumb" :src="`/static/card/${card.image}`" alt="">
               <span class="label">
                 <span v-html="card.category.label" /><br />
                 <span v-html="card.theme.label" />
@@ -103,7 +103,7 @@ export default {
   .list
     max-width 90%
     margin auto
-    flexbox(row, $justify: space-between)
+    flexbox(row, $justify: space-between, $wrap: wrap)
   .list-collection
     margin-top 10px
   .list-item
@@ -112,6 +112,9 @@ export default {
     border-radius 3px
     flexbox(row, $justify: center, $align: center)
     ratio-box(200/200)
+    &.-disabled
+      pointer-events none
+      opacity 0.5
   .thumb
     border-radius 3px
   .label

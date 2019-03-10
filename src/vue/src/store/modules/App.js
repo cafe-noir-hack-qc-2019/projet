@@ -86,58 +86,22 @@ export default {
     },
     GET_CARDS_BY_DISTRICT({ commit, state }) {
       // LOAD FROM API
-      // Axios({
-      //   method: 'get',
-      //   url: `${settings.API_URL}/theme/list`,
-      //   data: {
-      //     district: state.mappedDistrict.slug ? 'lasalle',
-      //     date: Dates.formatDate(state.date, 'Y-m-d'),
-      //   },
-      // })
-      //   .catch((error) => {
-      //     console.log(error);
-      //   })
-      //   .then((response) => {
-      //     console.log(response);
-      //     commit('SET_THEMES_BY_DISCTRICT', { district: state.district, themes: response.data });
-      //   });
-      const cards = [
-        {
-          id: 1,
-          category: {
-            slug: 'collectes',
-            label: 'Collectes',
-          },
-          theme: {
-            slug: 'matieres-recyclables',
-            label: 'Matières recyclables',
-          },
-          fake: false,
-          image: 'image.jpg',
-          percentage: '29',
-        },
-        {
-          id: 2,
-          category: {
-            slug: 'permis',
-            label: 'Permis',
-          },
-          theme: {
-            slug: 'animaux',
-            label: 'animaux',
-          },
-          option: {
-            slug: 'cat',
-            label: 'Chat',
-          },
-          fake: true,
-          image: 'image.jpg',
-          percentage: '29',
-        },
-      ];
-      commit('SET_CARDS_BY_DISCTRICT', { district: state.district, cards });
+      let { slug } = state.mappedDistrict;
+      if (['anjou', 'outremont', 'petite-prairie'].indexOf(slug) === -1) {
+        slug = 'anjou';
+      }
+      Axios({
+        method: 'get',
+        url: `${settings.API_URL}/card/${slug}`,
+      })
+        .catch((error) => {
+          console.log(error);
+        })
+        .then((response) => {
+          commit('SET_CARDS_BY_DISCTRICT', { district: state.district, cards: response.data });
+        });
     },
-    GET_INFO({ commit, state }, { categorySlug, themeSlug, optionSlug }) {
+    GET_INFO({ commit, state }, { categorySlug, themeSlug }) {
       if (categorySlug === 'collectes') {
          Axios({
           method: 'get',
@@ -162,10 +126,9 @@ export default {
             console.log(error);
           })
           .then((response) => {
-            console.log('response', response);
             commit('SET_LICENCES_INFOS', response.data.district);
-            const disctrictLicencesInfos = get(filter(state.licencesInfos, info => info.slug === state.mappedDistrict.slug), '0.types');
-            const optionInfos = filter(disctrictLicencesInfos, info => info.animalType === optionSlug);
+            const disctrictLicencesInfos = get(filter(state.licencesInfos, info => info.slug === 'outremont'), '0.types');
+            const optionInfos = filter(disctrictLicencesInfos, info => info.animalType === 'dog');
             commit('SET_INFO', {
               type: 'licences',
               data: get(optionInfos, '0'),
