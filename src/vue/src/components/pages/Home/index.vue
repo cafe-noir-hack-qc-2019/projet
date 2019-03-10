@@ -37,7 +37,7 @@ export default {
     if (!this.$store.state.PageHome) {
       this.$store.registerModule('PageHome', store);
     }
-    this.$store.dispatch('PageHome/LOAD');
+    // this.$store.dispatch('PageHome/LOAD');
   },
   // beforeDestroy() {
   //   // !!! Do not unregister store
