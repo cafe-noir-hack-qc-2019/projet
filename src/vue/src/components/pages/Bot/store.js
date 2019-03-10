@@ -4,6 +4,7 @@
 import Axios from 'axios';
 import uuid from 'uuid';
 import { get } from 'lodash';
+import { ApiAiClient } from 'api-ai-javascript';
 
 const STATUS = {
   QUERY_LOADING: 'LOADING',
@@ -13,12 +14,12 @@ const STATUS = {
 export default {
   namespaced: true,
   state: {
-    firebaseBaseUrl: 'https://us-central1-hackqc19-9d018.cloudfunctions.net',
-    token: '0682a5af70de452fbe3866dfb742fe8e',
+    token: 'e382bdba343946bd9a56fd60b6da2368',
     projectId: 'hackqc19-9d018',
     sessionId: uuid.v4(),
     steps: [],
     status: null,
+    client: null,
   },
   mutations: {
     ADD_STEP(state, payload) {
@@ -30,39 +31,22 @@ export default {
     },
   },
   actions: {
-    START_BOT({ state }) {
-      console.log(state.sessionId);
-      Axios({
-        method: 'get',
-        url: `${state.firebaseBaseUrl}/helloWorld`,
-      })
-        .then((response) => {
-          console.log('response', response);
-        });
-      // dispatch('QUERY_BOT', 'bonjour');
+    START_BOT({ dispatch, state }) {
+      state.client = new ApiAiClient({ accessToken: state.token });
+
+      console.log('LOG BOT OBJ:', state.client);
+      dispatch('QUERY_BOT', { text: 'bonjour', type: 'bot' });
     },
     QUERY_BOT({ commit, state }, query) {
+      state.client.textRequest(query.text)
+          .then((response) => {
+            console.log('QUERY BOT RESPONSE:', response);
+            commit('ADD_STEP', get(response, 'result.fulfillment'));
+          })
+          .catch((error) => { console.log(error); });
       commit('SET_STATUS', STATUS.QUERY_LOADING);
-      Axios({
-        method: 'post',
-        url: 'https://api.dialogflow.com/v1/query',
-        data: {
-          v: '20150910',
-          query,
-          sessionId: state.sessionId,
-          lang: 'fr',
-        },
-        headers: {
-          Authorization: `Bearer ${ state.token}`,
-        },
-      })
-        .then((response) => {
-          commit('ADD_STEP', get(response, 'data.result'));
-        })
-        .catch((error) => {
-          console.log('error', error);
-        });
     },
+
     INTENT_BOT({ commit, state }, query) {
       commit('SET_STATUS', STATUS.QUERY_LOADING);
       Axios({
