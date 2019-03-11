@@ -1,0 +1,38 @@
+/**
+* 
+* TABLE OF CONTENT
+* --------
+*	=LAYOUT
+*	=DEBUG
+*/
+/* ===LAYOUT=== */
+.Bot[data-v-6fedc16e] {
+  height: 100%;
+  overflow: hidden;
+}
+.input-container[data-v-6fedc16e] {
+  width: 98%;
+}
+.input-container .input[data-v-6fedc16e] {
+  box-shadow: 0 0 3px 0px rgba(0,0,0,0.2);
+  text-align: left;
+  text-transform: lowercase;
+  font-size: 1.4rem;
+}
+@media only screen and (max-width: 768px) {
+.input-container .input[data-v-6fedc16e] {
+    font-size: 1.4rem;
+}
+}
+.btn-send[data-v-6fedc16e] {
+  width: 98%;
+}
+.user-response .info-bulle[data-v-6fedc16e] {
+  margin: 30px 0 0 auto;
+  background: #d9e8d5;
+}
+.step-list[data-v-6fedc16e] {
+  width: 100%;
+}
+/* ===DEBUG=== */
+

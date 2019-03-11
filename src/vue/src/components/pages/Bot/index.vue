@@ -152,7 +152,7 @@
       text-transform lowercase
       f-size(1.4rem 1.4rem)
   .btn-send
-    margin-bottom 60px
+    // margin-bottom 60px
     width 98%
 
 
